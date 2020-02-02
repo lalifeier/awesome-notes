@@ -16,9 +16,7 @@ module.exports = {
     '@vssue/vuepress-plugin-vssue': {
       // 设置 `platform` 而不是 `api`
       platform: 'github',
-      locale: 'zh', // 语言设置
-
-      // 其他的 Vssue 配置
+      
       owner: 'lalifeier',
       repo: 'lalifeier.github.io',
       clientId: '10eb1f99442d5c53795f',
