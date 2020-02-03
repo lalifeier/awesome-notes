@@ -1,16 +1,44 @@
 module.exports = {
-  title: "blog",
-  description: "博客",
+  title: "learning guide",
+  description: "学习指南",
   head: [
-    ['link', { rel: 'icon', href: '/logo.png' }],
-    ['link', { rel: 'manifest', href: '/manifest.json' }],
-    ['meta', { name: 'theme-color', content: '#3eaf7c' }],
-    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
-    ['link', { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon-152x152.png' }],
-    ['link', { rel: 'mask-icon', href: '/icons/safari-pinned-tab.svg', color: '#3eaf7c' }],
-    ['meta', { name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png' }],
-    ['meta', { name: 'msapplication-TileColor', content: '#000000' }]
+    ['link', {
+      rel: 'icon',
+      href: '/logo.png'
+    }],
+    ['link', {
+      rel: 'manifest',
+      href: '/manifest.json'
+    }],
+    ['meta', {
+      name: 'theme-color',
+      content: '#3eaf7c'
+    }],
+    ['meta', {
+      name: 'apple-mobile-web-app-capable',
+      content: 'yes'
+    }],
+    ['meta', {
+      name: 'apple-mobile-web-app-status-bar-style',
+      content: 'black'
+    }],
+    ['link', {
+      rel: 'apple-touch-icon',
+      href: '/icons/apple-touch-icon-152x152.png'
+    }],
+    ['link', {
+      rel: 'mask-icon',
+      href: '/icons/safari-pinned-tab.svg',
+      color: '#3eaf7c'
+    }],
+    ['meta', {
+      name: 'msapplication-TileImage',
+      content: '/icons/msapplication-icon-144x144.png'
+    }],
+    ['meta', {
+      name: 'msapplication-TileColor',
+      content: '#000000'
+    }]
   ],
   serviceWorker: true,
   base: "/",
@@ -107,28 +135,31 @@ module.exports = {
             ]
           },
           {
-            text: "框架",
+            text: "中间件",
             items: [{
-              text: "Hyperf",
-              link: "/backend/frame/Hyperf/"
+              text: "Nginx",
+              link: "/backend/middleware/Nginx/"
+            }, {
+              text: "RabbitMQ",
+              link: "/backend/middleware/RabbitMQ/"
             }]
           },
           {
             text: "数据库",
             items: [{
                 text: "MySQL",
-                link: "/database/frame/MySQL/"
+                link: "/backend/database/MySQL/"
               },
               {
                 text: "Redis",
-                link: "/database/frame/Redis/"
+                link: "/backend/database/Redis/"
               },
               {
                 text: "MongoDB",
-                link: "/database/frame/MongoDB/"
+                link: "/backend/database/MongoDB/"
               }
             ]
-          }
+          },
         ]
       },
       {
@@ -140,6 +171,18 @@ module.exports = {
           {
             text: "Docker",
             link: "/tool/Docker/"
+          }
+        ]
+      },
+      {
+        text: "系统",
+        items: [{
+            text: "CentOS",
+            link: "/system/CentOS/"
+          },
+          {
+            text: "Ubuntu",
+            link: "/system/Ubuntu/"
           }
         ]
       },
