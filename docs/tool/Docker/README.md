@@ -57,7 +57,7 @@ sudo sh get-docker.sh --mirror Aliyun
 #### 参考:
 - [https://get.daocloud.io/](https://get.daocloud.io/)
 
-### 镜像
+### 镜像加速器
 ```shell
 curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io
 ```
