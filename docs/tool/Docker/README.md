@@ -50,22 +50,9 @@ usermod -aG docker your-user
 - [https://developer.aliyun.com/mirror/docker-ce](https://developer.aliyun.com/mirror/docker-ce)
 
 ### 脚本自动安装
-- 安装
 ```shell
 curl -sSL https://get.daocloud.io/docker | sh
 sudo sh get-docker.sh --mirror Aliyun
-```
-- 卸载Docker
-```shell
-yum remove docker \
-docker-common \
-container-selinux \
-docker-selinux \
-docker-engine
-```
-- 删除/var/lib/docker/目录
-```
-rm -fr /var/lib/docker/
 ```
 #### 参考:
 - [https://get.daocloud.io/](https://get.daocloud.io/)
