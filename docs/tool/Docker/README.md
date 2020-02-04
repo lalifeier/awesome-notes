@@ -41,7 +41,7 @@ yum install docker-ce
 ```shell
 systemctl start docker
 ```
-- 免sudo
+- 建立docker用户组
 ```shell
 groupadd docker
 usermod -aG docker your-user
