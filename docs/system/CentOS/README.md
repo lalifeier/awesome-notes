@@ -18,6 +18,8 @@ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-
 ```shell
 yum makecache
 ```
+#### 参考:
+- [https://developer.aliyun.com/mirror/centos](https://developer.aliyun.com/mirror/centos)
 
 ## 安装软件
 - 常用依赖

@@ -6,6 +6,41 @@ sidebar: auto
 #### PHP是最好的语言
 
 ## 环境安装
+### 源码安装
+- 安装依赖
+```shell
+yum install gcc gcc-c++ libxml2 libxml2-devel autoconf
+```
+- 安装PHP
+```shell
+wget https://www.php.net/distributions/php-7.2.27.tar.gz
+tar -zxvf php-7.2.27.tar.gz
+cd php-7.2.27
+./configure --prefix=/usr/local/php
+make
+make install
+```
+- 环境变量
+```shell
+vim /etc/profile
+#添加以下内容
+PATH=$PATH:/usr/local/php/bin
+export PATH
+#生效配置
+source /etc/profile
+```
+- 设置PHP.ini
+```shell
+#查看php.ini目录
+php -i | grep php.ini
+cp php.ini-development /usr/local/php/lib
+cd /usr/local/php/lib/
+mv php.ini-development php.ini
+```
+#### 参考:
+- [https://www.php.net/manual/zh/install.unix.php](https://www.php.net/manual/zh/install.unix.php)
+- [https://www.php.net/manual/zh/configure.about.php](https://www.php.net/manual/zh/configure.about.php)
+
 ### Centos webtatic源 
 - 安装webtatic源
 ```shell
