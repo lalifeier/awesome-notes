@@ -64,9 +64,6 @@ systemctl status rabbitmq-server            # 查看状态
 
 # 其他启动方式
 rabbitmq-server                             # 启动 RabbitMQ服务
-rabbitmqctl stop                            # 停止RabbitMQ服务
-rabbitmqctl start_app                       # 启动application
-rabbitmqctl stop_app                        # 停止application
 rabbitmq-server -detached                   # 后台启动 RabbitMQ服务
 ```
 
@@ -156,3 +153,61 @@ firewall-cmd --reload
 - Routing key：一个路由规则，虚拟机可用它来确定如何路由一个特定消息
 
 - Queue：也称为 Message Queue，消息队列，保存消息并将它们转发给消费者
+
+## 命令行
+
+- 基本操作
+
+```shell
+# 关闭应用
+rabbitmqctl stop_app
+# 启动应用
+rabbitmqctl start_app
+# 节点状态
+rabbitmqctl status
+# 添加用户
+rabbitmqctl add_user username password
+# 列出所有用户
+rabbitmqctl list_users
+# 删除用户
+rabbitmqctl delete_user username
+# 清除用户权限
+rabbitmqctl clear_permissions -p vhostpath username
+# 列出用户权限
+rabbitmqctl list_user_permissions username
+# 修改密码
+rabbitmqctl change_password username newpassword
+# 设置用户权限
+rabbitmqctl set_permissions -p vhostpath username ".*" ".*" ".*"
+
+# 创建虚拟主机
+rabbitmqctl add_vhost vhostpath
+# 列出所有虚拟主机
+rabbitmqctl list_vhosts
+# 列出虚拟主机上所有权限
+rabbitmqctl list_permissions -p vhostpath
+# 删除虚拟主机
+rabbitmqctl delete_vhost vhostpath
+
+# 查看所有队列信息
+rabbitmqctl list_queues
+# 清除队列里的消息
+rabbitmqctl -p vhostpath purge_queue blue
+```
+
+- 高级操作
+
+```shell
+# 移除所有数据，要在rabbitmqctl stop_app之后使用
+rabbitmqctl reset
+# 组成集群命令
+rabbitmqctl join_cluster <clusternode> [--ram]
+# 查看集群状态
+rabbitmqctl cluster_status
+# 修改集群节点的存储形式
+rabbitmqctl change_cluster_node_type disc | ram
+# 忘记节点 （摘除节点）
+rabbitmqctl forget_cluster_node [--offline]
+# 修改节点名称
+rabbitmqctl rename_cluster_node oldnode1 newnode1 [oldnode2] [newnode2 ...]
+```

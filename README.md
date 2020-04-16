@@ -1,1 +1,1 @@
-# blog
+# awesome-notes

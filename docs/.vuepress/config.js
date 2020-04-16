@@ -1,6 +1,6 @@
 module.exports = {
-  title: "learning guide",
-  description: "学习指南",
+  title: "awesome-notes",
+  description: "个人笔记",
   head: [
     ['link', {
       rel: 'icon',
