@@ -24,6 +24,8 @@ git commit -m 'deploy'
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
 
 #git push -f git@github.com:lalifeier/lalifeier.github.io.git master
-git push -f https://${GITHUB_TOKEN}@${GITHUB_REPO} master:master
+#git push -f https://${GITHUB_TOKEN}@${GITHUB_REPO} master:master
+
+git push -f https://${GITHUB_TOKEN}@github.com/lalifeier/lalifeier.github.io.git master:master
 
 cd -
