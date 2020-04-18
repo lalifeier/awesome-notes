@@ -439,4 +439,9 @@ select  st_distance (
 ) * 111195 / 1000;
 ```
 
-### 中文分词
+### 中文分词技术
+
+- 创建全文索引
+- 执行全文索引查询
+
+#### 参考: [https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html](https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html)
