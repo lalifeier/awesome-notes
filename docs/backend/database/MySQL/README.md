@@ -425,7 +425,13 @@ MySQL 的查询缓存结构的是 KV 的，数据库会把执行过的 SELECT �
 
 SpringCache 技术是 Java 领域里面比较成熟的缓存方案，使用注解就能管理缓存。结合 Redis，可以充分发挥查询缓存的优势。
 
-### 利用 MYSQL 计算两点之间距离
+### 智能拆分订单
+
+#### 高德地图
+
+#### 参考: [https://lbs.amap.com/dev/id/choose](https://lbs.amap.com/dev/id/choose)
+
+#### 利用 MYSQL 计算两点之间距离
 
 - st_distance 函数可以计算两个坐标之间相差的度数
 
