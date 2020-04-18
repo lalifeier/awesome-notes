@@ -445,3 +445,11 @@ select  st_distance (
 - 执行全文索引查询
 
 #### 参考: [https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html](https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html)
+
+#### 使用专业的全文检索引擎
+
+- Lucene 是 Apache 基金会的开源全文检索引擎，支持中文分词
+
+- Lucene 自带的中文分词插件功能较弱，需要引入第三方中文分词插件，对中文内容准确分词
+
+#### 参考: [http://hanlp.com](http://hanlp.com)
