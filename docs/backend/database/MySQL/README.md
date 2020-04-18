@@ -459,3 +459,187 @@ select  st_distance (
 - Lucene 自带的中文分词插件功能较弱，需要引入第三方中文分词插件，对中文内容准确分词
 
 #### 参考: [http://hanlp.com](http://hanlp.com)
+
+## 数据库性能优化进阶
+
+### MySQL 压力测试
+
+压力测试是针对系统的一种性能测试，但是测试数据与业务逻辑无关，更加简单直接的测试读写性能。
+
+压力测试有 4 个重要测试指标：TPS、QPS、响应时间和并发量
+
+- QPS 是每秒钟处理完的请求数量
+- TPS 是每秒钟处理完的事物数量
+- 响应时间是一次请求的平均处理时间
+- 并发量是系统能同时处理的请求数量
+
+安装 sysbench 工具
+
+```shell
+curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.rpm.sh | sudo bash
+```
+
+```shell
+yum install sysbench
+```
+
+创建测试数据库 sbtest
+
+准备测试数据
+
+```shell
+sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --mysql-host=192.168.153.130 --mysql-port=3306 --mysql-user=root --mysql-password=123456 --mysql-db=sbtest --oltp-tables-count=10 --oltp-table-size=100000 prepare
+```
+
+执行测试
+
+```shell
+sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --mysql-host=192.168.153.130 --mysql-port=3306 --mysql-user=root  --mysql-password=123456 --mysql-db=sbtest --oltp-test-mode=complex --threads=10 --time=300 --report-interval=10 run >> /home/mysysbench.log
+```
+
+清除数据
+
+```shell
+sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --mysql-host=192.168.153.130 --mysql-port=3306 --mysql-user=root  --mysql-password=123456 --mysql-db=sbtest  --oltp-tables-count=10 --oltp-table-size=100000 cleanup
+```
+
+#### 参考: [https://github.com/akopytov/sysbench](https://github.com/akopytov/sysbench)
+
+### SQL 语句优化
+
+- 不要把 SELECT 子句写成 SELECT\*
+
+```
+SELECT * FROM t_emp;
+```
+
+- 谨慎使用模糊查询
+
+```
+SELECT ename FROM t_emp WHERE ename LIKE '%S%'; #不使用索引
+SELECT ename FROM t_emp WHERE ename LIKE 'S%';
+```
+
+- 对 ORDER BY 排序的字段设置索引
+
+- 少用 IS NULL
+
+```
+SELECT ename FROM t_emp WHERE comm IS NULL; #不使用索引
+SELECT ename FROM t_emp WHERE comm =-1;
+```
+
+- 尽量少用 != 运算符
+
+```
+SELECT ename FROM t_emp WHERE deptno!=20; #不使用索引
+SELECT ename FROM t_emp WHERE deptno<20 AND deptno>20;
+```
+
+- 尽量少用 OR 运算符
+
+```
+SELECT ename FROM t_emp WHERE deptno=20 OR deptno=30; #不使用索引
+SELECT ename FROM t_emp WHERE deptno=20
+UNION ALL
+SELECT ename FROM t_emp WHERE deptno=30;
+```
+
+- 尽量少用 IN 和 NOT IN 运算符
+
+```
+SELECT ename FROM t_emp WHERE deptno IN (20,30); #不使用索引
+SELECT ename FROM t_emp WHERE deptno=20
+UNION ALL
+SELECT ename FROM t_emp WHERE deptno=30;
+```
+
+- 避免条件语句中的数据类型转换
+
+```
+SELECT ename FROM t_emp WHERE deptno='20';
+```
+
+- 在表达式左侧使用运算符和函数都会让索引失效
+
+```
+SELECT ename FROM t_emp WHERE salary*12>=100000; #不使用索引
+SELECT ename FROM t_emp WHERE salary>=100000/12;
+SELECT ename FROM t_emp WHERE year(hiredate)>=2000; #不使用索引
+SELECT ename FROM t_emp
+WHERE hiredate>='2000-01-01 00:00:00';
+```
+
+### MySQL 参数优化
+
+- 最大连接数
+  - max_connections 是 MySQL 最大并发连接数，默认值 151
+  - MySQL 允许的最大连接数上限是 16384
+  - 实际连接数是最大连接数的 85%较为合适
+  ```shell
+  SHOW VARIABLES LIKE 'max_connections'
+  SHOW STATUS LIKE 'max_used_connections'
+  vim /etc/my.cnf
+  ```
+  ```ini
+  #消耗约800M内存
+  max_connections=300
+  ```
+- 请求堆栈的大小
+  - back_log 是存放执行请求的堆栈大小，默认值是 50
+  - 一般堆栈大小设置成最大连接数的 1/3
+  ```ini
+  back_log=90
+  ```
+- 修改并发线程数
+  - innodb_thread_concurrency 代表并发线程数，默认是 0
+  - 并发线程数应该设置为 CPU 核心数的两倍
+  ```ini
+  innodb_thread_concurrency=2
+  ```
+- 修改连接超时时间
+  - wait-timeout 是超时时间，单位是秒
+  - 连接默认超时为 8 小时，连接长期不用又不销毁，浪费资源
+  ```ini
+  #10分钟超时
+  wait-timeout=600
+  ```
+- 数据缓存
+  - innodb_buffer_pool_size 是 InnoDB 的缓存容量，默认是 128M
+  - InnoDB 缓存的大小可以设置为主机内存的 70%~80%
+  ```ini
+  innodb_buffer_pool_size = 400M
+  ```
+
+### 慢查询日志
+
+慢查询日志会把查询耗时超过规定时间的 SQL 语句记录下来，利用慢查询日志，定位分析性能的瓶颈。
+
+```shell
+  SHOW VARIABLES LIKE '%slow_query%'
+  vim /etc/my.cnf
+```
+
+slow_query_log 可以设置慢查询日志的开闭状态
+
+long_query_time 可以规定查询超时的时间，单位是秒
+
+```ini
+slow_query_log=ON
+long_query_time=1
+```
+
+## 数据库集群
+
+### 数据库集群能解决什么问题？
+
+如果在低并发的情况下，单节点 MySQL 的读写速度更快。因为在数据库集群中，多个 MySQL 节点的数据要通过网络同步，所以读写速度不如单节点 MySQL。
+
+但是在高并发的情况下，大量的读写请求会让单节点 MySQL 的硬盘无法承受，所以速度会变得很慢。比如说 12306 最开始上线的时候，大量用户涌入网站购票，结果系统就崩溃了。
+
+高并发恰恰是数据库集群的主场。大量的读写请求会被分散发往多个节点执行。众人拾柴火焰高，多个 MySQL 执行读写请求，肯定比单节点 MySQL 快，所以在高负载的情况下，单节点 MySQL 接近崩溃，反而数据库集群的读写速度更快。
+
+### 常用数据库集群方案
+
+- 常用的 MYSQL 集群方案有 PXC 和 Replication
+- 两种集群方案有各自的特点，PXC 集群适合保存少量高价值数据，Replication 集群适合保存大量数据

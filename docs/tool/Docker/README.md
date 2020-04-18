@@ -3,11 +3,33 @@ sidebar: auto
 ---
 
 ## 介绍
+
 #### Docker
 
+## 基本概念
+
+### Docker 镜像
+
+Docker 的镜像文件，相当于是一个只读层，不能往里面写入数据。我们可以通过编写 dockerfile 文件，定义需要安装的程序，比如说 MySQL、Redis、JDK、Node.js 等等，然后执行这个 dockerfile 文件，创建出镜像文件。
+
+手写 dockerfile 还是比较麻烦的，所以我们可以在 Docker 的镜像仓库里面寻找别人已经创建好的镜像，比如说你想部署 Java 程序，那么就在线下载 Java 镜像即可，非常简单。
+
+毕竟 Docker 镜像是只读层，如果我们想要往里面部署层序应该怎么办呢？这个很简单，我们可以给镜像创建一个容器，容器是可读可写的，我们把程序部署在容器里就行了。
+
+### Docker 容器
+
+我们说的在 Docker 虚拟机中创建实例，指的就是容器。因为镜像的内容是只读的，想要部署程序，我们需要创建出容器实例，容器的内容是可以读写的，可以用来部署程序。
+
+而且容器之间是完全隔离的，我们不用担心一个容器中部署程序，会影响到另一个容器。就比如说我们在 CentOS 上直接安装 MySQL 8.0，它跟 Percona Toolkit 有冲突，跟 Sysbench 也有冲突，所以我们做在线修改表结构，以及做压力测试的时候，都是挑选新的虚拟机实例来安装这些程序，访问 MySQL 的。如果用上了 Docker，我可以在 A 容器里安装 MySQL，在 B 容器跑压力测试，根本不会有冲突。
+
+再有，必须先有镜像，才能创建出容器，镜像和容器之间是关联的关系。而且一个镜像可以创建出多个容器，像是 SaaS 云计算，运营商可以把进销存系统打成镜像。有企业购买进销存系统，那么运营商就给客户创建一个容器，客户的进销存数据保存在容器 A 里面。再有客户购买进销存系统，运营商就创建容器 B，以此类推。云计算服务商就是这么卖软件的。
+
 ## 环境安装
+
 ### 安装
+
 - 卸载旧版本
+
 ```shell
 yum remove docker \
                   docker-client \
@@ -20,46 +42,347 @@ yum remove docker \
                   docker-engine-selinux \
                   docker-engine
 ```
+
 - 安装必要的一些系统工具
+
 ```shell
 yum install -y yum-utils device-mapper-persistent-data lvm2
 ```
+
 - 添加软件源信息
+
 ```shell
 yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-# 官方源  
+# 官方源
 #yum-config-manager \
 #    --add-repo \
 #    https://download.docker.com/linux/centos/docker-ce.repo
 ```
-- 更新并安装Docker-CE
+
+- 更新并安装 Docker-CE
+
 ```shell
 yum makecache fast
 yum install docker-ce
-```                 
+```
+
 - 启动
+
 ```shell
 systemctl start docker
 ```
-- 建立docker用户组
+
+- 开机自启
+
+```shell
+systemctl enable docker
+```
+
+- 建立 docker 用户组
+
 ```shell
 groupadd docker
 usermod -aG docker your-user
 ```
+
 #### 参考:
+
 - [https://developer.aliyun.com/mirror/docker-ce](https://developer.aliyun.com/mirror/docker-ce)
 
 ### 脚本自动安装
+
 ```shell
 curl -sSL https://get.daocloud.io/docker | sh
+
+curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh --mirror Aliyun
 ```
+
 #### 参考:
+
 - [https://get.daocloud.io/](https://get.daocloud.io/)
 
 ### 镜像加速器
+
 ```shell
 curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io
 ```
+
 #### 参考:
+
 - [https://www.daocloud.io/mirror#accelerator-doc](https://www.daocloud.io/mirror#accelerator-doc)
+
+```shell
+vim /etc/docker/daemon.json
+```
+
+|     镜像加速器      |            镜像加速器地址            |    专属加速器    |       其它加速        |
+| :-----------------: | :----------------------------------: | :--------------: | :-------------------: |
+| Docker 中国官方镜像 |    https://registry.docker-cn.com    |                  |      Docker Hub       |
+|   DaoCloud 镜像站   |    http://f1361db2.m.daocloud.io     | 可登录，系统分配 |      Docker Hub       |
+|   Azure 中国镜像    |      https://dockerhub.azk8s.cn      |                  | Docker Hub、GCR、Quay |
+|     科大镜像站      |  https://docker.mirrors.ustc.edu.cn  |                  | Docker Hub、GCR、Quay |
+|       阿里云        | https://1nj0zren.mirror.aliyuncs.com | 需登录，系统分配 |      Docker Hub       |
+|       七牛云        |     https://reg-mirror.qiniu.com     |                  | Docker Hub、GCR、Quay |
+|       网易云        |     https://hub-mirror.c.163.com     |                  |      Docker Hub       |
+|       腾讯云        |  https://mirror.ccs.tencentyun.com   |                  |      Docker Hub       |
+
+## 使用
+
+### 显示 Docker 系统信息
+
+```shell
+docker info
+```
+
+### 镜像管理
+
+```shell
+#搜索镜像
+docker search 关键字
+#下载镜像
+docker pull 镜像名字
+#查看镜像
+docker images
+#重命名镜像
+docker tag 旧镜像 新镜像
+#删除镜像
+docker rmi 镜像名字
+#导出镜像
+docker save -o 压缩文件路径 镜像名字
+#导入镜像
+docker load < 压缩文件路径
+```
+
+### 创建容器
+
+```shell
+#创建普通容器
+docker run -it --name 别名 镜像名字 程序名字
+#创建含有端口映射的容器
+docker run -it --name 别名 -p 宿主机端口:容器端口 镜像名字 程序名字
+#创建含有挂载目录的容器
+docker run -it --name 别名 -v 宿主机目录:容器目录 --privileged 镜像名字 程序名字
+
+-it 启动容器开启交互界面
+-p  小写p表示docker会选择一个具体的宿主机端口映射到容器内部开放的网络端口上。
+-P  大写P表示docker会随机选择一个宿主机端口映射到容器内部开放的网络端口上。
+--privileged 使用该参数，container内的root拥有真正的root权限。否则，container内的root只是外部的一个普通用户权限
+```
+
+### 操作容器状态
+
+```shell
+#查看容器列表
+docker ps ‐a
+#查看容器信息
+docker inspect 容器
+#删除容器
+docker rm 容器
+#暂停容器
+docker pasue 容器
+#恢复容器
+docker unpause 容器
+#停止容器
+docker stop 容器
+#启动容器
+docker start -i 容器
+```
+
+### 数据卷管理
+
+```shell
+#数据卷列表
+docker volume ls
+#创建数据卷
+docker volume create 数据卷名称
+#删除数据卷
+docker volume rm 数据卷名称
+#清除没有挂载的数据卷
+docker volume prune
+#查看数据卷
+docker volume inspect 数据卷名称
+```
+
+### 网络管理
+
+```shell
+#查看网络信息
+docker network ls
+docker network create ‐‐subnet=网段 网络名称
+docker network rm 网络名称
+```
+
+::: warning
+避免 VM 虚拟机挂起恢复之后，Docker 虚拟机断网
+:::
+
+```shell
+vi /etc/sysctl.conf
+#文件中添加 net.ipv4.ip_forward=1 这个配置
+#重启网络服务
+systemctl  restart network
+```
+
+## Swarm 集群
+
+#### 参考: [https://docs.docker.com/engine/swarm](https://docs.docker.com/engine/swarm)
+
+#### 创建 Swarm 集群
+
+```shell
+#创建Swarm集群（该节点自动变成管理节点）
+docker swarm init
+--listen-addr ip:port 管理者节点
+--advertise-addr ip 广播地址
+```
+
+::: warning
+需要在 manager 机器开放 2377 端口，否则会出现如下错误
+
+Error response from daemon: rpc error: code = 14 desc = grpc: the connection is unavailable
+
+Error response from daemon: can't initialize raft node: rpc error: code = 2 desc = could not connect to prospective new cluster member using its advertised address: rpc error: code = 14 desc = grpc: the connection is unavailable
+:::
+
+```shell
+firewall-cmd --zone=public --add-port=2377/tcp --permanent
+firewall-cmd --reload
+```
+
+#### 加入 Swarm 集群
+
+```shell
+docker swarm join-token manager
+docker swarm join-token worker
+```
+
+在 manager 和 worker 机器分别执行相应的 docker swarm join --token
+
+#### 查看 Swarm 集群节点
+
+```shell
+docker node ls
+```
+
+#### 退出 Swarm 集群
+
+- 主动退出
+
+```shell
+# Manager退出集群必须要使用-f参数
+docker swarm leave -f
+```
+
+- 被动退出
+
+```shell
+# Manager节点必须先降级成Worker节点,然后再去删除
+# Manager节点降级为Worker节点
+docker node demote 节点ID
+# 删除停止或离开的Worker节点
+docker node rm 节点ID -f
+```
+
+#### Swarm 虚拟网络
+
+```shell
+#查看虚拟网络
+docker network ls
+#创建虚拟网络
+docker network create -d overlay --attachable 虚拟网络名称
+#删除虚拟网络（先删除该网络上部署的容器）
+docker network rm 虚拟网络名称
+```
+
+Swarm 虚拟网络使用三个端口，所以必须要在防火墙上面开启 2377、7946、4789 端口
+
+```shell
+firewall-cmd --zone=public --add-port=2377/tcp --permanent
+firewall-cmd --zone=public --add-port=7946/tcp --permanent
+firewall-cmd --zone=public --add-port=7946/udp --permanent
+firewall-cmd --zone=public --add-port=4789/tcp --permanent
+firewall-cmd --zone=public --add-port=4789/udp --permanent
+firewall-cmd --reload
+```
+
+开启防火墙端口之后，必须要重新启动 Docker 服务
+
+```shell
+systemctl  restart network
+```
+
+#### 退出 Swarm 集群
+
+## PXC 集群
+
+- Pecona XtraDB Cluster 是业界主流的 MySQL 集群方案
+- PXC 集群的数据同步具有强一致性的特点
+- PXC 集群只支持 InnoDB 引擎
+- PXC 集群中 MySQL 节点的数量最好不要超过 15 个，集群规模越大，读写速度越慢
+
+#### 创建 PXC 集群
+
+因为 PXC 镜像更新频率很高，新版本的镜像稳定性有待检验，推荐安装最稳定的 5.7.21 版本
+
+```shell
+# 拉取镜像
+docker pull percona/percona-xtradb-cluster
+docker pull percona/percona-xtradb-cluster:5.7.21
+# 镜像重命名
+docker tag percona/percona-xtradb-cluster pxc
+docker rmi percona/percona-xtradb-cluster
+```
+
+#### 创建主节点容器
+
+- 第一个启动的 PXC 节点是主节点，它要初始化 PXC 集群
+- PXC 启动之后，就没有主节点的角色了
+- PXC 集群中任何节点都是可以读写数据
+
+```shell
+docker run -d --restart=always -p 9001:3306 -e MYSQL_ROOT_PASSWORD=123456 -e CLUSTER_NAME=PXC -e XTRABACKUP_PASSWORD=123456 -v pnv1:/var/lib/mysql --privileged --name=pn1 --net=swarm_mysql pxc
+```
+
+创建主节点之后，稍等一会儿，才能连接
+
+#### 创建从节点容器
+
+必须主节点可以访问了，才能创建从节点，否则会闪退
+
+```shell
+docker run -d --restart=always -p 9001:3306 -e MYSQL_ROOT_PASSWORD=123456 -e CLUSTER_NAME=PXC -e XTRABACKUP_PASSWORD=123456 -e CLUSTER_JOIN=pn1 -v pnv2:/var/lib/mysql --privileged --name=pn2 --net=swarm_mysql pxc
+```
+
+::: warning
+解决虚拟机重启后 Percona XtraDB Cluster(PXC)容器无法正常启动
+
+docker logs node1
+
+[ERROR] WSREP: It may not be safe to bootstrap the cluster from this node. It was not the last one to leave the cluster and may not contain all the updates. To force cluster bootstrap with this node, edit the grastate.dat file manually and set safe_to_bootstrap to 1
+:::
+
+```shell
+#查看node1挂载点的文件地址
+docker volume inspect v1
+#进入/var/lib/docker/volumes/v1/_data目录下
+cd /var/lib/docker/volumes/v1/_data
+#编辑文件grastate.dat
+vim grastate.dat
+#修改safe_to_bootstrap的值置为1
+# GALERA saved state
+version: 2.1
+uuid:    1fdc4f95-9625-11e9-9a33-a20935d979f9
+seqno:   -1
+safe_to_bootstrap: 1
+```
+
+#### PXC 容器闪退的解决办法
+
+- 主节点无法启动
+
+修改/var/lib/mysql/grastate.dat 文件，把 safe_to_bootstrap 参数改成 1，然后就能启动了。
+
+- 从节点闪退的原因
+
+如果主节点没有完全启动成功，从节点就会闪退。
