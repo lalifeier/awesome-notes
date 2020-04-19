@@ -651,3 +651,294 @@ chmod -R 777 ./*.sh
 #启动 MyCat程序
 ./mycat start
 ```
+
+## Haproxy
+
+#### 安装 Haproxy 镜像
+
+```shell
+docker pull haproxy
+```
+
+#### 创建 Haproxy 配置文件
+
+#### 参考: [https://zhang.ge/5125.html](https://zhang.ge/5125.html)
+
+```shell
+# 启动容器时使用目录映射技术使容器读取该配置文件
+vim /home/soft/haproxy/haproxy.cfg
+```
+
+```shell
+global
+	#工作目录
+	chroot /usr/local/etc/haproxy
+	#日志文件，使用rsyslog服务中local5日志设备（/var/log/local5），等级info
+	log 127.0.0.1 local5 info
+	#守护进程运行
+	daemon
+
+defaults
+	log	global
+	mode	http
+	#日志格式
+	option	httplog
+	#日志中不记录负载均衡的心跳检测记录
+	option	dontlognull
+    #连接超时（毫秒）
+	timeout connect 5000
+    #客户端超时（毫秒）
+	timeout client  50000
+	#服务器超时（毫秒）
+    timeout server  50000
+
+#监控界面
+listen  admin_stats
+	#监控界面的访问的IP和端口
+	bind  0.0.0.0:8888
+	#访问协议
+    mode        http
+	#URI相对地址
+    stats uri   /dbs
+	#统计报告格式
+    stats realm     Global\ statistics
+	#登陆帐户信息
+    stats auth  admin:123456
+#数据库负载均衡
+listen  proxy-mysql
+	#访问的IP和端口
+	bind  0.0.0.0:3306
+    #网络协议
+	mode  tcp
+	#负载均衡算法（轮询算法）
+	#轮询算法：roundrobin
+	#权重算法：static-rr
+	#最少连接算法：leastconn
+	#请求源IP算法：source
+    balance  roundrobin
+	#日志格式
+    option  tcplog
+	#在MySQL中创建一个没有权限的haproxy用户，密码为空。Haproxy使用这个账户对MySQL数据库心跳检测
+    option  mysql-check user haproxy
+    server  MySQL_1 172.18.0.2:3306 check weight 1 maxconn 2000
+    server  MySQL_2 172.18.0.3:3306 check weight 1 maxconn 2000
+	server  MySQL_3 172.18.0.4:3306 check weight 1 maxconn 2000
+	server  MySQL_4 172.18.0.5:3306 check weight 1 maxconn 2000
+	server  MySQL_5 172.18.0.6:3306 check weight 1 maxconn 2000
+	#使用keepalive检测死链
+    option  tcpka
+```
+
+#### 在数据库集群中创建空密码、无权限用户 haproxy，来供 Haproxy 对 MySQL 数据库进行心跳检测
+
+```shell
+create user 'haproxy'@'%' identified by '';
+```
+
+#### 创建两个 Haproxy 容器
+
+```shell
+#创建第1个Haproxy负载均衡服务器
+docker run -it -d --restart=always -p 4001:8888 -p 4002:3306 -v /home/soft/haproxy:/usr/local/etc/haproxy --name h1 --privileged --net=net1 --ip 172.18.0.7 haproxy
+#进入h1容器，启动Haproxy
+docker exec -it h1 bash
+haproxy -f /usr/local/etc/haproxy/haproxy.cfg
+#创建第2个Haproxy负载均衡服务器
+docker run -it -d --restart=always -p 4003:8888 -p 4004:3306 -v /home/soft/haproxy:/usr/local/etc/haproxy --name h2 --privileged --net=net1 --ip 172.18.0.8 haproxy
+#进入h2容器，启动Haproxy
+docker exec -it h2 bash
+haproxy -f /usr/local/etc/haproxy/haproxy.cfg
+```
+
+#### 在浏览器中打开 Haproxy 监控界面，端口 4001，在配置文件中定义有用户名 admin，密码 123456。我这边访问的是http://192.168.123.130:4001/dbs，并且要使用用户名密码进行登录
+
+## Keepalived
+
+Docker 中创建两个 Haproxy，并通过 Keepalived 抢占 Docker 内地虚拟 IP
+
+Docker 内的虚拟 IP 不能被外网，所以需要借助宿主机 Keepalived 映射成外网可以访问地虚拟 IP
+
+#### 进入 h1 容器,安装 Keepalived
+
+```shell
+docker exec -it h1 bash
+apt-get update
+apt-get install keepalived
+```
+
+#### 编辑 Keepalived 配置文件
+
+```shell
+vim /etc/keepalived/keepalived.conf
+```
+
+```shell
+vrrp_instance  VI_1 {
+    state  MASTER # Keepalived的身份（MASTER主服务要抢占IP，BACKUP备服务器不会抢占IP）。
+    interface  eth0 # docker网卡设备，虚拟IP所在
+    virtual_router_id  51 # 虚拟路由标识，MASTER和BACKUP的虚拟路由标识必须一致。从0～255
+    priority  100 # MASTER权重要高于BACKUP数字越大优先级越高
+    advert_int  1 # MASTER和BACKUP节点同步检查的时间间隔，单位为秒，主备之间必须一致
+    authentication { # 主从服务器验证方式。主备必须使用相同的密码才能正常通信
+        auth_type  PASS
+        auth_pass  123456
+    }
+    virtual_ipaddress { # 虚拟IP。可以设置多个虚拟IP地址，每行一个
+        172.18.0.201
+    }
+}
+```
+
+#### 启动 Keepalived
+
+```shell
+service keepalived start
+```
+
+#### 宿主机执行 ping 命令
+
+```shell
+ping 172.18.0.201
+```
+
+#### 进入 h2 容器,安装 Keepalived
+
+```shell
+docker exec -it h2 bash
+apt-get update
+apt-get install keepalived
+```
+
+#### 编辑 Keepalived 配置文件
+
+```shell
+vim /etc/keepalived/keepalived.conf
+```
+
+```shell
+ vrrp_instance  VI_1 {
+    state  MASTER
+    interface  eth0
+    virtual_router_id  51
+    priority  100
+    advert_int  1
+    authentication {
+        auth_type  PASS
+        auth_pass  123456
+    }
+    virtual_ipaddress {
+        172.18.0.201
+    }
+}
+```
+
+#### 启动 Keepalived
+
+```shell
+service keepalived start
+```
+
+#### 宿主机执行 ping 命令
+
+```shell
+ping 172.18.0.201
+```
+
+#### 实现外网访问虚拟 IP
+
+- 宿主机执行安装 Keepalived
+
+```shell
+yum install keepalived
+```
+
+- 编辑 Keepalived 配置文件
+
+```shell
+vi /etc/keepalived/keepalived.conf
+```
+
+```shell
+ vrrp_instance VI_1 {
+    state MASTER
+    #这里是宿主机的网卡，可以通过ip a查看当前自己电脑上用的网卡名是哪个
+    interface ens33
+    virtual_router_id 51
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+        #这里是指定的一个宿主机上的虚拟ip，一定要和宿主机网卡在同一个网段，
+        192.168.123.150
+    }
+}
+​
+#接受监听数据来源的端口，网页入口使用
+virtual_server 192.168.123.150 8888 {
+    delay_loop 3
+    lb_algo rr
+    lb_kind NAT
+    persistence_timeout 50
+    protocol TCP
+​    #把接受到的数据转发给docker服务的网段及端口，由于是发给docker服务，所以和docker服务数据要一致
+    real_server 172.18.0.201 8888 {
+        weight 1
+    }
+}
+​
+#接受数据库数据端口，宿主机数据库端口是3306，所以这里也要和宿主机数据接受端口一致
+virtual_server 192.168.123.150 3306 {
+    delay_loop 3
+    lb_algo rr
+    lb_kind NAT
+    persistence_timeout 50
+    protocol TCP
+​    #同理转发数据库给服务的端口和ip要求和docker服务中的数据一致
+    real_server 172.18.0.201 3306 {
+        weight 1
+    }
+}
+```
+
+- 启动 Keepalived
+
+```shell
+service keepalived start
+```
+
+## Portainer
+
+#### 安装 Portainer 镜像
+
+```shell
+docker pull portainer/portainer
+```
+
+#### 开放 Docker 网络管理端口
+
+```shell
+vim /etc/sysconfig/docker
+#在配置文件结尾添加开放 Docker2375 端口的参数
+OPTIONS='-Htcp://0.0.0.0:2375 -H unix:///var/run/docker.sock'
+```
+
+#### 启动 Portainer 容器
+
+```shell
+docker run -d --restart=always -p 9000:9000 portainer/portainer -H tcp://192.168.123.36:2375
+```
+
+::: warning
+需要开放 2375 和 9000 端口
+:::
+
+```shell
+firewall-cmd --permanent --add-port=2375/tcp
+firewall-cmd --permanent --add-port=9000/tcp
+firewall-cmd --reload
+```
+
+#### 访问http://192.168.123.36:9000
