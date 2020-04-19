@@ -321,7 +321,7 @@ systemctl  restart network
 - PXC 集群只支持 InnoDB 引擎
 - PXC 集群中 MySQL 节点的数量最好不要超过 15 个，集群规模越大，读写速度越慢
 
-#### 创建 PXC 集群
+#### 下载 PXC 镜像
 
 因为 PXC 镜像更新频率很高，新版本的镜像稳定性有待检验，推荐安装最稳定的 5.7.21 版本
 
@@ -381,8 +381,273 @@ safe_to_bootstrap: 1
 
 - 主节点无法启动
 
-修改/var/lib/mysql/grastate.dat 文件，把 safe_to_bootstrap 参数改成 1，然后就能启动了。
+  - PXC 启动之后，所有节点的 safe_to_bootstrap 都是 0
+  - 如果所有 PXC 节点同时意外关闭，所有节点 safe_to_bootstrap 都是 0.所以主节点无法启动
+
+    - 修改/var/lib/mysql/grastate.dat 文件，把 safe_to_bootstrap 参数改成 1，然后就能启动了
+
+  - 如果 PXC 集群正在运行，宕机的主节点不能按照主节点启动
+
+    - 删除容器，检查 safe_to_bootstrap 是否为 0
+    - 以从节点方式创建容器，加入集群
 
 - 从节点闪退的原因
 
-如果主节点没有完全启动成功，从节点就会闪退。
+  - 如果主节点没有完全启动成功，从节点就会闪退
+
+  - PXC 最后退出的节点要最先启动，而且要按照主节点启动
+
+    - 修改 grastate.dat 文件，把 safe_to_bootstrap 参数改成 0
+    - safe_to_bootstrap 等于 1，代表该节点是最后退出的节点，需要按照主节点启动
+
+## Replication 集群
+
+- Replication 集群是 MySQL 自带的数据同步机制
+- MySQL 通过读取、执行另一个 MySQL 的 bin_log 日志，实现数据同步
+- Replication 集群中，数据同步是单向的，从主节点(Master)同步到从节点(Slave)
+
+#### 下载 Replication 镜像
+
+```shell
+# 拉取镜像
+docker pull mishamx/mysql
+# 镜像重命名
+docker tag mishamx/mysql rep
+docker rmi mishamx/mysql
+```
+
+#### 创建主节点容器
+
+```shell
+docker run -d --restart=always -p 9003:3306 --name rn1 -e MYSQL_MASTER_PORT=3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_REPLICATION_USER=backup -e MYSQL_REPLICATION_PASSWORD=backup123 -v rnv1:/var/lib/mysql --privileged --net=swarm_mysql rep
+```
+
+#### 创建从节点容器
+
+```shell
+docker run -d --restart=always -p 9003:3306 --name rn2 -e MYSQL_MASTER_HOST=rn1 -e MYSQL_MASTER_PORT=3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_REPLICATION_USER=backup -e MYSQL_REPLICATION_PASSWORD=backup123 -v rnv2:/var/lib/mysql --privileged --net=swarm_mysql rep
+```
+
+#### Replication 集群注意事项
+
+- 主节点关闭，从节点依然可以使用，主从同步机制失效
+- 不启动主节点，从节点也能启动，主从同步失效
+
+## MyCat
+
+- MyCat 是基于 Java 语言的开源数据库中间件产品，具有跨平台性
+- 相较于其他中间件产品，MyCat 的切分规则最多，功能最全
+- 数据库中间件产品并不会频繁更新升级，MyCat 功能非常成熟
+
+#### 参考: [http://mycat.io](http://mycat.io)
+
+#### 安装 JDK 镜像
+
+```shell
+docker pull adoptopenjdk/openjdk8
+docker tag adoptopenjdk/openjdk8 openjdk8
+docker rmi adoptopenjdk/openjdk8
+```
+
+#### 创建 Java 容器，在数据卷放入 MyCat
+
+```shell
+docker run -d --restart=always -it --name mycat1 -v mycat1:/root/server --privileged --net=host  openjdk8
+```
+
+#### 开启端口
+
+```shell
+firewall-cmd --permanent --zone=public --add-port=8066/tcp
+firewall-cmd --permanent --zone=public --add-port=9066/tcp
+firewall-cmd --reload
+```
+
+#### 安装 MyCat
+
+```shell
+docker volume inspect mycat1
+cd /var/lib/docker/volumes/mycat1/_data
+wget http://dl.mycat.io/1.6.7.4/Mycat-server-1.6.7.4-release/Mycat-server-1.6.7.4-release-20200105164103-linux.tar.gz
+tar -xvf Mycat-server-1.6.7.4-release-20200105164103-linux.tar.gz
+
+docker exec -it mycat1 bash
+cd /root/server/mycat
+```
+
+#### MyCat 到底是什么?
+
+- MyCat 是 MySQL 数据库中间件产品，运行的时候会把自己虚拟成数据库，包括虚拟的逻辑库和数据表
+
+#### MyCat 主要的配置文件
+
+- server.xml Mycat 服务器参数调整和用户授权的配置文件
+- schema.xml 逻辑库定义和表以及分片定义的配置文件
+- rule.xml 分片规则的配置文件
+
+#### 配置 server.xml 文件
+
+可以配置端口号、账号信息、全局主键方式等等
+
+```xml
+<user name="admin" defaultAccount="true">
+    <property name="password">123456</property>
+    <property name="schemas">neti</property>
+</user>
+```
+
+#### 配置 PXC 集群负载均衡
+
+- 修改 schema.xml 文件，加入 PXC 集群负载均衡的内容
+
+```xml
+<dataHost name="pxc1" maxCon="1000" minCon="10" balance="0"
+            writeType="1" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">
+    <heartbeat>select user()</heartbeat>
+    <writeHost host="p1w1" url="192.168.123.36:9001" user="root"
+                password="123456">
+    </writeHost>
+    <writeHost host="p1w2" url="192.168.123.162:9001" user="root"
+                password="123456">
+    </writeHost>
+    <writeHost host="p1w3" url="192.168.123.104:9001" user="root"
+                password="123456">
+    </writeHost>
+    <writeHost host="p1w4" url="192.168.123.11:9001" user="root"
+                password="123456">
+    </writeHost>
+</dataHost>
+
+<dataHost name="pxc2" maxCon="1000" minCon="10" balance="0"
+            writeType="1" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">
+    <heartbeat>select user()</heartbeat>
+    <writeHost host="p2w1" url="192.168.123.36:9002" user="root"
+                password="123456">
+    </writeHost>
+    <writeHost host="p2w2" url="192.168.123.162:9002" user="root"
+                password="123456">
+    </writeHost>
+    <writeHost host="p2w3" url="192.168.123.104:9002" user="root"
+                password="123456">
+    </writeHost>
+    <writeHost host="p2w4" url="192.168.123.11:9002" user="root"
+                password="123456">
+    </writeHost>
+</dataHost>
+```
+
+#### 配置 Replication 集群读写分离
+
+- 修改 schema.xml 文件，加入 读写分离的配置
+
+```xml
+<dataHost name="rep1" maxCon="1000" minCon="10" balance="3"
+            writeType="1" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">
+    <heartbeat>select user()</heartbeat>
+    <writeHost host="r1w1" url="192.168.123.36:9003" user="root"
+                password="123456">
+        <readHost host="r1r1" url="192.168.123.162:9003" user="root"
+                                password="123456">
+        </readHost>
+        <readHost host="r1r2" url="192.168.123.104:9003" user="root"
+                    password="123456">
+        </readHost>
+        <readHost host="r1r3" url="192.168.123.11:9003" user="root"
+                    password="123456">
+        </readHost>
+    </writeHost>
+</dataHost>
+
+<dataHost name="rep2" maxCon="1000" minCon="10" balance="3"
+                        writeType="1" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">
+        <heartbeat>select user()</heartbeat>
+        <writeHost host="r2w1" url="192.168.123.36:9004" user="root"
+                            password="123456">
+                <readHost host="r2r1" url="192.168.123.162:9004" user="root"
+                            password="123456">
+                </readHost>
+                <readHost host="r2r2" url="192.168.123.104:9004" user="root"
+                            password="123456">
+                </readHost>
+                <readHost host="r2r3" url="192.168.123.11:9004" user="root"
+                            password="123456">
+                </readHost>
+        </writeHost>
+</dataHost>
+```
+
+#### 配置虚拟库和虚拟表
+
+修改 schema.xml 文件
+
+- dataNode 标签可以设置使用的真实逻辑库
+
+```xml
+<dataNode name="dn1" dataHost="pxc1" database="neti" />
+<dataNode name="dn2" dataHost="pxc2" database="neti" />
+<dataNode name="dn3" dataHost="rep1" database="neti" />
+<dataNode name="dn4" dataHost="rep2" database="neti" />
+<dataNode name="tdn1" dataHost="pxc1" database="t1" />
+<dataNode name="tdn2" dataHost="pxc2" database="t1" />
+<dataNode name="tdn3" dataHost="rep1" database="t2" />
+<dataNode name="tdn4" dataHost="rep2" database="t2"  />
+```
+
+- schema 标签可以设置虚拟逻辑库，table 标签可以设置虚拟关系表
+
+```xml
+<schema name="neti" checkSQLschema="false" sqlMaxLimit="100">
+        <table name="teacher" dataNode="dn1,dn2" type="global" />
+</schema>
+<schema name="t1" checkSQLschema="false" sqlMaxLimit="100">
+        <table name="teacher" dataNode="tdn1,tdn2" type="global" />
+</schema>
+<schema name="t2" checkSQLschema="false" sqlMaxLimit="100">
+        <table name="teacher" dataNode="tdn3,tdn4" type="global" />
+        <table name="student" dataNode="tdn3,tdn4" type="mod-long" />
+</schema>
+```
+
+修改 server.xml 文件
+
+```xml
+<user name="admin" defaultAccount="true">
+        <property name="password">123456</property>
+        <property name="schemas">neti,t1,t2</property>
+        <!--<property name="defaultSchema">neti</property>-->
+        <!--No MyCAT Database selected 错误前会尝试使用该schema作为schema，不设置则为null,报错 -->
+</user>
+```
+
+#### 修改 mod-long 算法
+
+- MyCat 默认的 mod-long 是按照三个分片切片数据，所以我们要求改这个默认值
+
+修改 rule.xml 文件中的 mod-long 分片数量
+
+```xml
+<function name="mod-long" class="io.mycat.route.function.PartitionByMod">
+        <!-- how many data nodes -->
+        <property name="count">2</property>
+</function>
+```
+
+#### MyCat 日志文件
+
+- MyCat 日志文件主要有 wrapper.log 和 mycat.log,存放在 logs 目录
+
+```shell
+docker exec -it mycat1 bash
+cd /root/server/mycat
+```
+
+#### 启动 MyCat
+
+```shell
+docker exec -it mycat1 bash
+cd /root/server/mycat/bin
+#为 MyCat/bin 目录中所有 sh 命令设置最高权限
+chmod -R 777 ./*.sh
+#启动 MyCat程序
+./mycat start
+```
