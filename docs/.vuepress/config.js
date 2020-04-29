@@ -125,8 +125,8 @@ module.exports = {
                 link: "/backend/basis/Java/"
               },
               {
-                text: "Golang",
-                link: "/backend/basis/Golang/"
+                text: "Go",
+                link: "/backend/basis/Go/"
               },
               {
                 text: "PHP",
