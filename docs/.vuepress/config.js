@@ -121,16 +121,16 @@ module.exports = {
         items: [{
             text: "基础",
             items: [{
-                text: "Java",
-                link: "/backend/basis/Java/"
-              },
-              {
                 text: "Go",
                 link: "/backend/basis/Go/"
               },
               {
                 text: "PHP",
                 link: "/backend/basis/PHP/"
+              },
+              {
+                text: "Node",
+                link: "/backend/basis/Node/"
               }
             ]
           },

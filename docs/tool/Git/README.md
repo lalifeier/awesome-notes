@@ -12,6 +12,28 @@ sidebar: auto
 yum install git
 ```
 
+### 配置Git环境
+```
+git config --global user.name "用户名"
+git config --global user.email "邮箱"
+```
+
+### 生成ssh密钥
+```
+ssh-keygen -C "邮箱" -t rsa
+```
+
+### 登录GitHub生成的公钥
+```
+cd ~/.ssh
+cat id_rsa.pub
+```
+
+### 测试连接
+```
+ssh -T git@github.com
+```
+
 ### Git命令自动补全
 - 下载源码
 ```shell
