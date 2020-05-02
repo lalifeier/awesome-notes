@@ -323,6 +323,80 @@ cd jetbrains-toolbox-1.17.6856
 sudo dpkg -i code_1.44.2-1587059832_amd64.deb
 ```
 
+#### navicat-premium
+
+```shell
+# 在https://www.navicat.com.cn/download/navicat-premium下载安装包
+mkdir navicat15-premium-cs
+sudo mount -o loop navicat15-premium-cs.AppImage navicat15-premium-cs
+cp -r navicat15-premium-cs navicat15-premium-cs-patched
+sudo umount navicat15-premium-cs
+rm -rf navicat15-premium-cs
+#编译patcher和keygen
+# install capstone
+sudo apt-get install libcapstone-dev
+
+# install keystone
+sudo apt-get install cmake
+git clone https://github.com/keystone-engine/keystone.git
+cd keystone
+mkdir build
+cd build
+../make-share.sh
+sudo make install
+sudo ldconfig
+
+# install rapidjson
+sudo apt-get install rapidjson-dev
+
+#编译
+wget https://lalifeier.github.io/navicat-keygen.zip
+#git clone https://gitee.com/andisolo/navicat-keygen.git
+cd navicat-keygen
+make all
+
+#使用 navicat-patcher 替换官方公钥
+./bin/navicat-patcher ~/navicat15-premium-cs-patched
+#将文件重新打包成AppImage
+wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+chmod +x appimagetool-x86_64.AppImage
+./appimagetool-x86_64.AppImage navicat15-premium-cs-patched navicat15-premium-cs-patched.AppImage
+#运行刚生成的AppImage
+chmod +x navicat15-premium-cs-patched.AppImage
+./navicat15-premium-cs-patched.AppImage
+
+#使用 navicat-keygen 来生成 序列号 和 激活码
+./bin/navicat-keygen --text ./RegPrivateKey.pem
+#最后的清理
+rm navicat15-premium-cs.AppImage
+rm -rf navicat15-premium-cs-patched
+mv navicat15-premium-cs-patched.AppImage navicat15-premium-cs.AppImage
+#创建桌面图标
+wget https://lalifeier.github.io/navicat.png
+
+cat > ~/.local/share/applications/navicat.desktop <<EOL
+[Desktop Entry]
+Encoding=UTF-8
+Name=navicat
+Exec=/opt/navicat/navicat15-premium-cs.AppImage
+Icon=/opt/navicat/navicat.png
+Terminal=false
+Type=Application
+Categories=Internet;
+EOL
+```
+
+::: warning
+fatal error: openssl/opensslv.h: No such file or directory
+:::
+
+```shell
+#To install OpenSSL development package on Debian, Ubuntu or their derivatives
+sudo apt-get install libssl-dev
+#To install OpenSSL development package on Fedora, CentOS or RHEL
+sudo yum install openssl-devel
+```
+
 ### 优化篇
 
 #### 关掉 sudo 的密码
