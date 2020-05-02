@@ -385,6 +385,13 @@ lspci| grep -i vga
 
 ```
 
+#### 加快开机启动时间
+
+```shell
+systemd-analyze blame
+sudo systemctl disable NetworkManager-wait-online.service
+```
+
 #### 清理 Ubuntu
 
 ```shell
