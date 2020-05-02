@@ -87,7 +87,9 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 #安装awesome-terminal-fonts
 git clone https://github.com/gabrielelana/awesome-terminal-fonts
 cd awesome-terminal-fonts
-cp -R build/* ～/.fonts/
+#没有~/.fonts/ 目录创建一个
+mkdir ~/.fonts
+cp -R build/* ~/.fonts/
 fc-cache -fv ~/.fonts
 source ~/.fonts/*.sh
 #在ZSH上安装语法并启用高亮插件
