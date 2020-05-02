@@ -153,6 +153,16 @@ export LANG=en_US.UTF-8
 source ~/.zshrc
 ```
 
+- monaco-font 字体美化
+
+```shell
+git clone https://github.com/cstrap/monaco-font.git
+cd monaco-font
+./install-font-ubuntu.sh https://github.com/todylu/monaco.ttf/blob/master/monaco.ttf?raw=true
+```
+
+#### 参考: [https://github.com/cstrap/monaco-font](https://github.com/cstrap/monaco-font)
+
 ### 工具篇
 
 #### vim
