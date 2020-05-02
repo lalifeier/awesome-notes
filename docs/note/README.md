@@ -216,6 +216,12 @@ sudo powertop
 
 ### 软件篇
 
+#### 搜狗输入法
+
+```shell
+# 在https://pinyin.sogou.com/linux/下载安装包
+```
+
 #### Chrome
 
 - 方式一
@@ -262,6 +268,13 @@ sudo apt-get install uget-integrator
 
 添加 uGet 扩展后，谷歌浏览器右上角即可显示 uGet 图标。重启谷歌浏览器，只要点击下载链接，就会自动弹出 uGet 下载界面、自动添加下载任务。
 
+#### 网易云音乐
+
+```shell
+# 在https://music.163.com/#/download下载安装包
+sudo dpkg -i netease-cloud-music_1.2.1_amd64_ubuntu_20190428.deb
+```
+
 #### wps
 
 ```shell
@@ -291,6 +304,17 @@ sudo apt-get install vlc
 ```
 
 ### 开发工具篇
+
+#### jetbrains-toolbox
+
+```shell
+# 在https://www.jetbrains.com/toolbox-app/下载安装包
+sudo cp jetbrains-toolbox-1.17.6856.tar.gz /opt/
+cd /opt
+sudo tar -zxvf jetbrains-toolbox-1.17.6856.tar.gz
+cd jetbrains-toolbox-1.17.6856
+./jetbrains-toolbox
+```
 
 #### Visual Studio Code
 
