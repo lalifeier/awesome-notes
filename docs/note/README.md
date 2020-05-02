@@ -95,7 +95,7 @@ sudo apt install zsh-syntax-highlighting
 echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 ```
 
-#### 参考: [https://github.com/gabrielelana/awesome-terminal-fonts]https://github.com/gabrielelana/awesome-terminal-fonts)
+#### 参考: [https://github.com/gabrielelana/awesome-terminal-fonts](https://github.com/gabrielelana/awesome-terminal-fonts)
 
 ::: warning
 oh-my-zsh 中文乱码
@@ -163,6 +163,13 @@ sudo apt-get install preload
 ```shell
 sudo apt-get install tlp tlp-rdw
 sudo tlp start
+```
+
+#### powertop
+
+```shell
+sudo apt-get install powertop
+sudo powertop
 ```
 
 ### 软件篇
@@ -284,6 +291,32 @@ timedatectl set-local-rtc 1 --adjust-system-clock
 sudo apt-get install ntpdate
 sudo ntpdate time.windows.com
 sudo hwclock --localtime --systohc
+```
+
+#### 笔记本关闭独立显卡
+
+#### 参考: [https://wiki.archlinux.org/index.php/Bumblebee\_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)](<https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)
+
+```shell
+#更新显卡信息，否则可能识别出错
+sudo update-pciids
+#查看显卡信息
+lspci | grep -i vga
+#安装Bumblebee
+sudo apt-get install bumblebee bumblebee-nvidia
+#重启，测试效果 Nvidia 卡信息的末尾是 rev ff，表示独显已经关闭。
+lspci| grep -i vga
+#bumblebee的作用是禁用nvidia独立显卡，需要使用独显时，使用”optirun 程序名“手动开启nvidia来运行需要加速的程序，如optirun code
+```
+
+::: warning
+[ 479.716546][error]Cannot access secondary GPU - error: [XORG](EE) Failed to load module "nvidia" (module does not exist, 0)
+
+[ 479.716585][error]Aborting because fallback start is disabled.
+:::
+
+```shell
+
 ```
 
 #### 清理 Ubuntu
