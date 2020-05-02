@@ -73,31 +73,71 @@ sudo mv McMojave-cursors /usr/share/icons
 
 ```shell
 sudo apt-get install zsh
-#设置zsh为默认Shell
-sudo usermod -s /usr/bin/zsh $(whoami)
-#设置完之后重新启动电脑，打开终端后点击键盘上的数字键2，此后就可以正常使用 ZSH Shell 了.
-#为ZSH安装字体
-sudo apt-get install powerline fonts-powerline
-#为ZSH安装并启用美化主题
-sudo apt install zsh-theme-powerlevel9k
-echo "source /usr/share/powerlevel9k/powerlevel9k.zsh-theme" >> ~/.zshrc
-#修改 ~/.zshrc 中的 ZSH_THEME
-POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
+#设切换shell为zsh
+sudo chsh -s /bin/zsh
+#安装oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+#安装字体
+git clone https://github.com/powerline/fonts.git --depth=1
+cd fonts
+./install.sh
+
+cd ..
+rm -rf fonts
+
+#安装Powerlevel9k主题
+git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+ohmyzsh/master/tools/install.sh)
+#克隆到本地后，在 ~/.zshrc 中将主题替换成 powerlevel9k
 ZSH_THEME="powerlevel9k/powerlevel9k"
+
+#安装插件
+#​zsh-autosuggestions(命令自动补全)
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+#​​zsh-syntax-highlighting(命令语法高亮)
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+#在 ~/.zshrc 中 plugins=() 中添加上 zsh-autosuggestions和zsh-syntax-highlighting, 用空格隔开即可
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+source ~/.zshrc
+```
+
+#### 参考: [https://github.com/ohmyzsh/ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
+
+#### 修改 ~/.zshrc 中的 ZSH_THEME
+
+```shell
+#字体设定 (注意，字体设定必须放在主题之前）
+#字体模式可选的有：nerdfont-complete awesome-fontconfig awesome-patched
+POWERLEVEL9K_MODE='nerdfont-complete'
+#主题设定
+ZSH_THEME="powerlevel9k/powerlevel9k"
+POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
+```
+
+#### 参考:
+
+- [https://github.com/Powerlevel9k/powerlevel9k/wiki/Stylizing-Your-Prompt](https://github.com/Powerlevel9k/powerlevel9k/wiki/Stylizing-Your-Prompt)
+- [https://github.com/Powerlevel9k/powerlevel9k/wiki/Show-Off-Your-Config](https://github.com/Powerlevel9k/powerlevel9k/wiki/Show-Off-Your-Config)
+
+::: warning
+打开终端就变成了 PowerLine 的形式了。由于没有安装相应的字体，导致符号显示不完全
+:::
+
+```shell
 #安装awesome-terminal-fonts
 git clone https://github.com/gabrielelana/awesome-terminal-fonts
 cd awesome-terminal-fonts
-#没有~/.fonts/ 目录创建一个
-mkdir ~/.fonts
+#将 build/ 目录里的所有文件拷贝到 ~/.fonts/ 目录（没有就创建一个）
 cp -R build/* ~/.fonts/
+#让 freetype2 知道这些字体
 fc-cache -fv ~/.fonts
+#自定义 config/10-symbols.conf 配置文件里的字体，改成自己喜欢的。当然不改就是默认的
+#拷贝 config/10-symbols.conf 配置文件到 ~/.config/fontconfig/conf.d 目录（没有就创建一个）
+cp config/10-symbols.conf ~/.config/fontconfig/conf.d
 source ~/.fonts/*.sh
-#在ZSH上安装语法并启用高亮插件
-sudo apt install zsh-syntax-highlighting
-echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 ```
-
-#### 参考: [https://github.com/gabrielelana/awesome-terminal-fonts](https://github.com/gabrielelana/awesome-terminal-fonts)
 
 ::: warning
 oh-my-zsh 中文乱码
