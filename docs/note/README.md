@@ -473,6 +473,8 @@ lspci| grep -i vga
 
 ```shell
 systemd-analyze blame
+#开机动画，用 mask 干掉 （要恢复使用 unmask）
+sudo systemctl mask plymouth-quit-wait.service
 sudo systemctl disable NetworkManager-wait-online.service
 ```
 
