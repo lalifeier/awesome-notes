@@ -357,6 +357,134 @@ vi /etc/sysctl.conf
 systemctl  restart network
 ```
 
+## Docker 三架马车
+
+### Docker Compose
+
+#### 介绍
+
+Docker Compose 是 Docker 官⽅编排（Orchestration）项⽬之⼀，负责快速的部署分布式应⽤。其代
+码⽬前在https://github.com/docker/compose上开源。Compose 定位是 「定义和运⾏多个 Docker 容
+器的应⽤（Defining and running multi-container Docker applications）」，其前身是开源项⽬ Fig 。
+
+在⽇常⼯作中，经常会碰到需要多个容器相互配合来完成某项任务的情况。例如要实现⼀个 Web 项
+⽬，除了 Web 服务容器本身，往往还需要再加上后端的数据库服务容器或者缓存服务容器，甚⾄还包
+括负载均衡容器等。Compose 恰好满⾜了这样的需求。它允许⽤户通过⼀个单独的 dockercompose.yml 模板⽂件（YAML 格式）来定义⼀组相关联的应⽤容器为⼀个项⽬（project）。
+
+Compose 中有两个重要的概念：
+
+服务 (service)：⼀个应⽤的容器，实际上可以包括若⼲运⾏相同镜像的容器实例。
+
+项⽬ (project)：由⼀组关联的应⽤容器组成的⼀个完整业务单元，在 docker-compose.yml ⽂件中
+定义。
+
+Compose 的默认管理对象是项⽬，通过⼦命令对项⽬中的⼀组容器进⾏便捷地⽣命周期管理。
+
+Compose 项⽬由 Python 编写，实现上调⽤了 Docker 服务提供的 API 来对容器进⾏管理。所以只要
+所操作的平台⽀持 Docker API，就可以在其上利⽤ Compose 来进⾏编排管理。
+
+#### 安装与卸载
+
+- ⼆进制安装与卸载
+
+```shell
+#安装
+curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+#卸载
+rm /usr/local/bin/docker-compose
+```
+
+#### 参考: [https://github.com/docker/compose/releases](https://github.com/docker/compose/releases)
+
+- PIP 安装与卸载
+
+```shell
+#安装
+pip install -U docker-compose
+#bash 补全命令
+curl -L https://raw.githubusercontent.com/docker/compose/1.8.0/contrib/completion/bash/d
+ocker-compose > /etc/bash_completion.d/docker-compose
+#卸载
+pip uninstall docker-compose
+```
+
+- 容器中执⾏
+
+```shell
+curl -L https://github.com/docker/compose/releases/download/1.25.5/run.sh > /usr/local/bi
+n/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
+
+- 查看 docker-compose 版本
+
+```shell
+docker-compose --version
+```
+
+- 使用
+
+```shell
+mkdir composetest
+cd composetest
+#创建   app.py 文件
+import time
+
+import redis
+from flask import Flask
+
+app = Flask(__name__)
+cache = redis.Redis(host='redis', port=6379)
+
+
+def get_hit_count():
+    retries = 5
+    while True:
+        try:
+            return cache.incr('hits')
+        except redis.exceptions.ConnectionError as exc:
+            if retries == 0:
+                raise exc
+            retries -= 1
+            time.sleep(0.5)
+
+
+@app.route('/')
+def hello():
+    count = get_hit_count()
+    return 'Hello World! I have been seen {} times.\n'.format(count)
+#创建  requirements.txt 文件
+flask
+redis
+#创建 Dockerfile 文件
+FROM python:3.7-alpine
+WORKDIR /code
+ENV FLASK_APP app.py
+ENV FLASK_RUN_HOST 0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["flask", "run"]
+#创建 docker-compose.yml文件
+# yaml 配置
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+  redis:
+    image: "redis:alpine"
+#使用 Compose 命令构建和运行您的应用
+docker-compose up -d
+```
+
+### Docker Machine
+
+### Docker Swarm
+
 ## Swarm 集群
 
 #### 参考: [https://docs.docker.com/engine/swarm](https://docs.docker.com/engine/swarm)
