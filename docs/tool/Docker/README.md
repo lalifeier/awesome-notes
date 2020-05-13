@@ -477,8 +477,14 @@ services:
      - "5000:5000"
   redis:
     image: "redis:alpine"
-#使用 Compose 命令构建和运行您的应用
+#运行 compose 项目
 docker-compose up -d
+#重启 compose 项目
+docker-compose restart
+#删除 compose 项目
+docker-compose down
+#构建 compose 项目
+docker-compose build
 ```
 
 ### Docker Machine
