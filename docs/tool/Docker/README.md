@@ -152,6 +152,12 @@ docker rmi 镜像名字
 docker save -o 压缩文件路径 镜像名字
 #导入镜像
 docker load < 压缩文件路径
+#镜像⼤⼩
+docker system df
+#查看指定镜像的创建历史
+docker history 镜像名字
+#迁移镜像 从⼀个机器将镜像迁移到另⼀个机器，并且带进度条
+docker save <镜像名> | bzip2 | pv | ssh <⽤户名>@<主机名> 'cat | docker load'
 ```
 
 ### 创建容器
@@ -175,6 +181,7 @@ docker run -it --name 别名 -v 宿主机目录:容器目录 --privileged 镜像
 ```shell
 #查看容器列表
 docker ps ‐a
+docker container ls --all
 #查看容器信息
 docker inspect 容器
 #删除容器
@@ -187,6 +194,14 @@ docker unpause 容器
 docker stop 容器
 #启动容器
 docker start -i 容器
+#查看容器日志
+docker logs 容器 -f
+#检查容器里文件结构的更改
+docker diff 容器
+#从容器创建一个新的镜像
+docker commit -a "提交人信息" -m "说明信息" 容器  仓库名称:标签
+#删除全部容器
+docker rm -f $(docker ps -aq)
 ```
 
 ### 数据卷管理
@@ -211,6 +226,124 @@ docker volume inspect 数据卷名称
 docker network ls
 docker network create ‐‐subnet=网段 网络名称
 docker network rm 网络名称
+```
+
+### Dockerfile
+
+```shell
+#使用 Dockerfile 定制镜像
+mkdir mynginx
+cd mynginx
+touch
+#文件内添加以下内容
+FROM nginx
+RUN echo '<h1>hello world</h1>' > /usr/share/nginx/html/index.html
+#构建镜像 -f ../Dockerfile 参数指定某个⽂件作为 Dockerfile
+docker build -t nginx:v3 .
+```
+
+- FROM：定制的镜像都是基于 FROM 的镜像，这里的 nginx 就是定制需要的基础镜像。后续的操作都是基于 nginx。
+
+- RUN：用于执行后面跟着的命令行命令。
+
+- COPY：复制指令，从上下文目录中复制文件或者目录到容器里指定路径
+
+. 是上下文路径。上下文路径，是指 docker 在构建镜像，有时候想要使用到本机的文件（比如复制），docker build 命令得知这个路径后，会将路径下的所有内容打包。
+
+#### Docker 还存在⼀个特殊的镜像，名为 scratch 。这个镜像是虚拟的概念，并不实际存在，它表示⼀个空⽩的镜像。
+
+```shell
+FROM scratch
+...
+```
+
+::: warning
+Dockerfile 的指令每执行一次都会在 docker 上新建一层。所以过多无意义的层，会造成镜像膨胀过大
+
+Union FS 是有最⼤层数限制的，⽐如 AUFS，曾经是最⼤不得超过 42 层，现在是不得超过 127 层。
+:::
+
+```shell
+FROM debian:jessie
+RUN apt-get update
+RUN apt-get install -y gcc libc6-dev make
+RUN wget -O redis.tar.gz "http://download.redis.io/releases/redis-3.2.5.tar.gz"
+RUN mkdir -p /usr/src/redis
+RUN tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1
+RUN make -C /usr/src/redis
+RUN make -C /usr/src/redis install
+#以上执行会创建7层镜像。可简化为以下格式：
+FROM debian:jessie
+RUN buildDeps='gcc libc6-dev make' \
+&& apt-get update \
+&& apt-get install -y $buildDeps \
+&& wget -O redis.tar.gz "http://download.redis.io/releases/redis-3.2.5.tar.gz" \
+&& mkdir -p /usr/src/redis \
+&& tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 \
+&& make -C /usr/src/redis \
+&& make -C /usr/src/redis install \
+&& rm -rf /var/lib/apt/lists/* \
+&& rm redis.tar.gz \
+&& rm -r /usr/src/redis \
+&& apt-get purge -y --auto-remove $buildDeps
+#以 && 符号连接命令，这样执行后，只会创建 1 层镜像
+#Dockerfile ⽀持 Shell 类的⾏尾添加 \ 的命令换⾏⽅式，以及⾏⾸ # 进⾏注释的格式。
+```
+
+### 私有镜像仓库
+
+#### Docker Hub
+
+```shell
+#在 https://cloud.docker.com 免费注册⼀个 Docker 账号
+#登录
+docker login
+#注销
+docker logout
+#拉取镜像
+docker search
+docker pull
+#推送镜像
+docker tag 镜像名:标签 username/镜像名:标签
+docker push
+```
+
+#### 私有仓库
+
+docker-registry 是官⽅提供的⼯具，可以⽤于构建私有的镜像仓库。
+
+```shell
+#安装官⽅ registry 镜像
+#默认情况下，仓库会被创建在容器的 /var/lib/registry ⽬录下
+docker run -d -p 5000:5000 --restart=always --name registry registry
+#上传镜像
+docker tag ubuntu:latest 127.0.0.1:5000/ubuntu:latest
+docker push 127.0.0.1:5000/ubuntu:latest
+#⽤ curl 查看仓库中的镜像
+curl 127.0.0.1:5000/v2/_catalog
+#搜索镜像
+#拉取镜像
+docker pull 127.0.0.1:5000/ubuntu:latest
+```
+
+::: warning
+如果你不想使⽤ 127.0.0.1:5000 作为仓库地址，⽐如想让本⽹段的其他主机也能把镜像推送到私有仓
+库。你就得把例如 192.168.199.100:5000 这样的内⽹地址作为私有仓库地址，这时你会发现⽆法成功
+推送镜像。
+这是因为 Docker 默认不允许⾮ HTTPS ⽅式推送镜像。我们可以通过 Docker 的配置选项来取消这个
+限制。
+:::
+
+```shell
+vim /etc/docker/daemon.json
+{
+    "registry-mirror": [
+        "https://registry.docker-cn.com"
+    ],
+    "insecure-registries": [
+        "192.168.199.100:5000"
+    ]
+}
 ```
 
 ::: warning
