@@ -417,13 +417,13 @@ n/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ```
 
-- 查看 docker-compose 版本
+#### 查看 docker-compose 版本
 
 ```shell
 docker-compose --version
 ```
 
-- 使用
+#### 使用
 
 ```shell
 mkdir composetest
@@ -488,6 +488,54 @@ docker-compose build
 ```
 
 ### Docker Machine
+
+#### 介绍
+
+Docker Machine 是 Docker 官⽅编排（Orchestration）项⽬之⼀，负责在多种平台上快速安装 Docker
+环境。
+
+Docker Machine 项⽬基于 Go 语⾔实现，⽬前在 Github 上进⾏维护。
+
+Docker Machine 是 Docker 官⽅提供的⼀个⼯具，它可以帮助我们在远程的机器上安装 Docker，或者
+在虚拟机 host 上直接安装虚拟机并在虚拟机中安装 Docker。我们还可以通过 docker-machine 命令来
+管理这些虚拟机和 Docker。
+
+#### 安装
+
+```shell
+curl -L https://github.com/docker/machine/releases/download/v0.16.2/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
+    chmod +x /tmp/docker-machine &&
+    sudo cp /tmp/docker-machine /usr/local/bin/docker-machine
+```
+
+#### 参考: [https://github.com/docker/machine/releases](https://github.com/docker/machine/releases)
+
+#### 查看 docker-machine 版本
+
+```shell
+docker-machine -v
+```
+
+#### 使用
+
+```shell
+#列出可用的机器
+docker-machine ls
+#创建机器
+docker-machine create -d virtualbox test
+#显示连接到某个主机需要的环境变量
+docker-machine env test
+#查看机器的 ip
+docker-machine ip test
+#停止机器
+docker-machine stop test
+#启动机器
+docker-machine start test
+#进入机器
+docker-machine ssh test
+#移除机器
+docker-machine rm test
+```
 
 ### Docker Swarm
 
