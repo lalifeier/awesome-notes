@@ -41,7 +41,7 @@ wget http://download.redis.io/releases/redis-5.0.7.tar.gz
 - 解压到指定目录
 
 ```
-tar -zvxf redis-5.0.7.tar.gz
+tar xzf redis-5.0.7.tar.gz
 mv ./redis-5.0.7 /usr/local/redis
 cd /usr/local/redis/
 ```
@@ -58,6 +58,28 @@ make
 
 ```shell
 make MALLOC=libc
+```
+
+::: warning
+make[1]: \*\*\* [server.o] Error 1
+
+make[1]: Leaving directory `/usr/local/redis/src'
+
+make: \_\*\* [all] Error 2
+:::
+
+```shell
+# 查看gcc版本是否在5.3以上，centos7.6默认安装4.8.5
+gcc -v
+# 升级gcc到5.3及以上
+yum -y install centos-release-scl
+yum -y install devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-binutils
+scl enable devtoolset-9 bash
+#需要注意的是scl命令启用只是临时的，退出shell或重启就会恢复原系统gcc版本。
+#如果要长期使用gcc 9.3的话
+echo "source /opt/rh/devtoolset-9/enable" >>/etc/profile
+#这样退出shell重新打开就是新版的gcc了
+#以下其他版本同理，修改devtoolset版本号即可
 ```
 
 - 安装
@@ -799,3 +821,164 @@ auto-aof-rewrite-percentage 64mb
 - Redis 日志：Asynchronous AOF fsync is taking too long (disk is busy?). Writing the AOF buffer without waiting for fsync to complete, this may slow down Redis.
 - `info persistence`
 - `top`
+
+## 主从复制
+
+1. 一个 master 可以有多个 slave
+2. 一个 slave 只能有一个 master
+3. 数据流向是单向的，master 到 slave
+
+### 主从复制配置
+
+- slaveof 命令
+
+```shell
+slaveof 127.0.0.1 6379
+#取消复制
+slaveof no one
+```
+
+- 修改配置
+
+```shell
+slaveof ip port
+slave-read-only yes
+```
+
+### 全量复制开销
+
+1. bgsave 时间
+2. RDB 文件网络传输时间
+3. 从节点清空数据时间
+4. 从节点加载 RDB 的时间
+5. 可能的 AOF 重写时间
+
+### 常见问题
+
+#### 读写分离
+
+读流量分摊到从节点
+
+- 复制数据延迟
+- 读到过期数据
+- 从节点故障
+
+#### 配置不一致
+
+- 例如 maxmemory 不一致：丢失数据
+- 例如数据结构优化参数(例如 hash-max-ziplist-entries)：内存不一致
+
+#### 规避全量复制
+
+1. 第一次全量复制
+
+- 第一次不可避免
+- 小主节点、低峰
+
+2. 节点运行 ID 不匹配
+
+- 主节点重启(运行 ID 变化)
+- 故障转移，例如哨兵或集群
+
+3. 复制积压缓冲区不足
+
+- 网络中断，部分复制无法满足
+- 增大复制缓冲区配置 rel_backlog_size，网络"增强"
+
+#### 规避复制风暴
+
+1. 单节点复制风暴
+
+- 问题：主节点重启，多从节点复制
+- 解决：更换复制拓扑
+
+1. 单机器复制风暴
+
+- 机器宕机后，大量全量复制
+- 主节点分数多机器
+
+## Redis Sentinel
+
+### Redis Sentinel 故障转移
+
+1. 多个 sentinel 发现并确认 master 有问题
+2. 选举出一个 sentinel 作为领导
+3. 选出一个 slave 作为 master
+4. 通知其余 slave 成为新的 master 的 slave
+5. 通知客户端主从变化
+
+### 安装与配置
+
+1. 配置开启主从节点
+2. 配置开启 sentinel 监控主节点(sentinel 是特殊的 redis)
+3. 实际应该多机器
+4. 详细配置节点
+
+#### Master
+
+- 启动
+
+```shell
+redis-server redis-7000.conf
+```
+
+- 配置
+
+```shell
+port 7000
+daemonize yes
+pidfile /var/run/redis-7000.pid
+logfile "7000.log"
+dir "/usr/local/redis/data/"
+```
+
+#### Slave
+
+- 启动
+
+```shell
+redis-server redis-7001.conf
+redis-server redis-7002.conf
+```
+
+- 配置
+
+```shell
+#slave-1
+port 7001
+daemonize yes
+pidfile /var/run/redis-7001.pid
+logfile "7001.log"
+dir "/usr/local/redis/data/"
+slaveof 127.0.0.1 7000
+#slave-2
+port 7002
+daemonize yes
+pidfile /var/run/redis-7002.pid
+logfile "7002.log"
+dir "/usr/local/redis/data/"
+slaveof 127.0.0.1 7000
+```
+
+#### sentinel 主要配置
+
+```shell
+vim redis-sentinel-26379.conf
+vim redis-sentinel-26380.conf
+vim redis-sentinel-26381.conf
+#启动
+redis-sentinel redis-sentinel-26379.conf
+redis-sentinel redis-sentinel-26380.conf
+redis-sentinel redis-sentinel-26381.conf
+
+port ${port}
+daemonize yes
+dir "/usr/local/redis/data/"
+logfile "${port}.log"
+sentinel monitor mymaster 127.0.0.1 7000 2
+sentinel down-after-milliseconds mymaster 30000
+sentinel parallel-syncs mymaster 1
+sentinel failover-timeout mymaster 180000
+```
+
+## Redis Cluster
