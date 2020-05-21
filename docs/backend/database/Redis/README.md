@@ -146,6 +146,9 @@ daemonize yes
 logfile ""
 修改为指定的日志文件
 logfile "/var/log/redis/6379.log"
+
+#创建目录
+mkdir /var/log/redis
 ```
 
 - 开放端口
@@ -964,8 +967,39 @@ slaveof 127.0.0.1 7000
 
 ```shell
 vim redis-sentinel-26379.conf
+
+port 26379
+daemonize yes
+dir "/usr/local/redis/data/"
+logfile "26379.log"
+sentinel monitor mymaster 127.0.0.1 7000 2
+sentinel down-after-milliseconds mymaster 30000
+sentinel parallel-syncs mymaster 1
+sentinel failover-timeout mymaster 180000
+
+
 vim redis-sentinel-26380.conf
+
+port 26380
+daemonize yes
+dir "/usr/local/redis/data/"
+logfile "26380.log"
+sentinel monitor mymaster 127.0.0.1 7000 2
+sentinel down-after-milliseconds mymaster 30000
+sentinel parallel-syncs mymaster 1
+sentinel failover-timeout mymaster 180000
+
+
 vim redis-sentinel-26381.conf
+
+port 26381
+daemonize yes
+dir "/usr/local/redis/data/"
+logfile "26381.log"
+sentinel monitor mymaster 127.0.0.1 7000 2
+sentinel down-after-milliseconds mymaster 30000
+sentinel parallel-syncs mymaster 1
+sentinel failover-timeout mymaster 180000
 #启动
 redis-sentinel redis-sentinel-26379.conf
 redis-sentinel redis-sentinel-26380.conf
@@ -981,4 +1015,215 @@ sentinel parallel-syncs mymaster 1
 sentinel failover-timeout mymaster 180000
 ```
 
+### 故障转移
+
+- 从 slave 节点中选出一个"合适的"节点作为新的 master
+- 对上面的 slave 节点执行`slaveof no one`命令让其成为 master 节点
+- 向剩余的 slave 节点发送命令，让他们成为新 master 节点的 slave 节点，复制规则和 parallel-syncs 参数有关
+- 更新对原来 master 节点配置为 slave，并保持着对其"关注"，当其恢复后命令他去复制新的 master 节点
+
+#### 选择"合适的"节点
+
+- 选择`slave-priority`(slave 节点优先级)最高的 slave 节点，如果存在则返回，不存在则继续
+- 选择复制偏移量最大的 slave 节点(复制的最完整)，如果存在则返回，不存在则继续
+- 选择 runID 最小的 slave 节点
+
+### 常见问题
+
+#### 节点运维
+
+- 机器下线：例如过保等情况
+- 机器性能不足：例如 CPU、内存、硬盘、网络等
+- 节点自身故障：例如服务不稳定等
+
+主节点： `sentinel failover <masterName></masterName>`
+
+从节点：临时下线还是永久下线，例如是否做一些清理工作。但是要考虑读写分离的情况
+
+Sentinel 节点：同上
+
+#### 节点上线
+
+主节点： `sentinel failover`进行替换
+
+从节点：`slaveof`即可，sentinel 节点可以感知
+
+Sentinel 节点：参考其他 sentinel 节点启动即可
+
+#### 高可用读写分离
+
+#### 从节点对作用
+
+- 副本：高可用的基础
+- 扩展：读能力
+
+#### 三个"消息"
+
+- +switch-master：切换主节点(从节点晋升主节点)
+- +conver-to-slave：切换从节点(原主节点降为从节点)
+- sdown：主观下线
+
 ## Redis Cluster
+
+### 集群
+
+1. 并发量
+2. 数据量
+
+### 数据分布
+
+| 分布方式 |                                特点                                 |                          典型产品                          |
+| :------: | :-----------------------------------------------------------------: | :--------------------------------------------------------: |
+| 哈希分布 | 数据分散度高 <br>键值分布业务无关 <br>无法顺序访问 <br>支持批量操作 | 一致性哈希 <br>Memcache <br>Redis Cluster <br>其他缓存产品 |
+| 顺序分布 |   数据分散度倾斜 <br>键值业务相关 <br>可顺序访问 <br>支持批量操作   |                     BigTable <br>HBase                     |
+
+#### 顺序分布
+
+#### 哈希分布(例如节点取模)
+
+- 节点取余分区
+  - 节点取余：hash(key)%nodes
+    - 客户端分片：哈希 + 取余
+    - 节点伸缩：数据节点关系变化，导致数据迁移
+    - 迁移数量和添加节点数量有关：建议翻倍扩容
+- 一致性哈希分区
+  - 客户端分片：哈希 + 顺时针(优化取余)
+  - 节点伸缩：只影响邻近节点，但是还是有数据迁移
+  - 翻倍伸缩：保证最小迁移数据和负载均衡
+- 虚拟槽分区 CRC16(key) & 16383
+  - 预设虚拟槽：每个槽映射一个数据子集，一般比节点大
+  - 良好的哈希函数：例如 CRC16
+  - 服务端管理节点、槽、数据：例如 Redis Cluster
+
+### 安装
+
+#### 原生命令安装
+
+Cluster 节点主要配置
+
+```shell
+cluster-enabled yes
+cluster-node-timeout 15000
+cluster-config-file nodes.conf
+cluster-require-full-coverage yes
+```
+
+Cluster 常用命令
+
+```shell
+redis-cli -c -p 7000
+cluster info
+cluster nodes
+cluster slots
+```
+
+1. 配置开启节点
+
+```shell
+#配置开启Redis
+port ${port}
+daemonize yes
+dir "/usr/local/redis/data/"
+dbfilename "dump-${port}.rdb"
+logfile "${port}.log"
+cluster-enabled yes
+cluster-config-file nodes-${port}.conf
+cluster-require-full-coverage no
+
+mkdir /usr/local/redis/config
+cd /usr/local/redis/config
+cat redis-7000.conf
+
+port 7000
+daemonize yes
+dir "/usr/local/redis/data/"
+dbfilename "dump-7000.rdb"
+logfile "7000.log"
+cluster-enabled yes
+cluster-config-file nodes-7000.conf
+cluster-require-full-coverage no
+
+sed 's/7000/7001/g' redis-7000.conf > redis-7001.conf
+sed 's/7000/7002/g' redis-7000.conf > redis-7002.conf
+sed 's/7000/7003/g' redis-7000.conf > redis-7003.conf
+sed 's/7000/7004/g' redis-7000.conf > redis-7004.conf
+sed 's/7000/7005/g' redis-7000.conf > redis-7005.conf
+
+redis-server redis-7000.conf
+redis-server redis-7001.conf
+redis-server redis-7002.conf
+redis-server redis-7003.conf
+redis-server redis-7004.conf
+redis-server redis-7005.conf
+```
+
+2. meet
+
+```shell
+#cluster meet ip port
+redis-cli -h 127.0.0.1 -p 7000 cluster meet 127.0.0.1 7001
+redis-cli -h 127.0.0.1 -p 7000 cluster meet 127.0.0.1 7002
+redis-cli -h 127.0.0.1 -p 7000 cluster meet 127.0.0.1 7003
+redis-cli -h 127.0.0.1 -p 7000 cluster meet 127.0.0.1 7004
+redis-cli -h 127.0.0.1 -p 7000 cluster meet 127.0.0.1 7005
+```
+
+3. 指派槽
+
+```shell
+mkdir script
+cd script/
+cat addslots.sh
+
+start=$1
+end=$2
+port=$3
+for slot in `seq ${start} ${end}`
+do
+  echo "slot:${slot}"
+  redis-cli -p ${port} cluster addslots ${slot}
+done
+
+sh addslots.sh 0 5461 7000
+sh addslots.sh 5462 10922 7001
+sh addslots.sh 10923 16383 7002
+```
+
+4. 主从
+
+```shell
+#cluster replicate node-id
+cluster nodes
+redis-cli -h 127.0.0.1  -p 7003 cluster replicate ${node-id-7000}
+redis-cli -h 127.0.0.1  -p 7004 cluster replicate ${node-id-7001}
+redis-cli -h 127.0.0.1  -p 7005 cluster replicate ${node-id-7002}
+```
+
+#### 官方工具安装
+
+1. 安装 Ruby 环境
+
+```shell
+#下载ruby
+wget https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.1.tar.gz
+#安装ruby
+tar -xvf ruby-2.7.1.tar.gz
+cd ruby-2.7.1
+./configure -prefix=/usr/local/ruby
+make
+make install
+ruby -v
+cd /usr/local/ruby
+cp bin/ruby /usr/local/bin
+cp bin/gem /usr/local/bin
+#安装rubygem redis
+wget https://rubygems.org/downloads/redis-4.1.4.gem
+gem install -l redis-4.1.4.gem
+gem list --check redis gem
+```
+
+2. 安装 redis-trib.rb
+
+```shell
+cp ${REDIS_HOME}/src/redis-trib.rb /usr/local/bin
+```
