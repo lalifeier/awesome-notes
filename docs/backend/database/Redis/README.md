@@ -1131,6 +1131,7 @@ cluster-config-file nodes-${port}.conf
 cluster-require-full-coverage no
 
 mkdir /usr/local/redis/config
+mkdir /usr/local/redis/data
 cd /usr/local/redis/config
 cat redis-7000.conf
 
@@ -1201,29 +1202,225 @@ redis-cli -h 127.0.0.1  -p 7005 cluster replicate ${node-id-7002}
 
 #### 官方工具安装
 
-1. 安装 Ruby 环境
+::: warning
+Redis Cluster 在 5.0 之后取消了 ruby 脚本 redis-trib.rb 的支持（手动命令行添加集群的方式不变），集合到 redis-cli 里，避免了再安装 ruby 的相关环境
+
+All commands and features belonging to redis-trib.rb have been moved to redis-cli
+:::
 
 ```shell
+redis-cli --cluster create --cluster-replicas 1 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005
+```
+
+#### 以下为 Redis Cluster 5.0 之前的安装方式
+
+1. 安装 Ruby 环境
+
+RVM 安装
+
+```shell
+#安装GPG keys
+gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+#安装 RVM
+curl -sSL https://get.rvm.io | bash -s stable
+#载入RVM环境
+source /etc/profile.d/rvm.sh
+#检查RVM是否安装好
+rvm -v
+gem -v
+#列出已知的ruby版本
+rvm list known
+#选择现有的rvm版本来进行安装
+rvm install 2.7
+#查询已安装的ruby
+rvm list
+#卸载已安装的版本
+rvm remove [版本号]
+#设置Ruby版本
+rvm 2.0.0 —default
+#更换Ruby源
+gem sources
+gem sources -a http://mirrors.aliyun.com/rubygems/
+gem sources -r https://rubygems.org/
+gem sources -u
+```
+
+源码安装
+
+```shell
+yum install zlib-devel openssl-devel
 #下载ruby
-wget https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.1.tar.gz
+wget https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.7.1.tar.gz
 #安装ruby
 tar -xvf ruby-2.7.1.tar.gz
 cd ruby-2.7.1
-./configure -prefix=/usr/local/ruby
+./configure --prefix=/usr/local/ruby  --disable-install-rdoc
 make
 make install
 ruby -v
 cd /usr/local/ruby
 cp bin/ruby /usr/local/bin
 cp bin/gem /usr/local/bin
+```
+
+::: warning
+出现报错
+Directory .ext/rdoc already exists, but it looks like it isn't an RDoc directory.
+:::
+
+```shell
+#不安装rdoc
+./configure --disable-install-rdoc
+```
+
+2. 安装 redis
+
+```shell
+gem install redis
+```
+
+```shell
 #安装rubygem redis
 wget https://rubygems.org/downloads/redis-4.1.4.gem
 gem install -l redis-4.1.4.gem
 gem list --check redis gem
 ```
 
-2. 安装 redis-trib.rb
+3. 安装 redis-trib.rb
 
 ```shell
-cp ${REDIS_HOME}/src/redis-trib.rb /usr/local/bin
+#cp ${REDIS_HOME}/src/redis-trib.rb /usr/local/bin
+find / -name redis-trib.rb
+cp /usr/local/redis/src/redis-trib.rb /usr/local/bin
+```
+
+4. 构建集群
+
+```shell
+./redis-trib.rb create --replicas 1 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005
+```
+
+### 扩容集群
+
+1. 准备新节点
+
+- 集群模式
+- 配置和其他节点统一
+- 启动后是孤儿节点
+
+```shell
+sed 's/7000/7006/g' redis-7000.conf > redis-7006.conf
+sed 's/7000/7007/g' redis-7000.conf > redis-7007.conf
+redis-server redis-7006.conf
+redis-server redis-7007.conf
+```
+
+2. 加入集群
+
+```shell
+redis-cli -p 7000 cluster meet 127.0.0.1 7006
+redis-cli -p 7000 cluster meet 127.0.0.1 7007
+redis-cli -p 7007 cluster replicate  ${node-id-7006}
+
+#加入集群-redis-trib.rb
+#redis-trib.rb add-node new_host:new_port existing_host:existing_port --slave --master-id <arg>
+#redis-trib.rb add-node 127.0.0.1:7006 127.0.0.1:7000
+```
+
+作用
+
+- 为他迁移槽和数据实现扩容
+- 作为从节点负责故障转移
+
+3. 迁移槽和数据
+
+```shell
+#Redis Cluster 5.0 之后使用
+redis-cli --cluster reshard 127.0.0.1:7000
+
+#Redis Cluster 5.0 之前使用
+#redis-trib
+redis-trib.rb reshard 127.0.0.1:7000
+4096
+${node-id-7006}
+all
+yes
+```
+
+- 槽迁移计划
+- 迁移数据
+- 添加从节点
+
+#### 迁移数据
+
+1. 对目标节点发送：`cluster setslot {slot} importing {sourceNodeId}`命令，让目标节点准备导入槽的数据
+2. 对源节点发送：`cluster setslot {slot} migrating {targetNodeId}`命令，让源节点准备迁出槽的数据
+3. 源节点循环执行`cluster getkeysinslot {slot} {count}`命令，每次获取 count 个属于槽的键
+4. 在源节点上执行`migrate {targetIp} {targetPort} key 0 {timeout}`命令把指定 key 迁移
+5. 重复执行步骤 3-4 直到槽下所有数据迁移到目标节点
+6. 向集群内所有主节点发送`cluster setslot {slot} node {targetNodeId}`命令，通知槽分配给目标节点
+
+### 收缩集群
+
+- 下线迁移槽
+- 忘记节点
+- 关闭节点
+
+Redis Cluster 5.0 之后使用
+
+```shell
+redis-cli --cluster reshard --cluster-from ${node-id-7006} --cluster-to ${node-id-7000} --cluster-slots 1365 127.0.0.1:7006
+redis-cli --cluster reshard --cluster-from ${node-id-7006} --cluster-to ${node-id-7001} --cluster-slots 1366 127.0.0.1:7006
+redis-cli --cluster reshard --cluster-from ${node-id-7006} --cluster-to ${node-id-7002} --cluster-slots 1365 127.0.0.1:7006
+
+#cluster forget {downNodeId}
+redis-cli --cluster del-node 127.0.0.1:7000 ${node-id-7007}
+redis-cli --cluster del-node 127.0.0.1:7000 ${node-id-7006}
+```
+
+Redis Cluster 5.0 之前使用
+
+```shell
+#redis-trib
+redis-trib.rb reshard --from ${node-id-7006} --to ${node-id-7000} --slots 1365 127.0.0.1:7006
+redis-trib.rb reshard --from ${node-id-7006} --to ${node-id-7001} --slots 1366 127.0.0.1:7006
+redis-trib.rb reshard --from ${node-id-7006} --to ${node-id-7002} --slots 1365 127.0.0.1:7006
+
+#cluster forget {downNodeId}
+redis-trib.rb del-node 127.0.0.1:7000 ${node-id-7007}
+redis-trib.rb del-node 127.0.0.1:7000 ${node-id-7006}
+```
+
+### 客户端路由
+
+#### moved 重定向
+
+```shell
+redis-cli -c -p 7000
+cluster keyslot key
+```
+
+#### ask 重定向
+
+#### smart 客户端
+
+1. 从集群中选一个可运行节点，使用`cluster slots`初始化槽和节点映射
+2. 将`cluster slots`的结果映射到本地，为每个节点创建 JedisPool
+3. 准备执行命令
+
+#### 批量操作优化
+
+1. 串行 mget
+2. 串行 IO
+3. 并行 IO
+4. hash_tag
+   | 方案 | 优点 | 缺点 | 网络 IO |
+   | :-------------: | :----------------------------------------------: | :---------------------: | :--------------------: |
+   | 串行 mget | 编程简单 <br> 少量 keys 满足需求| 大量 keys 请求延迟严重| O(keys)|
+   | 串行 IO | 编程简单 <br> 少量节点满足需求 |大量 node 延迟严重 | O(nodes)|
+   | 并行 IO | 采用并行特性<br> 延迟取决于最慢的节点 |编程复杂<br>超时定位问题难 | O(max_slow(node))|
+   | hash_tag | 性能最高|读写增加 tag 维护成本 tag 分布易出现数据倾斜 | O(1)|
+
+```
+
 ```
