@@ -90,3 +90,16 @@ firewall-cmd --list-ports
 #查看开启的服务
 firewall-cmd --list-services
 ```
+
+## 踩坑
+
+::: warning
+shell 脚本执行错误 \$'\r':command not found
+
+存现这种错误是因为 编写的 shell 脚本是在 win 下编写的，每行结尾是\r\n 的 Unix 结果行是\n，所以在 Linux 下运行脚本 会任务\r 是一个字符，所以运行错误，需要把文件转换下
+:::
+
+```shell
+yum install dos2unix
+dos2unix 脚本名
+```

@@ -129,6 +129,10 @@ module.exports = {
                 link: "/backend/basis/PHP/"
               },
               {
+                text: "Java",
+                link: "/backend/basis/Java/"
+              },
+              {
                 text: "Node",
                 link: "/backend/basis/Node/"
               }

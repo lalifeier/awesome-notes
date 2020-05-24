@@ -1421,6 +1421,317 @@ cluster keyslot key
    | 并行 IO | 采用并行特性<br> 延迟取决于最慢的节点 |编程复杂<br>超时定位问题难 | O(max_slow(node))|
    | hash_tag | 性能最高|读写增加 tag 维护成本 tag 分布易出现数据倾斜 | O(1)|
 
+### 故障
+
+#### 故障发现
+
+- 通过 ping/pong 消息实现故障发现：不需要 sentinel
+- 主观下线和客观下线
+
+#### 主观下线
+
+某个节点认为另一个节点不可用，"偏见"
+
+#### 客观下线
+
+当半数以上持有槽的主节点都标记某节点主观下线
+
+#### 尝试客观下线
+
+- 通知集群内所有节点标记故障节点为客观下线
+- 通知故障节点的从节点触发故障转移流程
+
+#### 故障恢复
+
+- 资格检查
+
+  - 每个从节点检查与故障主节点的断线时间
+  - 超过 cluster-node-timeout \* cluster-slave-validity-factor 取消资格
+  - cluster-slave-validity-factor:默认是 10
+
+- 准备选举时间
+- 选举投票
+- 替换主节点
+  - 当前从节点取消复制变为主节点`slaveof no one`
+  - 执行 slusterDelSlot 撤销故障主节点负责的槽，并执行 clusterAddSlot 把这些槽分配给自己
+  - 向集群广播自己的 pong 消息，表明已经替换了故障从节点
+
+#### 故障模拟
+
+1. kill -9 节点模拟宕机
+2. 观察客户端故障恢复时间
+3. 观察各个节点的日志
+
+### 常见问题
+
+#### 集群完整性
+
+- cluster-require-full-coverage 默认为 yes
+  - 集群中 16384 个槽全部可用：保证集群完整性
+  - 节点故障或者正在故障转移：(err) CLUSTERDOWN The cluster is down
+- 大部分业务无法容忍，cluster-require-full-coverage 建议设置为 no
+
+#### 带宽消耗
+
+- 官方建议：1000 个节点
+- PING/PONG 消息
+- 不容忽视的带宽消耗
+
+消息发送频率：节点发现和其他节点最后通信消息超过 cluster-node-timeout/2 时会直接发送 ping 消息
+
+消息数据量：slots 槽数组(2KB 空间)和整个集群 1/10 的状态数据(10 个节点状态数据约 1KB)
+
+节点部署的机器规模：集群分布的机器越多且每台机器划分的节点数越均匀，则集群内整体的可用带宽越高
+
+#### 优化
+
+- 避免"大"集群：避免多业务使用一个集群，大业务可以多集群
+- cluster-node-timeout：带宽和故障转移速度的均衡
+- 尽量均匀分配到多机器上：保证高可用和带宽
+
+#### Pub/Sub 广播
+
+- 问题：publish 在集群每个节点广播：加重带宽
+- 解决：单独"走"一套 Redis Sentinel
+
+#### 数据倾斜
+
+- 数据倾斜：内存不均
+  - 节点和槽分配不均
+    - `redis-trib.rb info ip:port`查看节点、槽、键值分布
+    - `redis-trib.rb rebalance ip:port`进行均衡(谨慎使用)
+  - 不同槽对应键值数量差异较大
+    - CRC16 正常情况下比较均匀
+    - 可能存在 hash_tag
+    - `cluster countkeysinslot {slot}`获取槽对应键值个数
+  - 包含 bigkey
+    - bigkey：例如大字符串、几百万的元素的 hash、set 等
+    - 从节点：`redis-cli --bigkeys`
+    - 优化：优化数据结构
+  - 内存相关配置不一致
+    - hash-max-ziplist-value、set-max-intset-entries 等
+    - 优化：定期"检查"配置一致性
+- 请求倾斜：热点
+  - 热点 key：重要 key 或者 bigkey
+  - 优化：
+    - 避免 bigkey
+    - 热键不要用 hash_tag
+    - 当一致性不高时，可以用本地缓存 + MQ
+
+#### 读写分离
+
+- 只读连接：集群模式的从节点不接受任何读写请求
+  - 重定向到复制槽的主节点
+  - `readonly`命令可以读：连接级别命令
+- 读写分离：更加复杂
+  - 同样的问题：复制延迟、读取过期数据、从节点故障
+  - 修改客户端 :cluster slaves {nodeId}
+
+#### 数据迁移
+
+- 官方迁移：redis-trib.rb import
+  - 只能从单机迁移到集群
+  - 不支持在线迁移：source 需要停写
+  - 不支持断点续传
+  - 单线程迁移：影响速度
+- 在线迁移：
+  - 唯品会：redis-migrate-tool
+  - 豌豆荚：redis-port
+
+```shell
+redis-trib.rb import --from 127.0.0.1:6388 --copy 127.0.0.1:7000
 ```
 
+#### 集群限制
+
+- key 批量操作支持有限：例如 mget、mset 必须在一个 slot
+- key 事务和 Lua 支持有限：操作的 key 必须在一个节点
+- key 是数据分区的最小粒度：不支持 bigkey 分区
+- 不支持多个数据库：集群模式下只有一个 db 0
+- 复制只支持一层：不支持树形复制结构
+
+Redis Cluster：满足容量和性能的扩展性，很多业务"不需要"
+
+- 大多数时客户端性能会"降低"
+- 命令无法跨 节点使用：megt、keys、scan、flush、sinter 等
+- Lua 和事务无法跨节点使用
+- 客户端维护更复杂：SDK 和应用本身消耗(例如更多的连接池)
+
+很多场景 Redis Cluster 已经足够好
+
+## 缓存
+
+### 好处和成本
+
+#### 好处
+
+1. 加速读写
+
+通过缓存加速读写速度：CPU L1/L2/L3 Cache、Linux page Cache、Linux 加速硬盘读写、浏览器缓存、Ehcache 缓存数据库结果
+
+2. 降低后端负载
+
+后端服务器通过前端缓存降低负载：业务端使用 Redis 降低后端 MySQL 负载等
+
+#### 成本
+
+1. 数据不一致：缓存层和数据层有时间窗口不一致，和更新策略有关
+2. 代码维护成本：多了一层缓存逻辑
+3. 运维成本：例如 Redis Cluster
+
+#### 使用场景
+
+1. 降低后端负载：对高消耗的 SQL：join 结果集/分组统计结果缓存
+2. 加速请求响应：利用 Redis/Memcache 优化 IO 响应时间
+3. 大量写合并为批量写：如计数器先 Redis 累计再批量写 DB
+
+### 更新策略
+
+1. LRU/LFU/FIFO 算法剔除：例如 maxmemory-policy
+2. 超时剔除：例如 expire
+3. 主动更新：开发控制生命周期
+
+### 缓存粒度
+
+1. 通用性：全量属性更好
+2. 占用空间：部分属性更好
+3. 代码维护：表面上全量属性更好
+
+### 缓存穿透
+
+大量请求不命中
+
+#### 原因
+
+1. 业务代码自身问题
+2. 恶意攻击、爬虫等等
+
+#### 如何发现
+
+1. 业务的响应时间
+2. 业务本身问题
+3. 相关指标：总调用数、缓存层命中数、存储层命中数
+
+#### 解决方法
+
+1. 缓存空对象
+2. 布隆过滤器拦截
+
+### 缓存雪崩
+
+由于 cache 服务承载大量请求，当 cache 服务异常/脱机，流量直接压向后端组件(例如 DB)，造成级联故障
+
+#### 优化方案
+
+1. 保证缓存高可用性
+
+- 个别节点、个别机器、甚至是机房
+- 例如 Redis Cluster、Redis Sentinel、VIP
+
+2. 依赖隔离组件为后端限流
+3. 提前演练：例如压力测试
+
+### 无底洞问题
+
+参考：[http://highscalability.com/blog/2009/10/26/facebooks-memcached-multiget-hole-more-machines-more-capacit.html](http://highscalability.com/blog/2009/10/26/facebooks-memcached-multiget-hole-more-machines-more-capacit.html)
+
+- 更多的机器 更多的性能
+- 批量接口需求(mget,mset 等)
+- 数据增长与水平扩展需求
+
+#### 优化 IO
+
+1. 命令本身优化：例如慢查询 keys、hgetall bigkey
+2. 减少网络通信次数
+3. 降低接入成本：例如客户端长连接/连接池、NIO 等
+
+### 热点 key 的重建优化
+
+热点 key + 较长的重建时间
+
+1. 减少缓存重建的次数
+2. 数据尽可能一致
+3. 减少潜在风险
+
+#### 解决方案
+
+- 互斥锁(mutex key)
+- 永远不过期
+
+## CacheCloud
+
+CacheCloud 提供一个 Redis 云管理平台：实现多种类型(Redis Standalone、Redis Sentinel、Redis Cluster)自动部署、解决 Redis 实例碎片化现象、提供完善统计、监控、运维功能、减少运维成本和误操作，提高机器的利用率，提供灵活的伸缩性，提供方便的接入客户端。
+
+### 安装
+
+#### 参考：[https://github.com/sohutv/cachecloud/wiki/3.%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3](https://github.com/sohutv/cachecloud/wiki/3.%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3)
+
+```shell
+#下载项目
+cd /opt
+git clone https://github.com/sohutv/cachecloud.git
+
+#导入数据库
+mysql -uroot -p
+create database cachecloud;
+use cachecloud;
+source /opt/cachecloud/script/cachecloud.sql
+
+#本地 修改配置文件local.properties
+vim /opt/cachecloud/cachecloud-open-web/src/main/swap/local.properties
+#生产环境 修改配置文件online.properties
+vim /opt/cachecloud/cachecloud-open-web/src/main/swap/online.properties
+
+#本地启动
+#在cachecloud根目录下运行
+cd /opt/cachecloud
+mvn clean compile install -Plocal
+#在cachecloud-open-web模块下运行
+cd /opt/cachecloud/cachecloud-open-web
+mvn spring-boot:run
+
+#生产环境启动
+#在cachecloud根目录下运行
+mvn clean compile install -Ponline
+#拷贝war包(cachecloud-open-web/target/cachecloud-open-web-1.0-SNAPSHOT.war)到/opt/cachecloud-web下
+mkdir /opt/cachecloud-web
+cp /opt/cachecloud/cachecloud-open-web/target/cachecloud-open-web-1.0-SNAPSHOT.war /opt/cachecloud-web/
+#拷贝配置文件(cachecloud-open-web/src/main/resources/cachecloud-web.conf)到/opt/cachecloud-web下，并改名为cachecloud-open-web-1.0-SNAPSHOT.conf（spring-boot要求，否则配置不生效）
+cp /opt/cachecloud/cachecloud-open-web/src/main/resources/cachecloud-web.conf /opt/cachecloud-web/
+cd /opt/cachecloud-web/
+mv cachecloud-web.conf cachecloud-open-web-1.0-SNAPSHOT.conf
+#启动方法1(作为系统服务启动，可能存在系统兼容性问题，目前redhat6.5,centos7正常)
+sudo ln -s /opt/cachecloud-web/cachecloud-open-web-1.0-SNAPSHOT.war /etc/init.d/cachecloud-web
+/etc/init.d/cachecloud-web start
+#启动方法2(使用脚本启动，大部分操作系统都正常) 拷贝启动脚本(cachecloud根目录下script目录下的start.sh和stop.sh)到/opt/cachecloud-web下
+cp /opt/cachecloud/script/start.sh /opt/cachecloud-web/
+cp /opt/cachecloud/script/stop.sh /opt/cachecloud-web/
+sh start.sh #如果机器内存不足，可以适当调小:-Xmx和-Xms(默认是4g)
+sh stop.sh
 ```
+
+local.properties 和 online.properties 属性配置
+
+|         属性名         |               说明               |                  示例                   |
+| :--------------------: | :------------------------------: | :-------------------------------------: |
+|   cachecloud.db.url    |          mysql 驱动 url          | jdbc:mysql://127.0.0.1:3306/cache-cloud |
+|   cachecloud.db.user   |           mysql 用户名           |                  admin                  |
+| cachecloud.db.password |            mysql 密码            |                  admin                  |
+|        web.port        | spring-boot 内嵌 tomcat 启动端口 |  启动端口 测试 9999,线上 8585(可修改)   |
+
+http://127.0.0.1:9999/manage/login 使用用户名:admin、密码:admin 访问系统
+
+### 配置
+
+1. 添加机器
+
+```shell
+#用户名cachecloud和密码cachecloud要跟配置修改中的保持一样
+cd /opt/cachecloud/script
+sh cachecloud-init.sh cachecloud
+cachecloud
+```
+
+进入后台管理，点击机器管理，添加新机器
+
+2. 添加应用
