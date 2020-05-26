@@ -180,6 +180,26 @@ vim /etc/my.cnf
 #skip-grant-tables
 ```
 
+### Docker 安装 MySQL
+
+#### 拉取镜像
+
+```shell
+#docker pull mysql:latest
+docker pull mysql:5.7
+```
+
+#### 运行 MySQL
+
+```shell
+#mkdir -p /home/docker/mysql
+mkdir -p /home/docker/mysql/{conf,logs,data}
+cd /home/docker/mysql  /etc/mysql/mysql.conf.d
+docker run -d --restart=always -p 3306:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7
+
+#/home/docker/mysql/conf/my.cnf
+```
+
 ## 使用
 
 ### INSERT

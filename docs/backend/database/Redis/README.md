@@ -187,6 +187,28 @@ systemctl restart redis
 systemctl status redis
 ```
 
+### Docker 安装 Redis
+
+#### 拉取镜像
+
+```shell
+#docker pull redis:latest
+#docker pull redis:alpine
+docker pull redis:3.2
+```
+
+#### 运行 Redis
+
+```shell
+#mkdir -p /home/data/redis
+mkdir -p /home/docker/redis/{conf,data}
+cd /home/docker/redis
+#https://redis.io/topics/config
+wget https://raw.githubusercontent.com/antirez/redis/3.2/redis.conf -O conf/redis.conf
+
+docker run -d --privileged=true --restart=always -p 6379:6379 -v $PWD/conf/redis.conf:/etc/redis/redis.conf -v $PWD/data:/data --name redis redis:3.2 redis-server /etc/redis/redis.conf --appendonly yes
+```
+
 ## 使用
 
 ### 通用命令

@@ -202,6 +202,8 @@ docker diff 容器
 docker commit -a "提交人信息" -m "说明信息" 容器  仓库名称:标签
 #删除全部容器
 docker rm -f $(docker ps -aq)
+#设置容器自动启动
+docker update --restart=always 容器
 ```
 
 ### 数据卷管理
