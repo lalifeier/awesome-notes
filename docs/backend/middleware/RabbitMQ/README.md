@@ -32,6 +32,8 @@ rabbitmq-plugins enable rabbitmq_management
 
 ### Centos
 
+参考：[https://www.rabbitmq.com/which-erlang.html](https://www.rabbitmq.com/which-erlang.html)
+
 - 安装 ErLang
 
 ```shell
@@ -134,6 +136,23 @@ firewall-cmd --add-port=15672/tcp --permanent
 firewall-cmd --reload
 ```
 
+### Docker 安装 RabbitMq
+
+#### 拉取镜像
+
+```shell
+docker pull rabbitmq:management
+```
+
+#### 运行 MongoDB
+
+```shell
+mkdir -p /home/docker/rabbitmq
+cd /home/docker/rabbitmq
+
+docker run -d --restart=always --hostname rabbitmq -p 5672:5672 -p 15672:15672 -v $PWD:/var/lib/rabbitmq --name rabbitmq rabbitmq:management
+```
+
 ## AMQP 核心概念
 
 - Server：又称 Broker,接受客户端的连接，实现 AMQP 实体服务
@@ -154,9 +173,9 @@ firewall-cmd --reload
 
 - Queue：也称为 Message Queue，消息队列，保存消息并将它们转发给消费者
 
-## 命令行
+## 使用
 
-- 基本操作
+### 基本操作
 
 ```shell
 # 关闭应用
@@ -195,7 +214,7 @@ rabbitmqctl list_queues
 rabbitmqctl -p vhostpath purge_queue blue
 ```
 
-- 高级操作
+### 高级操作
 
 ```shell
 # 移除所有数据，要在rabbitmqctl stop_app之后使用
