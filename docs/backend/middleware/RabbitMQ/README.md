@@ -387,6 +387,12 @@ void BasicQos(uint prefetchSize, ushort prefetchCount, bool global);
 
 ### 多活模式
 
+### 镜像队列
+
+### HaProxy
+
+### KeepAlived
+
 ### 配置文件
 
 ### 集群恢复与故障转移
