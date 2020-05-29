@@ -1351,7 +1351,7 @@ haproxy -f /usr/local/etc/haproxy/haproxy.cfg
 
 ## Keepalived
 
-Docker 中创建两个 Haproxy，并通过 Keepalived 抢占 Docker 内地虚拟 IP
+Docker 中创建两个 Haproxy，并通过 Keepalived 抢占 Docker 内的虚拟 IP
 
 Docker 内的虚拟 IP 不能被外网，所以需要借助宿主机 Keepalived 映射成外网可以访问地虚拟 IP
 
