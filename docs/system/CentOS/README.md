@@ -35,7 +35,7 @@ yum makecache
 - 常用依赖
 
 ```shell
-yum install gcc glibc-headers gcc-c++
+yum install gcc glibc-headers gcc-c++ openssl openssl-devel
 ```
 
 - 常用软件

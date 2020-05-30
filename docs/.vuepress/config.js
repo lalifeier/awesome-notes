@@ -146,6 +146,9 @@ module.exports = {
             }, {
               text: "RabbitMQ",
               link: "/backend/middleware/RabbitMQ/"
+            }, {
+              text: "HAProxy ",
+              link: "/backend/middleware/HAProxy/"
             }]
           },
           {

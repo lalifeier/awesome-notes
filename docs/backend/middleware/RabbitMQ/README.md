@@ -75,6 +75,16 @@ rabbitmq-server -detached                   # 后台启动 RabbitMQ服务
 rabbitmq-plugins enable rabbitmq_management
 ```
 
+::: warning
+User can only log in via localhost
+:::
+
+```shell
+vim /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin/rabbit.app
+#修改loopback_users，删除<<"guest">>
+{loopback_users, []},
+```
+
 ### RabbitMQ 配置
 
 - 添加用户并授权
@@ -144,7 +154,7 @@ firewall-cmd --reload
 docker pull rabbitmq:management
 ```
 
-#### 运行 MongoDB
+#### 运行 RabbitMq
 
 ```shell
 mkdir -p /home/docker/rabbitmq
@@ -373,27 +383,80 @@ void BasicQos(uint prefetchSize, ushort prefetchCount, bool global);
 
 2. 队列的消息超时后消失，生产者和消费者完全无感知，只能靠查落地存储的历史记录，很不方便同时业务无法再消费处理
 
-## 集群架构
+## 集群架构模式
 
 ### 主备模式
 
-实现
+- 实现 RabbitMQ 的高可用集群，一般在并发和数据量不高的情况下，这种模型非常的好用且简单。主备模式也称之为 Warren 模式
+
+- 主备模式：一种 warren(兔子窝)的模式，是一个主/备方案(主节点如果挂了，从节点提供服务而已，activemq 利用 zookeeper 做主/备一样)
+
+#### HaProxy 配置
+
+```
+listen  rabbitmq_cluster
+bind 0.0.0.0:5672
+#配置TCP模式
+mode tcp
+#简单的轮询
+balance roundrobin
+#主节点
+server rabbitmq_1 172.18.0.2:5672 check inter 5000 rise 2 fall 2
+#备用节点
+server rabbitmq_2 172.18.0.3:5672 backup check inter 5000 rise 2 fall 2
+
+#inter每隔5秒对RabbitMQ集群做健康检查，2次正确证明服务器可用，3次失败证明服务器不可用，并且配置主备机制
+```
 
 ### 远程模式
 
-### 主备模式
+- 远程模式可以实现双活的一种模式，简称 Shovel 模式，所谓 Shovel 就是我们可以把消息进行不同数据中心的复制工作，我们可以跨地域的让两个 RabbitMQ 集群互联
+
+- 远程模式：远程通信和复制，所谓 Shovel 就是我们可以把消息进行不同数据中心的复制工作，我们可以跨地域的让两个 RabbitMQ 集群互联
+
+#### Shovel 集群的配置
+
+```
+#启动RabbitMQ插件
+rabbitmq-plugins enable amqp_client
+rabbitmq-plugins enable rabbitmq_shovel
+#创建rabbitmq.config文件
+touch /etc/rabbitmq/rabbitmq.config
+#最后我们需要源服务器和目的地服务器都使用相同的配置文件(rabbitmq.config)
+```
 
 ### 镜像模式
 
+- 集群模式非常经典的就是 Mirror 镜像，保证 100%数据不丢失，在实际工作中也是用的最多的。并且实现集群非常简单，一般互联网大厂都会构建这种镜像集群模式
+
+- Mirror 镜像队列，目的是为了保证 RabbitMQ 数据的高可靠性解决方案，主要就是实现数据的同步，一般来讲是 2-3 个节点实现数据同步(对于 100%数据可靠性解决方案一般是 3 节点)
+
 ### 多活模式
 
-### 镜像队列
+- 这种模式也是实现异地数据复制的主流模式，因为 Shovel 模式配置比较复制，所以一般来说实现异地集群都是使用这种双活或者多活模型来实现的。这种模型依赖 RabbitMQ 的 federation 插件，可以实现持续的可靠的 AMQP 数据通信，多活模式在实际配置与应用非常简单
 
-### HaProxy
+- RabbitMQ 部署架构采用双中心模式（多中心）在两套（或多套）数据中心各部署一套 RabbitMQ 集群，各中心的 RabbitMQ 服务需要为提供正常的消息业务外，中心之间还需要实现部分队列消息共享。
 
-### KeepAlived
+- federation 插件是一个不需要构建 Cluster，而在 Brokers 之间传输消息的高性能插件，federation 可以在 brokers 或者 cluster 之间传输消息，连接的双方可以使用不同的 users 或者 virtual host 双方也可以使用不同版本的 erlang 或者 RabbitMQ 版本。federation 插件可以使用 AMQP 协议作为通讯协议，可以接受不连续的传输。
 
-### 配置文件
+- Federation Exchanges，可以看成 Downstream 从 Upstream 主动拉取消息，但并不是拉取所有消息，必须是在 Downstream.上已经明确定义 Bindings 关系的 Exchange,也就是有实际的物理 Queue 来接收消息，才会从 Upstream 拉取消息到 Downstream。使用 AMQP 协议实施代理间通信，Downstream 会将绑定关系组合在一起， 绑定/解除绑定命令将发送到 Upstream 交换机。因此，FederationExchange 只接收具有订阅的消息.
+
+### 集群配置文件
+
+#### 关键参数配置
+
+参考：[http://www.rabbitmq.com/configure.html](http://www.rabbitmq.com/configure.html)
+
+- tcp_listerners 设置 rabbimq 的监听端口，默认为[5672]
+- disk_free_limit 磁盘低水位线，若磁盘容量低于指定值则停止接收数据，默认值为{mem_relative, 1.0},即与内存相关联 1：1，也可定制为多少 byte
+- vm_memory_high_watermark，设置内存低水位线，若低于该水位线，则开启流控机制，默认值是 0.4，即内存总量的 40%
+- hipe_compile 将部分 rabbimq 代码用 High Performance Erlang compiler 编译，可提升性能，该参数是实验性，若出现 erlang vm segfaults，应关掉
+- force_fine_statistics， 该参数属于 rabbimq_management，若为 true 则进行精细化的统计，但会影响性能
+
+#### 集群节点模式
+
+- Disk 为磁盘存储模式
+- Ram 为内存存储模式
 
 ### 集群恢复与故障转移
 
