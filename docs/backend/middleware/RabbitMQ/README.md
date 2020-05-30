@@ -458,6 +458,21 @@ touch /etc/rabbitmq/rabbitmq.config
 - Disk 为磁盘存储模式
 - Ram 为内存存储模式
 
-### 集群恢复与故障转移
+### 延迟队列插件
 
-### 集群延迟队列插件应用
+1. 下载插件放到指定目录
+
+[https://www.rabbitmq.com/community-plugins.html](https://www.rabbitmq.com/community-plugins.html)
+
+```shell
+cd /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins
+wget https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.8.0/rabbitmq_delayed_message_exchange-3.8.0.ez
+```
+
+2. 启动插件
+
+```shell
+rabbitmq-plugins enable rabbitmq_delayed_message_exchange
+```
+
+3. 访问地址http://IP:15672/#/exchanges

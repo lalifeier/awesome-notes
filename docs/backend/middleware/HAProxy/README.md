@@ -182,11 +182,12 @@ Keepalived 高可用服务对之间的故障切换转移，是通过 VRRP (Virtu
 
 #### 部署情况
 
-在 rabbitmq-node1、 rabbitmq-node2、 rabbitmq-node3 节点[安装 RabbitMQ](/backend/middleware/RabbitMQ/#centos)
-
 修改三个节点（rabbitmq_node1、rabbitmq_node2、rabbitmq_node3）主机名，然后修改 hosts 配置文件
 
+在 rabbitmq-node1、 rabbitmq-node2、 rabbitmq-node3 节点[安装 RabbitMQ](/backend/middleware/RabbitMQ/#centos)
+
 ```shell
+vim /etc/hostname
 vim /etc/hosts
 192.168.123.36 rabbitmq-node1
 192.168.123.162 rabbitmq-node2
@@ -249,7 +250,7 @@ rabbitmqctl start_app
 ```shell
 #查看集群状态
 rabbitmqctl cluster_status
-#移除集群节点
+#剔除集群节点
 rabbitmqctl forget_cluster_node rabbit@rabbitmq-node2
 #修改集群名称
 rabbitmqctl set_cluster_name rabbitmq_cluster1
