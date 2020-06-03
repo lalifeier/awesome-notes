@@ -1,6 +1,6 @@
 module.exports = {
   title: "awesome-notes",
-  description: "个人笔记",
+  description: "笔记",
   head: [
     ['link', {
       rel: 'icon',
@@ -64,8 +64,12 @@ module.exports = {
   },
   themeConfig: {
     // logo: "/assets/img/logo.png",
-    repo: 'https://github.com/lalifeier/blog',
+    repo: 'https://github.com/lalifeier/awesome-notes',
     repoLabel: 'Github',
+    docsRepo: 'lalifeier/awesome-notes',
+    docsDir: 'docs',
+    docsBranch: 'master',
+    editLinks: true,
     editLinks: true,
     editLinkText: '编辑此页',
     lastUpdated: '上次更新',
@@ -73,7 +77,7 @@ module.exports = {
         text: "主页",
         link: "/"
       },
-      {
+      /*{
         text: "基础",
         items: [{
             text: "计算机网络",
@@ -115,7 +119,7 @@ module.exports = {
             }]
           }
         ]
-      },
+      },*/
       {
         text: "后端",
         items: [{
@@ -139,19 +143,6 @@ module.exports = {
             ]
           },
           {
-            text: "中间件",
-            items: [{
-              text: "Nginx",
-              link: "/backend/middleware/Nginx/"
-            }, {
-              text: "RabbitMQ",
-              link: "/backend/middleware/RabbitMQ/"
-            }, {
-              text: "HAProxy ",
-              link: "/backend/middleware/HAProxy/"
-            }]
-          },
-          {
             text: "数据库",
             items: [{
                 text: "MySQL",
@@ -161,11 +152,24 @@ module.exports = {
                 text: "Redis",
                 link: "/backend/database/Redis/"
               },
-              {
+              /*{
                 text: "MongoDB",
                 link: "/backend/database/MongoDB/"
-              }
+              }*/
             ]
+          },
+          {
+            text: "中间件",
+            items: [{
+              text: "RabbitMQ",
+              link: "/backend/middleware/RabbitMQ/"
+            }, {
+              text: "Nginx",
+              link: "/backend/middleware/Nginx/"
+            }, {
+              text: "HAProxy ",
+              link: "/backend/middleware/HAProxy/"
+            }]
           },
         ]
       },
