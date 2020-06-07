@@ -164,11 +164,11 @@ module.exports = {
               text: "RabbitMQ",
               link: "/backend/middleware/RabbitMQ/"
             }, {
-              text: "Nginx",
-              link: "/backend/middleware/Nginx/"
-            }, {
               text: "HAProxy ",
               link: "/backend/middleware/HAProxy/"
+            }, {
+              text: "Nginx",
+              link: "/backend/middleware/Nginx/"
             }]
           },
         ]

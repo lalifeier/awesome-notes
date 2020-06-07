@@ -194,7 +194,7 @@ docker pull mysql:5.7
 ```shell
 #mkdir -p /home/docker/mysql
 mkdir -p /home/docker/mysql/{conf,logs,data}
-cd /home/docker/mysql  /etc/mysql/mysql.conf.d
+cd /home/docker/mysql
 docker run -d --restart=always -p 3306:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7
 
 #/home/docker/mysql/conf/my.cnf
