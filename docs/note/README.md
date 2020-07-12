@@ -333,7 +333,7 @@ cd jetbrains-toolbox-1.17.6856
 sudo dpkg -i code_1.44.2-1587059832_amd64.deb
 
 #gist id：f6bf07af17c8f782037d85c32b8ecfa0
-#token：66b69a597d34a58f45922574f13f08f3c72b6515
+#token：8b19c6ab6d6bfcb67ac351235c149372801bf696
 ```
 
 #### navicat-premium
