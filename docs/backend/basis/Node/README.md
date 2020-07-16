@@ -43,3 +43,5 @@ npm config set registry https://registry.npm.taobao.org
 # 查看
 npm config get registry
 ```
+
+https://stackoverflow.com/questions/21215059/cant-use-nvm-from-root-or-sudo
