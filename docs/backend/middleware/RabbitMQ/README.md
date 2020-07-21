@@ -160,7 +160,11 @@ docker pull rabbitmq:management
 mkdir -p /home/docker/rabbitmq
 cd /home/docker/rabbitmq
 
-docker run -d --restart=always --hostname rabbitmq -p 5672:5672 -p 15672:15672 -v $PWD:/var/lib/rabbitmq --name rabbitmq rabbitmq:management
+docker run -d --restart=always --hostname rabbitmq -p 5672:5672 -p 15672:15672 -v $PWD:/var/lib/rabbitmq -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin --name rabbitmq rabbitmq:management
+
+#mkdir -p /home/docker/rabbitmq/{conf,log,data}
+#cd /home/docker/rabbitmq
+#docker run -d --restart=always --hostname rabbitmq -p 5672:5672 -p 15672:15672 -v $PWD/conf:/etc/rabbitmq/rabbitmq.conf -v $PWD/log:/var/log/rabbitmq -v $PWD/data:/var/lib/rabbitmq -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin --name rabbitmq rabbitmq:management
 ```
 
 ## AMQP 核心概念
