@@ -122,33 +122,41 @@ module.exports = {
           },
         ],
       },
-      /*{
-        text: "前端",
-        items: [{
-            text: "基础",
-            items: [{
-                text: "HTML",
-                link: "/fontend/basis/HTML/"
-              },
-              {
-                text: "CSS",
-                link: "/fontend/basis/CSS/"
-              },
-              {
-                text: "JavaScript",
-                link: "/fontend/basis/JavaScript/"
-              }
-            ]
-          },
+      {
+        text: '前端',
+        items: [
           {
-            text: "框架",
-            items: [{
-              text: "Vue",
-              link: "/fontend/frame/Vue/"
-            }]
-          }
-        ]
-      },*/
+            text: '基础',
+            items: [
+              /*{
+                text: 'HTML',
+                link: '/fontend/basis/HTML/',
+              },
+              {
+                text: 'CSS',
+                link: '/fontend/basis/CSS/',
+              },
+              {
+                text: 'JavaScript',
+                link: '/fontend/basis/JavaScript/',
+              },*/
+              {
+                text: 'ECMAScript',
+                link: '/fontend/basis/ECMAScript/',
+              },
+            ],
+          },
+          /*{
+            text: '框架',
+            items: [
+              {
+                text: 'Vue',
+                link: '/fontend/frame/Vue/',
+              },
+            ],
+          },*/
+        ],
+      },
       {
         text: '后端',
         items: [
