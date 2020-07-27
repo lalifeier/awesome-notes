@@ -224,6 +224,16 @@ sudo apt-get install powertop
 sudo powertop
 ```
 
+#### 截图
+
+```shell
+apt-cache show flameshot
+//版本号0.6.0以上
+sudo apt install flameshot
+//设置 - 键盘快捷键 - 自定义快捷键
+flameshot gui
+```
+
 ### 软件篇
 
 #### 搜狗输入法
