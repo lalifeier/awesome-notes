@@ -101,10 +101,28 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 git clone https://github.com/wting/autojump.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/autojump
 cd ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/autojump
 ./install.py
+#[[ -s /home/lalifeier/.autojump/etc/profile.d/autojump.sh ]] && source /home/lalifeier/.autojump/etc/profile.d/autojump.sh
 #在 ~/.zshrc 中 plugins=() 中添加上 zsh-autosuggestions，zsh-syntax-highlighting，autojump, 用空格隔开即可
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting autojump)
 
 source ~/.zshrc
+```
+
+::: warning
+/usr/bin/env: “python”: 没有那个文件或目录
+:::
+
+```shell
+#检查系统已安装的 Python 版本
+ls /usr/bin/python*
+#检测是否已存在 Python 的配置方案
+sudo update-alternatives --list python
+#配置python
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+#更改默认 Python 版本
+sudo update-alternatives --config python
+#检查当前 Python 默认版本
+python -V
 ```
 
 #### 参考: [https://github.com/ohmyzsh/ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
