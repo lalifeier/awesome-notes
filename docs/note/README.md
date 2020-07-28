@@ -97,7 +97,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 #​​zsh-syntax-highlighting(命令语法高亮)
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-#autojump(自动跳转)   https://matnoble.me/tech/ubuntu/configure-python-environment-in-ubuntu/
+#autojump(自动跳转)
 git clone https://github.com/wting/autojump.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/autojump
 cd ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/autojump
 ./install.py

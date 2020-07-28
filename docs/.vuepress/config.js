@@ -100,8 +100,7 @@ module.exports = {
     editLinks: true,
     editLinkText: '编辑此页',
     lastUpdated: '上次更新',
-    nav: [
-      {
+    nav: [{
         text: '主页',
         link: '/',
       },
@@ -124,8 +123,7 @@ module.exports = {
       },
       {
         text: '前端',
-        items: [
-          {
+        items: [{
             text: '基础',
             items: [
               /*{
@@ -159,11 +157,9 @@ module.exports = {
       },
       {
         text: '后端',
-        items: [
-          {
+        items: [{
             text: '基础',
-            items: [
-              {
+            items: [{
                 text: 'Go',
                 link: '/backend/basis/Go/',
               },
@@ -179,12 +175,15 @@ module.exports = {
                 text: 'Node',
                 link: '/backend/basis/Node/',
               },
+              {
+                text: 'Python',
+                link: '/backend/basis/Python/',
+              },
             ],
           },
           {
             text: '数据库',
-            items: [
-              {
+            items: [{
                 text: 'MySQL',
                 link: '/backend/database/MySQL/',
               },
@@ -200,8 +199,7 @@ module.exports = {
           },
           {
             text: '中间件',
-            items: [
-              {
+            items: [{
                 text: 'RabbitMQ',
                 link: '/backend/middleware/RabbitMQ/',
               },
@@ -219,8 +217,7 @@ module.exports = {
       },
       {
         text: '工具',
-        items: [
-          {
+        items: [{
             text: 'Git',
             link: '/tool/Git/',
           },
@@ -232,8 +229,7 @@ module.exports = {
       },
       {
         text: '系统',
-        items: [
-          {
+        items: [{
             text: 'CentOS',
             link: '/system/CentOS/',
           },
