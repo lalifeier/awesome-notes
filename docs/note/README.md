@@ -473,8 +473,9 @@ sudo ./studio-3t-linux-x64.sh
 #maven打包
 #mvn package
 cd /opt/studio3t
-wget https://lalifeier.github.io/studio_3t_crack-1.8.jar
-#修改Studio 3T.vmoptions文件, 添加-javaagent及jar包路径
+sudo wget https://lalifeier.github.io/studio_3t_crack-1.8.jar
+#修改Studio-3T.vmoptions文件, 添加-javaagent及jar包路径
+sudo vim Studio-3T.vmoptions
 -javaagent:/opt/studio3t/studio_3t_crack-1.8.jar
 ```
 
@@ -554,6 +555,14 @@ sudo systemctl disable NetworkManager-wait-online.service
 ```shell
 sudo apt-get clean
 sudo apt-get autoremove
+```
+
+#### 修改 DNS
+
+```shell
+#sudo gedit  /etc/systemd/resolved.conf
+#将DNS前的#号去掉，然后加上DNS服务器地址8.8.8.8
+#DNS=8.8.8.8
 ```
 
 ### 提高逼格篇
