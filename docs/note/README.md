@@ -442,6 +442,42 @@ sudo apt-get install libssl-dev
 sudo yum install openssl-devel
 ```
 
+#### postman
+
+```shell
+#https://www.postman.com/downloads/
+sudo tar -zxvf Postman-linux-x64-7.29.1.tar.gz -C /opt
+#创建桌面图标
+
+cat > ~/.local/share/applications/postman.desktop <<EOL
+[Desktop Entry]
+Encoding=UTF-8
+Name=Postman
+Exec=/opt/Postman/Postman
+Icon=/opt/Postman/app/resources/app/assets/icon.png
+Terminal=false
+Type=Application
+Categories=Development;
+EOL
+```
+
+#### studio3t
+
+```shell
+#https://studio3t.com/download/
+wget https://download.studio3t.com/studio-3t/linux/2020.6.0/studio-3t-linux-x64.tar.gz
+tar -zxvf studio-3t-linux-x64.tar.gz
+sudo ./studio-3t-linux-x64.sh
+#破解
+#wget https://lalifeier.github.io/studio_3t_trial.zip
+#maven打包
+#mvn package
+cd /opt/studio3t
+wget https://lalifeier.github.io/studio_3t_crack-1.8.jar
+#修改Studio 3T.vmoptions文件, 添加-javaagent及jar包路径
+-javaagent:/opt/studio3t/studio_3t_crack-1.8.jar
+```
+
 ### 优化篇
 
 #### 关掉 sudo 的密码
