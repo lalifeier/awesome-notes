@@ -345,6 +345,44 @@ sudo fc-cache
 sudo apt-get install vlc
 ```
 
+#### 微信
+
+```shell
+#https://github.com/bestwu/docker-wechat
+#允许所有用户访问X11服务
+#xhost +
+docker run -d --name wechat --device /dev/snd \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v $HOME/WeChatFiles:/WeChatFiles \
+    -e DISPLAY=unix$DISPLAY \
+    -e XMODIFIERS=@im=ibus \
+    -e QT_IM_MODULE=ibus \
+    -e GTK_IM_MODULE=ibus \
+    -e AUDIO_GID=`getent group audio | cut -d: -f3` \
+    -e GID=`id -g` \
+    -e UID=`id -u` \
+    bestwu/wechat:latest
+```
+
+#### qq
+
+```shell
+#https://github.com/bestwu/docker-qq
+docker run -d --name qq \
+  --device /dev/snd \
+  -v $HOME/TencentFiles:/TencentFiles \
+-v /tmp/.X11-unix:/tmp/.X11-unix \
+  -e XMODIFIERS=@im=ibus \
+  -e QT_IM_MODULE=ibus \
+  -e GTK_IM_MODULE=ibus \
+  -e DISPLAY=unix$DISPLAY \
+  -e AUDIO_GID=`getent group audio | cut -d: -f3` \
+  -e VIDEO_GID=`getent group video | cut -d: -f3` \
+  -e GID=`id -g` \
+  -e UID=`id -u` \
+  bestwu/qq:latest
+```
+
 ### 开发工具篇
 
 #### jetbrains-toolbox
