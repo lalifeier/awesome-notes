@@ -229,10 +229,6 @@ module.exports = {
         ],
       },
       {
-        text: '库',
-        link: '/repository/',
-      },
-      {
         text: '系统',
         items: [{
             text: 'CentOS',
@@ -243,6 +239,10 @@ module.exports = {
             link: '/system/Ubuntu/',
           },
         ],
+      },
+      {
+        text: '库',
+        link: '/repository/',
       },
       {
         text: '零星笔记',

@@ -8,8 +8,9 @@ sidebar: auto
 
 - [axios](https://github.com/axios/axios) 目前最常见的请求库
 - [lodash](https://github.com/lodash/lodash) lodash 是一个一致性、模块化、高性能的 JavaScript 实用工具库。
+- [Mock.js](https://github.com/nuysoft/Mock) Mock.js 可以生成随机数据，拦截 Ajax 请求
 
-## 移动端调试
+## 调试
 
 - [weinre](https://github.com/nupthale/weinre) Weinre(Web Inspector Remote)是一款基于 Web Inspector(Webkit)的远程调试工具， 它使用 JS 编写， 可以让我们在电脑上直接调试运行在手机上的远程页面。
 - [spy-debugger](https://github.com/wuchangming/spy-debugger) 一站式页面调试、抓包工具。远程调试任何手机浏览器页面，任何手机移动端 webview（如：微信，HybridApp 等）。支持 HTTP/HTTPS，无需 USB 连接设备。
@@ -27,3 +28,25 @@ sidebar: auto
 - [沙拉查词](https://chrome.google.com/webstore/detail/%E6%B2%99%E6%8B%89%E6%9F%A5%E8%AF%8D-%E8%81%9A%E5%90%88%E8%AF%8D%E5%85%B8%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cdonnmffkdaoajfknoeeecmchibpmkmg?hl=zh-CN) Saladict 沙拉查词是一款专业划词翻译扩展，为交叉阅读而生。
 - [User-Agent Switcher and Manager](https://chrome.google.com/webstore/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg/related?hl=zh-CN) 切换用户代理
 - [ColorZilla](https://chrome.google.com/webstore/detail/colorzilla/bhlhnicpbhignbdhedgjhgdocnmhomnp?hl=zh-CN) 颜色吸取插件
+
+## 接口测试工具
+
+### 插件类
+
+- [Postman Interceptor](https://chrome.google.com/webstore/detail/postman-interceptor/aicmkgpgakddgnaphhhpliifpcfhicfo?hl=zh-CN)
+- [Talend API Tester - Free Edition](https://chrome.google.com/webstore/detail/talend-api-tester-free-ed/aejoelaoggembcahagimdiliamlcdmfm?hl=zh-CN)
+- [Advanced REST client](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo?hl=zh-Cn)
+
+### 平台类
+
+- [Yapi](https://github.com/YMFE/yapi)
+- [DOClever](https://github.com/sx1989827/DOClever)
+- [RAP2](https://github.com/thx/rap2-delos)
+- [EasyMock](https://github.com/easy-mock/easy-mock)
+- [Swagger](https://github.com/swagger-api)
+
+### 终端类
+
+- [Postman](https://www.postman.com/)
+- [SoapUI](https://www.soapui.org/)
+- [DOClever](http://doclever.cn/controller/index/index.html)
