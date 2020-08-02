@@ -98,8 +98,9 @@ module.exports = {
     docsBranch: 'master',
     editLinks: true,
     editLinks: true,
-    editLinkText: '编辑此页',
+    editLinkText: '在 GitHub 上编辑此页',
     lastUpdated: '上次更新',
+    sidebarDepth: 3,
     nav: [{
         text: '主页',
         link: '/',
@@ -226,6 +227,10 @@ module.exports = {
             link: '/tool/Docker/',
           },
         ],
+      },
+      {
+        text: '库',
+        link: '/repository/',
       },
       {
         text: '系统',
