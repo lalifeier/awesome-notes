@@ -192,10 +192,10 @@ module.exports = {
                 text: 'Redis',
                 link: '/backend/database/Redis/',
               },
-              /*{
+              {
                 text: "MongoDB",
                 link: "/backend/database/MongoDB/"
-              }*/
+              }
             ],
           },
           {

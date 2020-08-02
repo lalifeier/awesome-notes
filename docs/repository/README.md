@@ -10,6 +10,10 @@ sidebar: auto
 - [lodash](https://github.com/lodash/lodash) lodash 是一个一致性、模块化、高性能的 JavaScript 实用工具库。
 - [Mock.js](https://github.com/nuysoft/Mock) Mock.js 可以生成随机数据，拦截 Ajax 请求
 
+## 工程化
+
+- [webpack](https://www.webpackjs.com/concepts/) webpack 是一个现代 JavaScript 应用程序的静态模块打包器
+
 ## 调试
 
 - [weinre](https://github.com/nupthale/weinre) Weinre(Web Inspector Remote)是一款基于 Web Inspector(Webkit)的远程调试工具， 它使用 JS 编写， 可以让我们在电脑上直接调试运行在手机上的远程页面。
