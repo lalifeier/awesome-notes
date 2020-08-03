@@ -145,15 +145,13 @@ module.exports = {
               },
             ],
           },
-          /*{
+          {
             text: '框架',
-            items: [
-              {
-                text: 'Vue',
-                link: '/fontend/frame/Vue/',
-              },
-            ],
-          },*/
+            items: [{
+              text: 'Vue',
+              link: '/fontend/frame/Vue/',
+            }, ],
+          },
         ],
       },
       {
