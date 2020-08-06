@@ -9,6 +9,11 @@ sidebar: auto
 - [axios](https://github.com/axios/axios) 目前最常见的请求库
 - [lodash](https://github.com/lodash/lodash) lodash 是一个一致性、模块化、高性能的 JavaScript 实用工具库。
 - [Mock.js](https://github.com/nuysoft/Mock) Mock.js 可以生成随机数据，拦截 Ajax 请求
+- [vuelidate](http://github.com/monterail/vuelidate)  表单验证
+- [vee-validate](https://github.com/logaretm/vee-validate)  表单验证
+- [svg-captcha](https://github.com/produck/svg-captcha) SVG验证码
+- [nodemailer](https://github.com/nodemailer/nodemailer)  发送电子邮件
+
 
 ## 工程化
 
@@ -54,3 +59,10 @@ sidebar: auto
 - [Postman](https://www.postman.com/)
 - [SoapUI](https://www.soapui.org/)
 - [DOClever](http://doclever.cn/controller/index/index.html)
+
+## 接口文档
+
+- [Eolinker](https://www.eolinker.com) 业内领先的 API 全生命周期管理解决方案
+- [Apizza](https://apizza.net/pro/#/) 极客专属的接口协作管理工具
+- [MinDoc](https://www.iminho.me/) MinDoc 是一款针对IT团队开发的简单好用的文档管理系统
+- [ShowDoc](https://www.showdoc.cc/) 一个非常适合IT团队的在线API文档、技术文档工具
