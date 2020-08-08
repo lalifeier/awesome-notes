@@ -42,9 +42,9 @@ devtool: 'source-map',
 ```js
 module.exports = {
   configureWebpack: {
-    devtool: "source-map",
+    devtool: 'source-map',
   },
-};
+}
 ```
 
 3. 从 VS Code 启动应用
@@ -84,7 +84,6 @@ module.exports = {
 
 使用 devtools 有很多好处，比如它可以让你能够实时编辑数据 property 并立即看到其反映出来的变化。另一个主要的好处是能够为 Vuex 提供时间旅行式的调试体验。
 
-
 ## Koa
 
 ### 常用中间件
@@ -94,7 +93,7 @@ module.exports = {
 - [koa-body](https://www.npmjs.com/package/koa-body)
 - [@koa/cors](https://www.npmjs.com/package/@koa/cors)
 - [koa-json](https://www.npmjs.com/package/koa-json)
-- [koa-helmet](https://www.npmjs.com/package/koa-helmet) 设置Http头保障应用程序安全
+- [koa-helmet](https://www.npmjs.com/package/koa-helmet) 设置 Http 头保障应用程序安全
 - [koa-combine-routers](https://www.npmjs.com/package/koa-combine-routers) 路由压缩
 - [koa-static](https://www.npmjs.com/package/koa-static) 静态资源
 

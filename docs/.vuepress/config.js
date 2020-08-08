@@ -101,7 +101,8 @@ module.exports = {
     editLinkText: '在 GitHub 上编辑此页',
     lastUpdated: '上次更新',
     sidebarDepth: 3,
-    nav: [{
+    nav: [
+      {
         text: '主页',
         link: '/',
       },
@@ -115,16 +116,17 @@ module.exports = {
           {
             text: "操作系统",
             link: "/basis/system/"
-          },*/
+          },
           {
             text: '数据结构与算法',
             link: '/basis/algorithm/',
-          },
+          },*/
         ],
       },
       {
         text: '前端',
-        items: [{
+        items: [
+          {
             text: '基础',
             items: [
               /*{
@@ -153,9 +155,11 @@ module.exports = {
       },
       {
         text: '后端',
-        items: [{
+        items: [
+          {
             text: '基础',
-            items: [{
+            items: [
+              {
                 text: 'Go',
                 link: '/backend/basis/Go/',
               },
@@ -179,7 +183,8 @@ module.exports = {
           },
           {
             text: '数据库',
-            items: [{
+            items: [
+              {
                 text: 'MySQL',
                 link: '/backend/database/MySQL/',
               },
@@ -188,14 +193,15 @@ module.exports = {
                 link: '/backend/database/Redis/',
               },
               {
-                text: "MongoDB",
-                link: "/backend/database/MongoDB/"
-              }
+                text: 'MongoDB',
+                link: '/backend/database/MongoDB/',
+              },
             ],
           },
           {
             text: '中间件',
-            items: [{
+            items: [
+              {
                 text: 'RabbitMQ',
                 link: '/backend/middleware/RabbitMQ/',
               },
@@ -213,7 +219,8 @@ module.exports = {
       },
       {
         text: '工具',
-        items: [{
+        items: [
+          {
             text: 'Git',
             link: '/tool/Git/',
           },
@@ -221,11 +228,16 @@ module.exports = {
             text: 'Docker',
             link: '/tool/Docker/',
           },
+          {
+            text: '正则表达式',
+            link: '/tool/Regular Expression/',
+          },
         ],
       },
       {
         text: '系统',
-        items: [{
+        items: [
+          {
             text: 'CentOS',
             link: '/system/CentOS/',
           },
@@ -245,4 +257,4 @@ module.exports = {
       },
     ],
   },
-};
+}
