@@ -2,11 +2,9 @@
 sidebar: auto
 ---
 
-## 介绍
+# Go
 
-#### Go
-
-## 环境安装
+## 开发环境
 
 ### 源码安装
 
@@ -23,7 +21,7 @@ wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz
 tar zxvf go1.14.2.linux-amd64.tar.gz -C /usr/local/
 ```
 
-- 环境变量
+### 环境变量
 
 ```shell
 vim /etc/profile
@@ -65,3 +63,23 @@ go env -w GOPROXY=https://goproxy.cn,direct
 
 - [https://golang.org/dl/](https://golang.org/dl/)
 - [https://golang.google.cn/dl/](https://golang.google.cn/dl/)
+
+### 常用包安装
+
+```shell
+mkdir -p $GOPATH/src/golang.org/x
+git clone https://github.com/golang/tools.git $GOPATH/src/golang.org/x/tools
+git clone https://github.com/golang/net.git $GOPATH/src/golang.org/x/net
+git clone https://github.com/golang/lint.git $GOPATH/src/golang.org/x/lint
+git clone https://github.com/golang/image.git $GOPATH/src/golang.org/x/image
+```
+
+### vscode 配置
+
+#### 安装 go 插件
+
+在 vscode 中点击扩展按钮，搜索 go，安装 go 插件
+
+#### 安装 go 工具
+
+在 vscode 中按下 F1 或 Ctrl+Shift+P，输入 Go:Install/Update Tools 回车
