@@ -27,7 +27,7 @@ tar zxvf go1.14.2.linux-amd64.tar.gz -C /usr/local/
 vim /etc/profile
 #添加以下内容
 export GOROOT=/usr/local/go
-export GOPATH=/home/gopath
+export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 #生效配置
 source /etc/profile
