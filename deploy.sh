@@ -2,9 +2,12 @@
 
 # 确保脚本抛出遇到的错误
 set -e
-npm install -g vuepress@next
+#npm install -g vuepress@next
 # 生成静态文件
-npm run build
+#npm run build
+
+npm install -g yarn
+yarn build
 
 # 进入生成的文件夹
 cd docs/.vuepress/dist
