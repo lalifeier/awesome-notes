@@ -2,11 +2,11 @@
 sidebar: auto
 ---
 
-## 介绍
+# Redis
 
 #### Redis
 
-## 环境安装
+## 开发环境
 
 ### Centos EPEL 仓库安装
 
@@ -208,6 +208,12 @@ wget https://raw.githubusercontent.com/antirez/redis/3.2/redis.conf -O conf/redi
 
 docker run -d --privileged=true --restart=always -p 6379:6379 -v $PWD/conf/redis.conf:/etc/redis/redis.conf -v $PWD/data:/data --name redis redis:3.2 redis-server /etc/redis/redis.conf --appendonly yes
 ```
+
+### 可视化工具
+
+- [Another Redis DeskTop Manager](https://github.com/qishibo/AnotherRedisDesktopManager) 免费
+- [Medis](https://github.com/luin/medis) 收费，开源可以自行编译
+- [Redis Desktop Manager](https://github.com/uglide/RedisDesktopManager) 收费，开源可以自行编译
 
 ## 使用
 

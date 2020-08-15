@@ -517,6 +517,12 @@ sudo vim Studio-3T.vmoptions
 -javaagent:/opt/studio3t/studio_3t_crack-1.8.jar
 ```
 
+#### Redis Desktop Manager
+
+```shell
+sudo snap install redis-desktop-manager
+```
+
 ### 优化篇
 
 #### 关掉 sudo 的密码

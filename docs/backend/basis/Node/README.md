@@ -160,3 +160,7 @@ yarn global bin
 #加入到环境变量
 export PATH=$PATH:/home/lalifeier/.yarn/bin
 ```
+
+## Mongoose
+
+[Mongoose 官方文档](https://mongoosejs.com/docs/index.html)
