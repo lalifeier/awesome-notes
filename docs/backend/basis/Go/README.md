@@ -83,3 +83,22 @@ git clone https://github.com/golang/image.git $GOPATH/src/golang.org/x/image
 #### 安装 go 工具
 
 在 vscode 中按下 F1 或 Ctrl+Shift+P，输入 Go:Install/Update Tools 回车
+
+### idea 配置
+
+- go fmt : 统一的代码格式化工具（必须）。
+- golangci-lint : 静态代码质量检测工具，用于包的质量分析（推荐）。
+- goimports : 自动import依赖包工具（可选）。
+- golint : 代码规范检测，并且也检测单文件的代码质量，比较出名的Go质量评估站点Go Report在使用（可选）。
+
+1. 在idea的设置中，选择Tools - File Watchers
+
+![](https://lalifeier.github.io/image/idea-config.png)
+
+2. 依次点击添加这3个工具
+
+3. golint配置
+
+复制go fmt的配置，修改Name, Program, Arguments三项配置，其中Arguments需要加上-set_exit_status参数
+
+![](https://lalifeier.github.io/image/idea-config-golint-config.png)
