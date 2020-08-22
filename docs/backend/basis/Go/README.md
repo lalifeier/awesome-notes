@@ -91,14 +91,12 @@ git clone https://github.com/golang/image.git $GOPATH/src/golang.org/x/image
 - goimports : 自动import依赖包工具（可选）。
 - golint : 代码规范检测，并且也检测单文件的代码质量，比较出名的Go质量评估站点Go Report在使用（可选）。
 
-1. 在idea的设置中，选择Tools - File Watchers
+1. 在idea的设置中，选择Tools - File Watchers, 依次点击添加这3个工具
 
-![](https://lalifeier.github.io/image/idea-config.png)
+![idea 配置](./idea-config.png)
 
-2. 依次点击添加这3个工具
+2. golint配置
 
-3. golint配置
+复制go fmt的配置，修改Name, Program, Arguments三项配置，其中Arguments需要加上`-set_exit_status`参数
 
-复制go fmt的配置，修改Name, Program, Arguments三项配置，其中Arguments需要加上-set_exit_status参数
-
-![](https://lalifeier.github.io/image/idea-config-golint-config.png)
+![idea 配置 - golint配置](./idea-config-golint-config.png)
