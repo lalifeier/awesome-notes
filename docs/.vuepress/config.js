@@ -126,10 +126,10 @@ module.exports = {
       {
         text: '前端',
         items: [
-          {
+          /*{
             text: '基础',
             items: [
-              /*{
+              {
                 text: 'HTML',
                 link: '/fontend/basis/HTML/',
               },
@@ -140,16 +140,22 @@ module.exports = {
               {
                 text: 'JavaScript',
                 link: '/fontend/basis/JavaScript/',
-              },*/
+              },
               {
                 text: 'ECMAScript',
                 link: '/fontend/basis/ECMAScript/',
               },
             ],
-          },
+          },*/
           {
             text: '框架',
             link: '/fontend/frame/',
+            items: [
+              {
+                text: 'Vue',
+                link: '/fontend/frame/vue/',
+              },
+            ],
           },
         ],
       },
