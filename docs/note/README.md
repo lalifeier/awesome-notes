@@ -402,8 +402,8 @@ cd jetbrains-toolbox-1.17.6856
 # 在https://code.visualstudio.com/下载安装包
 sudo dpkg -i code_1.44.2-1587059832_amd64.deb
 
-#gist id：f6bf07af17c8f782037d85c32b8ecfa0
-#token：OTlhZmE0NjRiYWQyZDM3ZjZkNWJjYzlkMzIwMzI1YWJkMWJmOGI1NiA=
+#gist id：26cd2bab84eb4fccb549cf10bc7eb15d
+#token：YWZjNWRhMzdjMzk4NmUyYTQzYzRlMjZlMjVjY2QzNWE5OTk3MmQ5OQ==
 ```
 
 #### navicat-premium
