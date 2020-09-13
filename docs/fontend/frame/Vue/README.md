@@ -165,6 +165,9 @@ vue --version
 
 ```shell
 vue create hello-world
+
+#git bash
+winpty vue.cmd create hello-world
 ```
 
 ### 调试
