@@ -142,6 +142,8 @@ db.products.insertMany( [
 
 ### find
 
+[Query and Projection Operators](https://docs.mongodb.com/manual/reference/operator/query/)
+
 - [db.collection.find()](https://docs.mongodb.com/manual/reference/method/db.collection.find/)
 
 ```shell
@@ -237,4 +239,22 @@ db.books.update(
 ```
 
 [db.collection.updateOne()](https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/)
+
 [db.collection.updateMany()](https://docs.mongodb.com/manual/reference/method/db.collection.updateMany/)
+
+## 聚合框架
+
+[Aggregation](https://docs.mongodb.com/manual/aggregation/)
+
+### Aggregation Pipeline
+
+```shell
+db.orders.aggregate([
+   { $match: { status: "A" } },
+   { $group: { _id: "$cust_id", total: { $sum: "$amount" } } }
+])
+```
+
+[Aggregation Pipeline Stages](https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline/)
+
+[Aggregation Pipeline Operators](https://docs.mongodb.com/manual/reference/operator/aggregation/)
