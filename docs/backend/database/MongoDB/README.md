@@ -20,7 +20,7 @@ mv mongodb-linux-x86_64-rhel70-4.2.9 mongodb
 cd /usr/local/mongodb
 mkdir -p /usr/local/mongodb/data/db
 mkdir -p /usr/local/mongodb/log
-touch log/mongodb.log
+touch log/mongod.log
 ```
 
 ### Mongo 配置
@@ -32,7 +32,7 @@ vim mongodb.conf
 ```shell
 port = 27017
 dbpath = /usr/local/mongodb/data/db
-logpath = /usr/local/mongodb/log/mongodb.log
+logpath = /usr/local/mongodb/log/mongod.log
 fork = true
 logappend = true
 ```
@@ -51,7 +51,7 @@ source /etc/profile
 ### 启动
 
 ```shell
-mongod --dbpath /usr/local/mongodb/data/db --logpath /usr/local/mongodb/log/mongodb.log --fork
+mongod --dbpath /usr/local/mongodb/data/db --logpath /usr/local/mongodb/log/mongod.log --fork
 mongod --config /usr/local/mongodb/mongodb.conf
 mongo
 ```
@@ -258,3 +258,151 @@ db.orders.aggregate([
 [Aggregation Pipeline Stages](https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline/)
 
 [Aggregation Pipeline Operators](https://docs.mongodb.com/manual/reference/operator/aggregation/)
+
+## 复制集
+
+### 搭建复制集
+
+1. 安装 MongoDB
+
+2. 创建数据目录、日志目录和配置目录
+
+```shell
+mkdir -p /data/mongodb/rs0-0/data /data/mongodb/rs0-1/data /data/mongodb/rs0-2/data
+mkdir -p /data/mongodb/rs0-0/log /data/mongodb/rs0-1/log /data/mongodb/rs0-2/log
+mkdir -p /data/mongodb/conf
+```
+
+3. 配置文件
+
+```shell
+vim /data/mongodb/conf/rs0-0.conf
+#添加以下内容
+systemLog:
+   destination: file
+   path: /data/mongodb/rs0-0/log/mongod.log
+   logAppend: true
+storage:
+   dbPath: /data/mongodb/rs0-0/data
+   journal:
+      enabled: true
+processManagement:
+   fork: true
+replication:
+   replSetName: rs0
+net:
+   bindIp: 0.0.0.0
+   port: 27017
+
+
+vim /data/mongodb/conf/rs0-1.conf
+#添加以下内容
+systemLog:
+   destination: file
+   path: /data/mongodb/rs0-1/log/mongod.log
+   logAppend: true
+storage:
+   dbPath: /data/mongodb/rs0-1/data
+   journal:
+      enabled: true
+processManagement:
+   fork: true
+replication:
+   replSetName: rs0
+net:
+   bindIp: 0.0.0.0
+   port: 27018
+
+
+vim /data/mongodb/conf/rs0-2.conf
+#添加以下内容
+systemLog:
+   destination: file
+   path: /data/mongodb/rs0-2/log/mongod.log
+   logAppend: true
+storage:
+   dbPath: /data/mongodb/rs0-2/data
+   journal:
+      enabled: true
+processManagement:
+   fork: true
+replication:
+   replSetName: rs0
+net:
+   bindIp: 0.0.0.0
+   port: 27019
+```
+
+4. 启动副本集成员
+
+```shell
+mongod -f /data/mongodb/conf/rs0-0.conf
+mongod -f /data/mongodb/conf/rs0-1.conf
+mongod -f /data/mongodb/conf/rs0-2.conf
+```
+
+5. 查看 mongod 进程
+
+```shell
+ps aux | grep mongod
+```
+
+6. 配置复制集
+
+```shell
+#方法一
+#hostname需要被解析
+hostname -f
+mongo --port 27017
+rs.initiate()
+rs.add("HOSTNAME:27018")
+rs.add("HOSTNAME:27019")
+
+#方法二
+mongo --port 27017
+rs.initiate({
+  _id: "rs0",
+  members: [
+    {
+     _id: 0,
+     host: "127.0.0.1:27017"
+    },
+    {
+     _id: 1,
+     host: "127.0.0.1:27018"
+    },
+    {
+     _id: 2,
+     host: "127.0.0.1:27019"
+    }
+   ]
+})
+```
+
+7. 显示当前复制集配置
+
+```shell
+rs.conf()
+```
+
+8. 检查复制集的状态
+
+```shell
+rs.status()
+```
+
+9. 允许从节点读
+
+```shell
+rs.slaveOk()
+```
+
+##
+
+### Mongodump / Mongorestore
+
+```shell
+mongodump -h 127.0.0.1:27017 -d test -c test
+
+mongorestore -h 127.0.0.1:27017 -d test -c test xxx.json
+```
