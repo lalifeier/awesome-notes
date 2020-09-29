@@ -439,3 +439,69 @@ module.exports = {
 安装 [Vue.js devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
 
 使用 devtools 有很多好处，比如它可以让你能够实时编辑数据 property 并立即看到其反映出来的变化。另一个主要的好处是能够为 Vuex 提供时间旅行式的调试体验。
+
+## 升级项目
+
+### 升级 vue-cli 版本
+
+```shell
+vue upgrade
+#出现报错，执行下面命令，然后重新执行上面命令
+rm -rf node_modules
+yarn
+```
+
+### Vscode 格式化代码
+
+Vscode 安装 Vetur 和 Prettier 插件，配置 Vetur `"vetur.format.defaultFormatter.js": "prettier-eslint"`
+
+安装 [prettier-eslint](https://github.com/prettier/prettier-eslint)插件
+
+```shell
+yarn add prettier-eslint -D
+
+cat .prettierrc
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": true
+}
+```
+
+### 依赖更新
+
+安装 [npm-check-updates](https://github.com/raineorshine/npm-check-updates)
+
+```shell
+npm install -g npm-check-updates
+#检查依赖更新
+ncu
+#升级
+ncu -u
+```
+
+### 代码检查
+
+[husky](https://github.com/typicode/husky)
+
+[lint-staged](https://github.com/okonet/lint-staged)
+
+```shell
+yarn add lint-staged husky -D
+
+cat package.json
+#"gitHooks": {"pre-commit": "lint-staged"},替换为如下
+
+"gitHooks": {
+  "pre-commit": "lint-staged"
+},
+"lint-staged": {
+  "*.js": [
+    "vue-cli-service lint",
+  ],
+  "*.vue": [
+    "vue-cli-service lint",
+  ]
+}
+```
