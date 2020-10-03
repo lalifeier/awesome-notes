@@ -498,10 +498,10 @@ cat package.json
 },
 "lint-staged": {
   "*.js": [
-    "vue-cli-service lint",
+    "vue-cli-service lint"
   ],
   "*.vue": [
-    "vue-cli-service lint",
+    "vue-cli-service lint"
   ]
 }
 ```
