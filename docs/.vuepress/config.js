@@ -148,6 +148,15 @@ module.exports = {
             ],
           },*/
           {
+            text: '',
+            items: [
+              {
+                text: '笔记',
+                link: '/fontend/note/',
+              },
+            ],
+          },
+          {
             text: '框架',
             link: '/fontend/frame/',
             items: [

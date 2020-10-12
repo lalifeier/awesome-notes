@@ -493,8 +493,10 @@ yarn add lint-staged husky -D
 cat package.json
 #"gitHooks": {"pre-commit": "lint-staged"},替换为如下
 
-"gitHooks": {
-  "pre-commit": "lint-staged"
+"husky": {
+  "hooks": {
+    "pre-commit": "lint-staged"
+  }
 },
 "lint-staged": {
   "*.js": [

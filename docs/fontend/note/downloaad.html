@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <a href="url" download="url">下载</a> -->
+
+    <button
+      onclick="downloadImage('https://img.mukewang.com/5f6805710001326c18720764.jpg')"
+    >
+      下载
+    </button>
+
+    <script>
+      // window.open(url)
+      // location.href = url
+
+      // function downloadFile(url, fileName) {
+      //   const req = new XMLHttpRequest()
+      //   req.open('GET', url, true)
+      //   req.responseType = 'blob'
+      //   req.onload = function() {
+      //     const blobUrl = window.URL.createObjectURL(req.response)
+      //     download(blobUrl, fileName)
+      //     window.URL.revokeObjectURL(blobUrl)
+      //   }
+      //   req.send()
+      // }
+
+      // async function downloadFile(url, body, fileName) {
+      //   let response = await fetch(url)
+      //   let blob = await response.blob()
+      //   let blobUrl = window.URL.createObjectURL(blob)
+      //   download(blobUrl, fileName)
+      //   window.URL.revokeObjectURL(blobUrl)
+      // }
+
+      // let body = JSON.stringify({})
+      // function downloadFile(url, body, fileName) {
+      //   const req = new XMLHttpRequest()
+      //   req.open('POST', url, true)
+      //   req.responseType = 'blob'
+      //   req.setRequestHeader('Content-Type', 'application/json')
+      //   req.onload = function() {
+      //     const data = req.response
+      //     const blob = new Blob([data])
+      //     const blobUrl = window.URL.createObjectURL(blob)
+      //     download(blobUrl, fileName)
+      //     window.URL.revokeObjectURL(blobUrl)
+      //   }
+      //   req.send(body)
+      // }
+
+      // async function downloadFile(url, body, fileName) {
+      //   let response = await fetch(url, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: body,
+      //   })
+      //   let blob = await response.blob()
+      //   let blobUrl = window.URL.createObjectURL(blob)
+      //   download(blobUrl, fileName)
+      //   window.URL.revokeObjectURL(blobUrl)
+      // }
+
+      function download(blobUrl, fileName = '') {
+        const a = document.createElement('a')
+        a.download = fileName
+        a.href = blobUrl
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+      }
+
+      function downloadImage(url, fileName) {
+        let canvas = document.createElement('canvas')
+        const context = canvas.getContext('2d')
+        let img = new Image()
+        img.crossOrigin = 'Anonymous'
+        img.onload = function() {
+          canvas.width = img.width
+          canvas.height = img.height
+          context.drawImage(img, 0, 0, img.width, img.height)
+          const dataURL = canvas.toDataURL('image/png')
+          console.log(dataURL)
+          download(dataURL)
+          canvas = null
+          img = null
+        }
+        img.src = url
+      }
+    </script>
+  </body>
+</html>
