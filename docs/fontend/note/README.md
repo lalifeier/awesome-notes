@@ -374,3 +374,104 @@ function downloadImage(url, fileName) {
   img.src = url
 }
 ```
+
+## 百分比比较大小
+
+```js
+function compare(a, b) {
+  return parseFloat(a) > parseFloat(b)
+}
+function compare(a, b) {
+  return Number(a.replace('%', '')) > Number(b.replace('%', ''))
+}
+console.log(compare('15%', '4.5%'))
+```
+
+## 数组
+
+### 数组去重
+
+```js
+function unique(arr) {
+  return Array.from(new Set(arr))
+}
+function unique(arr) {
+  return [...new Set(arr)]
+}
+function unique(arr) {
+  const map = new Map()
+  return arr.filter(a => !map.has(a) && map.set(a, 1))
+}
+```
+
+### 数组对象指定属性去重
+
+```js
+function unique(arr, key) {
+  let map = new Map()
+  arr.forEach(item => {
+    if (!map.has(item[key])) {
+      map.set(item[key], item)
+    }
+  })
+  return [...map.values()]
+}
+```
+
+```js
+let hash = {}
+arr = arr.reduce(function(item, next) {
+  hash[next.name] ? '' : (hash[next.name] = true && item.push(next))
+  return item
+}, [])
+```
+
+### 数组排序
+
+```js
+// 升序
+function compare(x, y) {
+  if (x < y) {
+    return -1
+  } else if (x > y) {
+    return 1
+  } else {
+    return 0
+  }
+}
+//降序
+function compare(x, y) {
+  if (x < y) {
+    return 1
+  } else if (x > y) {
+    return -1
+  } else {
+    return 0
+  }
+}
+
+console.log(arr.sort(compare))
+```
+
+### 数组对象排序
+
+```js
+function compare(prop) {
+  return function(obj1, obj2) {
+    var val1 = obj1[prop]
+    var val2 = obj2[prop]
+    if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+      val1 = Number(val1)
+      val2 = Number(val2)
+    }
+    if (val1 < val2) {
+      return -1
+    } else if (val1 > val2) {
+      return 1
+    } else {
+      return 0
+    }
+  }
+}
+arr.sort(compare(prop))
+```

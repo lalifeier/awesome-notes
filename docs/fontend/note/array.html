@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var arr = [
+        {
+          name: 'ZYTX',
+          age:
+            'Y13xG_4wQnOWK1QwJLgg11d0pS4hewePU95UHtpMl3eE81uS74NC-6zu-Rtnw4Ix',
+          gender: 'AAAAAA.doc',
+        },
+        {
+          name: 'ZYTA',
+          age:
+            'Y13xG_4wQnOWK1QwJLgg11d0pS4hewePU95UHtpMl3eE81uS74NC-6zu-Rtnw4Ix',
+          gender: 'BBBBBB.doc',
+        },
+        {
+          name: 'ZDTX',
+          age:
+            'Y13xG_4wQnOWK1QwJLgg11d0pS4hewePU95UHtpMl3eE81uS74NC-6zu-Rtnw4Ix',
+          gender: 'CCCCCC.doc',
+        },
+        {
+          name: 'ZYTX',
+          age:
+            'Y13xG_4wQnOWK1QwJLgg11d0pS4hewePU95UHtpMl3eE81uS74NC-6zu-Rtnw4Ix',
+          gender: 'AAAAAA.doc',
+        },
+      ]
+      let hash = {}
+      arr = arr.reduce(function(item, next) {
+        hash[next.name] ? '' : (hash[next.name] = true && item.push(next))
+        return item
+      }, [])
+      // console.log(arr)
+
+      // let array = [1, 1, 1, 1, 2, 3, 4, 4, 5, 3]
+      // console.log(unique(array))
+
+      // function unique(arr) {
+      //   return Array.from(new Set(arr))
+      // }
+      // function unique(arr) {
+      //   return [...new Set(arr)]
+      // }
+
+      let arrayList = [
+        {
+          id: '1',
+          name: 'one',
+        },
+        {
+          id: '2',
+          name: 'tow',
+        },
+        {
+          id: '3',
+          name: 'three',
+        },
+        {
+          id: '1',
+          name: 'one',
+        },
+        {
+          id: 2,
+          name: 'tow',
+        },
+        {
+          id: '3',
+          name: 'three',
+        },
+        {
+          id: '3',
+          name: 'three',
+        },
+      ]
+      console.log(unique(arrayList, 'id'))
+
+      function unique(arr, key) {
+        let map = new Map()
+        arr.forEach(item => {
+          if (!map.has(item[key])) {
+            map.set(item[key], item)
+          }
+        })
+        return [...map.values()]
+      }
+
+      // function unique(arr) {
+      //   const map = new Map()
+      //   return arr.filter(a => !map.has(a) && map.set(a, 1))
+      // }
+
+      function compare(a, b) {
+        return parseFloat(a) > parseFloat(b)
+      }
+      function compare(a, b) {
+        return Number(a.replace('%', '')) > Number(b.replace('%', ''))
+      }
+      console.log(compare('15%', '4.5%'))
+    </script>
+  </body>
+</html>
