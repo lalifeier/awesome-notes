@@ -97,13 +97,98 @@
       //   return arr.filter(a => !map.has(a) && map.set(a, 1))
       // }
 
-      function compare(a, b) {
-        return parseFloat(a) > parseFloat(b)
+      // function compare(a, b) {
+      //   return parseFloat(a) > parseFloat(b)
+      // }
+      // function compare(a, b) {
+      //   return Number(a.replace('%', '')) > Number(b.replace('%', ''))
+      // }
+      // console.log(compare('15%', '4.5%'))
+
+      let dataArr = [
+        { material_no: '1001', material_name: 'Material 1', qty: 100 },
+        { material_no: '1001', material_name: 'Material 1', qty: 50 },
+        { material_no: '1002', material_name: 'Material 2', qty: 44 },
+        { material_no: '1003', material_name: 'Material 3', qty: 125 },
+        { material_no: '1002', material_name: 'Material 2', qty: 59 },
+        { material_no: '1004', material_name: 'Material 4', qty: 999 },
+        { material_no: '1005', material_name: 'Material 5', qty: 80 },
+        { material_no: '1005', material_name: 'Material 5', qty: 66 },
+      ]
+
+      // const sums = [
+      //   ...data
+      //     .reduce((map, item) => {
+      //       const { material_no: key, qty } = item
+      //       const prev = map.get(key)
+      //       if (prev) {
+      //         prev.qty += qty
+      //       } else {
+      //         map.set(key, Object.assign({}, item))
+      //       }
+      //       return map
+      //     }, new Map())
+      //     .values(),
+      // ]
+
+      // console.log(sums)
+
+      // let result = Object.values(
+      //   data.reduce(
+      //     (a, c) => (
+      //       (a[c.material_no] = a[c.material_no]
+      //         ? ((a[c.material_no].qty += c.qty), a[c.material_no])
+      //         : c),
+      //       a
+      //     ),
+      //     {}
+      //   )
+      // )
+      // console.log(result)
+
+      console.log(groupByWithSum(dataArr, 'material_no', ['qty']))
+      // function groupByWithSum(arr, groupKey, keys) {
+      //   return [
+      //     ...arr
+      //       .reduce((map, item) => {
+      //         const key = item[groupKey]
+      //         const value = map.get(key)
+      //         if (value) {
+      //           keys.forEach(key => {
+      //             value[key] += item[key]
+      //           })
+      //         } else {
+      //           map.set(key, Object.assign({}, item))
+      //         }
+      //         return map
+      //       }, new Map())
+      //       .values(),
+      //   ]
+      // }
+
+      function groupByWithSum(arr, key, keys) {
+        return arr.reduce((total, val) => {
+          let index = total.findIndex(obj => obj[key] == val[key])
+          if (index === -1) {
+            total.push(val)
+          } else {
+            keys.forEach(key => {
+              total[index][key] += val[key]
+            })
+          }
+          return total
+        }, [])
       }
-      function compare(a, b) {
-        return Number(a.replace('%', '')) > Number(b.replace('%', ''))
+
+      console.log(groupBy(dataArr, 'material_no'))
+      function groupBy(arr, key) {
+        return arr.reduce((total, val) => {
+          const value = val[key]
+          total[value] = total[value] || []
+          total[value].push(val)
+          return total
+        }, Object.create(null))
       }
-      console.log(compare('15%', '4.5%'))
     </script>
   </body>
 </html>

@@ -475,3 +475,53 @@ function compare(prop) {
 }
 arr.sort(compare(prop))
 ```
+
+### 数组对象分组
+
+```js
+function groupBy(arr, key) {
+  return arr.reduce((total, val) => {
+    const value = val[key]
+    total[value] = total[value] || []
+    total[value].push(val)
+    return total
+  }, Object.create(null))
+}
+```
+
+### 数组对象分组求和
+
+```js
+function groupByWithSum(arr, groupKey, keys) {
+  return [
+    ...arr
+      .reduce((map, item) => {
+        const key = item[groupKey]
+        const value = map.get(key)
+        if (value) {
+          keys.forEach(key => {
+            value[key] += item[key]
+          })
+        } else {
+          map.set(key, Object.assign({}, item))
+        }
+        return map
+      }, new Map())
+      .values(),
+  ]
+}
+
+function groupByWithSum(arr, key, keys) {
+  return arr.reduce((total, val) => {
+    let index = total.findIndex(obj => obj[key] == val[key])
+    if (index === -1) {
+      total.push(val)
+    } else {
+      keys.forEach(key => {
+        total[index][key] += val[key]
+      })
+    }
+    return total
+  }, [])
+}
+```
