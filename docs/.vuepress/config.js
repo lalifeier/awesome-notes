@@ -3,6 +3,32 @@ module.exports = {
   description: '笔记',
   head: [
     [
+      'script',
+      { src: 'https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js' },
+    ],
+    [
+      'script',
+      {
+        src:
+          'https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js',
+      },
+    ],
+    ['script', { src: 'https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js' }],
+    [
+      'script',
+      { src: 'https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js' },
+    ],
+    [
+      'script',
+      { src: 'https://cdn.jsdelivr.net/npm/zrender@4.3.0/dist/zrender.js' },
+    ],
+    ['script', { src: 'https://d3js.org/d3.v5.js' }],
+    [
+      // https://unpkg.com/three
+      'script',
+      { src: 'https://cdn.jsdelivr.net/npm/three@0.116.1/build/three.js' },
+    ],
+    [
       'link',
       {
         rel: 'icon',
@@ -72,23 +98,45 @@ module.exports = {
   markdown: {
     lineNumbers: true,
   },
-  plugins: {
-    '@vuepress/pwa': {
-      serviceWorker: true,
-      updatePopup: true,
-    },
-    '@vssue/vuepress-plugin-vssue': {
-      // 设置 `platform` 而不是 `api`
-      platform: 'github',
-      locale: 'zh', // 语言设置
+  plugins: [
+    ['@vuepress/back-to-top'],
+    [
+      'demo-block',
+      {
+        settings: {
+          // jsLib: ['http://xxx'], // 在线示例(jsfiddle, codepen)中的js依赖
+          // cssLib: ['http://xxx'], // 在线示例中的css依赖
+          // vue: 'http://xxx', // 在线示例中的vue依赖
+          // react: 'http://xxx', // 在线示例中的react依赖
+          // reactDOM: 'http://xxx', // 在线示例中的reactDOM依赖
+          jsfiddle: true, // 是否显示 jsfiddle 链接
+          codepen: true, // 是否显示 codepen 链接
+          horizontal: false, // 是否展示为横向样式
+        },
+      },
+    ],
+    [
+      '@vuepress/pwa',
+      {
+        serviceWorker: true,
+        updatePopup: true,
+      },
+    ],
+    [
+      '@vssue/vuepress-plugin-vssue',
+      {
+        // 设置 `platform` 而不是 `api`
+        platform: 'github',
+        locale: 'zh', // 语言设置
 
-      // 其他的 Vssue 配置
-      owner: 'OWNER_OF_REPO',
-      repo: 'https://lalifeier.github.io',
-      clientId: '10eb1f99442d5c53795f',
-      clientSecret: '53cce22df6a32da9aae18e50b8e25b12849d9f12',
-    },
-  },
+        // 其他的 Vssue 配置
+        owner: 'OWNER_OF_REPO',
+        repo: 'https://lalifeier.github.io',
+        clientId: '10eb1f99442d5c53795f',
+        clientSecret: '53cce22df6a32da9aae18e50b8e25b12849d9f12',
+      },
+    ],
+  ],
   themeConfig: {
     // logo: "/assets/img/logo.png",
     repo: 'https://github.com/lalifeier/awesome-notes',
@@ -163,6 +211,15 @@ module.exports = {
               {
                 text: 'Vue',
                 link: '/fontend/frame/vue/',
+              },
+            ],
+          },
+          {
+            text: '',
+            items: [
+              {
+                text: '数据可视化',
+                link: '/fontend/data-visualization/',
               },
             ],
           },
