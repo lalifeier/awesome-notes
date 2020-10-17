@@ -1,0 +1,17 @@
+# Numerous always-ignore extensions
+*.bak
+*.patch
+*.diff
+*.err
+
+# temp file for git conflict merging
+*.log
+
+# OS or Editor folders
+.DS_Store
+
+# Folders to ignore
+.idea
+.vscode
+node_modules/
+docs/.vuepress/dist/

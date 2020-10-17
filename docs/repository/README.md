@@ -6,6 +6,7 @@ sidebar: auto
 
 ## 前端常用
 
+- [caniuse](https://caniuse.com/) 查询 CSS/JS 特性 在各种浏览器中的兼容性
 - [axios](https://github.com/axios/axios) 目前最常见的请求库
 - [lodash](https://github.com/lodash/lodash) lodash 是一个一致性、模块化、高性能的 JavaScript 实用工具库。
 - [Mock.js](https://github.com/nuysoft/Mock) Mock.js 可以生成随机数据，拦截 Ajax 请求
