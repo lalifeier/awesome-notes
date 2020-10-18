@@ -409,13 +409,274 @@ html {
 
 经典的 全屏布局 由顶部、底部、主体三部分组成,其特点为 三部分左右满屏拉伸 、 顶部底部高度固定 和 主体高度自适应 ,主要应用在主体布局。该布局很常⻅,也是大部分 Web 应用主体的主流布局。通常使用`<header>` 、 `<footer>` 和 `<main>` 三个标签语义化排版, `<main>` 内还可插入 `<aside>` 作为侧栏。
 
+1. position + left/right/top/bottom
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="fullscreen-layout">
+    <header></header>
+    <main></main>
+    <footer></footer>
+  </div>
+</html>
+<script></script>
+<style>
+  .fullscreen-layout {
+    width: 400px;
+    height: 400px;
+    position: relative;
+  }
+  .fullscreen-layout > header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* width: 100%; */
+    height: 50px;
+    background-color: red;
+  }
+  .fullscreen-layout > footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* width: 100%; */
+    height: 50px;
+    background-color: red;
+  }
+  .fullscreen-layout > main {
+    position: absolute;
+    top: 50px;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    /* width: 100%; */
+    background-color: green;
+  }
+</style>
+```
+
+:::
+
+2. flex
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="fullscreen-layout-flex">
+    <header></header>
+    <main></main>
+    <footer></footer>
+  </div>
+</html>
+<script></script>
+<style>
+  .fullscreen-layout-flex {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 400px;
+  }
+  .fullscreen-layout-flex > header {
+    height: 50px;
+    background-color: red;
+  }
+  .fullscreen-layout-flex > footer {
+    height: 50px;
+    background-color: red;
+  }
+  .fullscreen-layout-flex > main {
+    flex: 1;
+    background-color: green;
+  }
+</style>
+```
+
+:::
+
 ### 两列布局
 
 经典的 两列布局 由左右两列组成,其特点为 一列宽度固定 、 另一列宽度自适应和两列高度固定且相等 。
 
+1. float + margin-left/right
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="two-column-layout">
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .two-column-layout {
+    width: 400px;
+    height: 400px;
+  }
+  .two-column-layout > .left {
+    float: left;
+    width: 100px;
+    height: 100%;
+    background-color: red;
+  }
+  .two-column-layout > .right {
+    margin-left: 100px;
+    height: 100%;
+    background-color: green;
+  }
+</style>
+```
+
+:::
+
+2. overflow + float
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="two-column-layout-overflow">
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .two-column-layout-overflow {
+    width: 400px;
+    height: 400px;
+  }
+  .two-column-layout-overflow > .left {
+    float: left;
+    width: 100px;
+    height: 100%;
+    background-color: red;
+  }
+  .two-column-layout-overflow > .right {
+    overflow: hidden;
+    height: 100%;
+    background-color: green;
+  }
+</style>
+```
+
+:::
+
+3. flex
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="two-column-layout-flex">
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .two-column-layout-flex {
+    display: flex;
+    width: 400px;
+    height: 400px;
+  }
+  .two-column-layout-flex > .left {
+    width: 100px;
+    background-color: red;
+  }
+  .two-column-layout-flex > .right {
+    flex: 1;
+    background-color: green;
+  }
+</style>
+```
+
+:::
+
 ### 三列布局
 
 经典的三列布局 由左中右三列组成,其特点为 连续两列宽度固定 、 剩余一列宽度自适应和三列高度固定且相等 。
+
+1. overflow + float
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="three-column-layout">
+    <div class="left"></div>
+    <div class="center"></div>
+    <div class="right"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .three-column-layout {
+    width: 400px;
+    height: 400px;
+  }
+  .three-column-layout > .left {
+    float: left;
+    width: 50px;
+    height: 100%;
+    background-color: red;
+  }
+  .three-column-layout > .center {
+    float: left;
+    width: 100px;
+    height: 100%;
+    background-color: blue;
+  }
+  .three-column-layout > .right {
+    height: 100%;
+    overflow: hidden;
+    background-color: green;
+  }
+</style>
+```
+
+:::
+
+2. flex
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="three-column-layout">
+    <div class="left"></div>
+    <div class="center"></div>
+    <div class="right"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .three-column-layout-flex {
+    width: 400px;
+    height: 400px;
+    display: flex;
+  }
+  .three-column-layout-flex > .left {
+    width: 50px;
+    background-color: red;
+  }
+  .three-column-layout-flex > .center {
+    width: 100px;
+    background-color: blue;
+  }
+  .three-column-layout-flex > .right {
+    flex: 1;
+    background-color: green;
+  }
+</style>
+```
+
+:::
 
 ### 圣杯布局与双⻜翼布局
 
@@ -431,9 +692,253 @@ html {
   - 圣杯布局:父节点声明 padding 为左右列留出空位,将左右列固定在空位上
   - 双⻜翼布局:中间列插入子节点并声明 margin 为左右列让出空位,将左右列固定在空位上
 
+1. 圣杯布局 float + margin-left/right + padding-left/right
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="grail-layout">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .grail-layout {
+    width: 400px;
+    height: 400px;
+    padding: 0 100px;
+  }
+  .grail-layout > .left {
+    float: left;
+    width: 100px;
+    height: 100%;
+    background-color: red;
+    margin-left: -100px;
+  }
+  .grail-layout > .right {
+    float: right;
+    width: 100px;
+    height: 100%;
+    background-color: green;
+    margin-right: -100px;
+  }
+  .grail-layout > .center {
+    height: 100%;
+    background-color: blue;
+  }
+</style>
+```
+
+:::
+
+2. 双⻜翼布局 float + margin-left/right
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="grail-layout-margin">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <div></div>
+    </div>
+  </div>
+</html>
+<script></script>
+<style>
+  .grail-layout-margin {
+    width: 400px;
+    height: 400px;
+  }
+  .grail-layout-margin > .left {
+    float: left;
+    width: 100px;
+    height: 100%;
+    background-color: red;
+  }
+  .grail-layout-margin > .right {
+    float: right;
+    width: 100px;
+    height: 100%;
+    background-color: green;
+  }
+  .grail-layout-margin > .center {
+    margin: 0 100px;
+    height: 100%;
+    background-color: blue;
+  }
+</style>
+```
+
+:::
+
+3. 圣杯布局 / 双⻜翼布局 flex
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="grail-layout-flex">
+    <div class="left"></div>
+    <div class="center"></div>
+    <div class="right"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .grail-layout-flex {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+  }
+  .grail-layout-flex > .left {
+    width: 100px;
+    background-color: red;
+  }
+  .grail-layout-flex > .right {
+    width: 100px;
+    background-color: green;
+  }
+  .grail-layout-flex > .center {
+    flex: 1;
+    background-color: blue;
+  }
+</style>
+```
+
+:::
+
 ### 均分布局
 
 经典的 均分布局 由多列组成,其特点为 每列宽度相等 和 每列高度固定且相等 。
+
+1. float + width
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="average-layout">
+    <div class="one"></div>
+    <div class="two"></div>
+    <div class="three"></div>
+    <div class="four"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .average-layout {
+    width: 400px;
+    height: 400px;
+  }
+  .average-layout > div {
+    float: left;
+    width: 25%;
+    height: 100%;
+  }
+  .average-layout > .one {
+    background-color: red;
+  }
+  .average-layout > .two {
+    background-color: green;
+  }
+  .average-layout > .three {
+    background-color: yellow;
+  }
+  .average-layout > .four {
+    background-color: blue;
+  }
+</style>
+```
+
+:::
+
+2. column
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="average-layout-column">
+    <div class="one"></div>
+    <div class="two"></div>
+    <div class="three"></div>
+    <div class="four"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .average-layout-column {
+    width: 400px;
+    height: 400px;
+    column-count: 4;
+    column-gap: 0;
+  }
+  .average-layout-column > div {
+    height: 100%;
+  }
+  .average-layout-column > .one {
+    background-color: red;
+  }
+  .average-layout-column > .two {
+    background-color: green;
+  }
+  .average-layout-column > .three {
+    background-color: yellow;
+  }
+  .average-layout-column > .four {
+    background-color: blue;
+  }
+</style>
+```
+
+:::
+
+3. flex
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="average-layout-flex">
+    <div class="one"></div>
+    <div class="two"></div>
+    <div class="three"></div>
+    <div class="four"></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .average-layout-flex {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+  }
+  .average-layout-flex > div {
+    flex: 1;
+  }
+  .average-layout-flex > .one {
+    background-color: red;
+  }
+  .average-layout-flex > .two {
+    background-color: green;
+  }
+  .average-layout-flex > .three {
+    background-color: yellow;
+  }
+  .average-layout-flex > .four {
+    background-color: blue;
+  }
+</style>
+```
+
+:::
 
 ### 居中布局
 
@@ -466,8 +971,254 @@ html {
   - 父节点上声明 display 和 align-items
     - display:flex + margin:auto 0
 
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="center-layout">
+    <div></div>
+  </div>
+</html>
+<script></script>
+<style>
+  .center-layout {
+    width: 400px;
+    height: 400px;
+    background-color: red;
+    text-align: center;
+    line-height: 400px;
+    font-size: 0;
+  }
+  .center-layout > div {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    display: inline-block;
+    vertical-align: middle;
+  }
+</style>
+```
+
+:::
+
+1. display:inline-block
+
+```css
+.center-layout {
+  text-align: center;
+  line-height: 400px;
+  font-size: 0;
+}
+.center-layout > div {
+  display: inline-block;
+  vertical-align: middle;
+}
+```
+
+2. display:table-cell
+
+```css
+.center-layout-table {
+  display: table-cell;
+  vertical-align: middle;
+}
+.center-layout-table > div {
+  margin: 0 auto;
+}
+```
+
+3. position
+
+```css
+.center-layout-position {
+  width: 400px;
+  height: 400px;
+  background-color: red;
+  position: relative;
+}
+.center-layout-position > div {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* margin: -50px 0 0 -50px; */
+  transform: translate(-50%, -50%);
+}
+```
+
+4. flex
+
+```css
+.center-layout-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.center-layout-flex > div {
+  background-color: blue;
+}
+```
+
+```css
+.center-layout-flex {
+  display: flex;
+}
+.center-layout-flex > div {
+  margin: auto;
+}
+```
+
 ### 文字布局
 
-1. 文本环绕
+#### 文本环绕
 
-2. 文字溢出
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="text-wrapping">
+    <img src="https://static.yangzw.vip/codepen/thor.jpg" />
+    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  </div>
+</html>
+<script></script>
+<style>
+  .text-wrapping {
+    width: 400px;
+    height: 300px;
+    word-break: break-all;
+    font-size: 20px;
+    color: #f66;
+  }
+  .text-wrapping > img {
+    float: left;
+    height: 200px;
+    margin: 10px;
+  }
+</style>
+```
+
+:::
+
+#### 文字溢出
+
+::: demo [vanilla]
+
+```html
+<html>
+  <div class="text-ellipsis">
+    <p class="s-line s-ellipsis">
+      玩转 CSS 的艺术之美 玩转 CSS 的艺术之美 玩转 CSS 的艺术之美 玩转 CSS
+      的艺术之美 玩转 CSS 的艺术之美 玩转 CSS 的艺术之美 玩转 CSS 的艺术之美
+      玩转 CSS 的艺术之美 玩转 CSS 的艺术之美
+    </p>
+    <p class="m-line m-ellipsis">
+      玩转 CSS 的艺术之美 玩转 CSS 的艺术之美 玩转 CSS 的艺术之美 玩转 CSS
+      的艺术之美 玩转 CSS 的艺术之美 玩转 CSS 的艺术之美 玩转 CSS 的艺术之美
+      玩转 CSS 的艺术之美 玩转 CSS 的艺术之美
+    </p>
+  </div>
+</html>
+<script></script>
+<style>
+  .text-ellipsis {
+    width: 400px;
+  }
+  .text-ellipsis > p {
+    padding: 0 10px;
+    line-height: 40px;
+    text-align: justify;
+    font-size: 20px;
+    color: #fff;
+  }
+  .text-ellipsis > .s-line {
+    background-color: red;
+  }
+  .text-ellipsis > .m-line {
+    background-color: blue;
+  }
+  .text-ellipsis > .s-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .text-ellipsis > .m-ellipsis {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  /* .text-ellipsis > .m-ellipsis {
+    overflow: hidden;
+    position: relative;
+    max-height: 120px;
+    line-height: 40px;
+  }
+  .text-ellipsis > .m-ellipsis::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-left: 20px;
+    background: linear-gradient(to right, transparent, #fff 50%);
+    content: '...';
+  } */
+</style>
+```
+
+:::
+
+1. 单行文字溢出 overflow + text-overflow
+
+```css
+.s-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+```
+
+2. 多行文字溢出 flex + overflow + text-overflow
+
+使用 旧版弹性布局 模拟 多行文字溢出 ,只能在 Webkit 内核 中使用,局限性太大了。
+
+- display:-webkit-box :将容器作为弹性伸缩盒模型
+- -webkit-box-orient :弹性伸缩盒模型子节点的排列方式
+- -webkit-line-clamp :限制容器最多显示多少行文本
+
+```css
+.m-ellipsis {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+```
+
+通过一些兼容性稳定的属性模拟该 溢出省略号 ,当然是使用伪元素 ::after 胜任这个工作了。结合 max-height 和 line-height 计算最大显示行数,通过定位布局把 省略号 定位到整段文字的右下⻆,使用 linear-gradient() 调整渐变背景颜色稍微润色下省略号使其看上去自然一些。
+
+```css
+.m-ellipsis {
+  overflow: hidden;
+  position: relative;
+  max-height: 120px;
+  line-height: 40px;
+}
+.m-ellipsis::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding-left: 20px;
+  background: linear-gradient(to right, transparent, #fff 50%);
+  content: '...';
+}
+```

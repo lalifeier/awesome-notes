@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .average-layout-column {
+        width: 400px;
+        height: 400px;
+        column-count: 4;
+        column-gap: 0;
+      }
+      .average-layout-column > div {
+        height: 100%;
+      }
+      .average-layout-column > .one {
+        background-color: red;
+      }
+      .average-layout-column > .two {
+        background-color: green;
+      }
+      .average-layout-column > .three {
+        background-color: yellow;
+      }
+      .average-layout-column > .four {
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="average-layout-column">
+      <div class="one"></div>
+      <div class="two"></div>
+      <div class="three"></div>
+      <div class="four"></div>
+    </div>
+  </body>
+</html>

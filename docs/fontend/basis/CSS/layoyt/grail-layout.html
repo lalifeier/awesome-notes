@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .grail-layout {
+        width: 400px;
+        height: 400px;
+        padding: 0 100px;
+      }
+      .grail-layout > .left {
+        float: left;
+        width: 100px;
+        height: 100%;
+        background-color: red;
+        margin-left: -100px;
+      }
+      .grail-layout > .right {
+        float: right;
+        width: 100px;
+        height: 100%;
+        background-color: green;
+        margin-right: -100px;
+      }
+      .grail-layout > .center {
+        height: 100%;
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grail-layout">
+      <div class="left"></div>
+      <div class="right"></div>
+      <div class="center"></div>
+    </div>
+  </body>
+</html>

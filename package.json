@@ -13,7 +13,7 @@
     "@vssue/vuepress-plugin-vssue": "^1.4.6",
     "@vuepress/plugin-back-to-top": "^1.7.1",
     "@vuepress/plugin-pwa": "^1.7.1",
-    "vuepress": "^1.5.3"
+    "vuepress": "^1.7.1"
   },
   "dependencies": {
     "vuepress-plugin-demo-block": "^0.7.2"
