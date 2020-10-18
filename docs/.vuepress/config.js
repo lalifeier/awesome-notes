@@ -99,6 +99,12 @@ module.exports = {
     lineNumbers: true,
   },
   plugins: [
+    [
+      '@vuepress/google-analytics',
+      {
+        ga: 'UA-180781556-1', // UA-00000000-0
+      },
+    ],
     ['@vuepress/back-to-top'],
     [
       'demo-block',
