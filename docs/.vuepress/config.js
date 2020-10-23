@@ -1,3 +1,5 @@
+const utils = require('./utils')
+
 module.exports = {
   title: 'awesome-notes',
   description: '笔记',
@@ -191,10 +193,10 @@ module.exports = {
                 text: 'CSS',
                 link: '/fontend/basis/CSS/',
               },
-              /*{
+              {
                 text: 'JavaScript',
                 link: '/fontend/basis/JavaScript/',
-              },*/
+              },
             ],
           },
           {
@@ -330,5 +332,6 @@ module.exports = {
         link: '/note/',
       },
     ],
+    sidebar: utils.inferSiderbars(),
   },
 }
