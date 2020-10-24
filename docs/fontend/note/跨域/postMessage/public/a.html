@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <iframe
+      id="iframe"
+      src="http://127.0.0.1:3002/b.html"
+      style="display: none;"
+    ></iframe>
+    <script>
+      iframe.onload = function() {
+        iframe.contentWindow.postMessage('test', 'http://127.0.0.1:3002/')
+      }
+
+      window.onmessage = function(e) {
+        console.log(e.data)
+      }
+    </script>
+  </body>
+</html>
