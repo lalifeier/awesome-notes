@@ -182,12 +182,13 @@ module.exports = {
 
 ## nginx 反向代理
 
-nginx.conf
+`/etc/nginx/conf.d/default.conf`
 
 ```conf
 server {
-    listen 80;
-    server_name localhost 127.0.0.1;
+  listen 80;
+  server_name localhost 127.0.0.1;
+
 	location / {
 		# 允许跨域请求的“域”
 		add_header 'Access-Control-Allow-Origin' $http_origin;
@@ -208,7 +209,7 @@ server {
 			return 204;
 		}
 
-		proxy_pass http://127.0.0.1:8080;
+		proxy_pass http://127.0.0.1:3000;
 
 		proxy_set_header Host $host;
 		proxy_set_header X-Real-IP $remote_addr;
