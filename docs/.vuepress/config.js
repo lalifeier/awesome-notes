@@ -197,6 +197,10 @@ module.exports = {
                 text: 'JavaScript',
                 link: '/fontend/basis/JavaScript/',
               },
+              {
+                text: 'TypeScript',
+                link: '/fontend/basis/TypeScript/',
+              },
             ],
           },
           {
