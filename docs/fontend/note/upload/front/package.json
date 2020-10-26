@@ -1,0 +1,20 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server --host --open",
+    "build": "webpack --mode production --progress --hide-modules"
+  },
+  "devDependencies": {
+    "axios": "^0.21.0",
+    "element-ui": "^2.13.2",
+    "html-webpack-plugin": "^4.5.0",
+    "vue": "^2.6.12",
+    "webpack": "^5.2.0",
+    "webpack-cli": "^4.1.0",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {}
+}

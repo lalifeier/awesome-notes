@@ -6,6 +6,11 @@ sidebar: auto
 
 ## 前端常用
 
+- [ecma-international](https://www.ecma-international.org/)
+- [mdn](https://developer.mozilla.org/zh-CN/)
+- [whatwg](https://whatwg.org/)
+- [w3](https://www.w3.org/)
+
 - [caniuse](https://caniuse.com/) 查询 CSS/JS 特性 在各种浏览器中的兼容性
 - [axios](https://github.com/axios/axios) 目前最常见的请求库
 - [lodash](https://github.com/lodash/lodash) lodash 是一个一致性、模块化、高性能的 JavaScript 实用工具库。

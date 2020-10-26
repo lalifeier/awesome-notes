@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- import CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <input type="file" @change="handleFileChange" />
+      <el-button @click="handleUpload">上传</el-button>
+    </div>
+  </body>
+  <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- <script src="https://unpkg.com/spark-md5@3.0.1/spark-md5.js"> -->
+  <script>
+    const SIZE = 10 * 1024 * 1024
+    new Vue({
+      el: '#app',
+      data: {
+        file: null,
+        hash: '',
+        worker: null,
+        hashPercentage: 0,
+        data: [],
+      },
+      methods: {
+        createFileChunk(file, size = SIZE) {
+          const fileChunkList = []
+          let cur = 0
+          while (cur < file.size) {
+            fileChunkList.push({
+              file: file.slice(cur, cur + size),
+            })
+            cur += size
+          }
+          return fileChunkList
+        },
+        calculateHash(fileChunkList) {
+          return new Promise(resolve => {
+            this.worker = new Worker('/hash.js')
+            this.worker.postMessage({ fileChunkList })
+            this.worker.onmessage = e => {
+              const { percentage, hash } = e.data
+              this.hashPercentage = percentage
+              if (hash) {
+                resolve(hash)
+              }
+            }
+          })
+        },
+        async uploadChunks() {
+          const promises = this.data
+            .map(({ chunk, hash }) => {
+              const formData = new FormData()
+              formData.append('chunk', chunk)
+              formData.append('hash', hash)
+              formData.append('filename', this.file.name)
+              formData.append('fileHash', this.hash)
+              return { formData }
+            })
+            .map(({ formData }) => {
+              console.log(formData)
+              axios({
+                method: 'POST',
+                headers: {
+                  'content-type': 'multipart/form-data;charset=UTF-8',
+                },
+                url: 'http://127.0.0.1:3000/api/upload',
+                data: formData,
+              })
+            })
+          await axios.all(promises)
+          await this.mergeRequest()
+        },
+        async mergeRequest() {
+          await axios({
+            method: 'POST',
+            url: 'http://127.0.0.1:3000/api/merge',
+            data: {
+              filename: this.file.name,
+              size: SIZE,
+            },
+          })
+        },
+        async handleUpload() {
+          if (!this.file) {
+            return
+          }
+          const fileChunkList = this.createFileChunk(this.file)
+          this.hash = await this.calculateHash(fileChunkList)
+          this.data = fileChunkList.map(({ file }, index) => ({
+            fileHash: this.hash,
+            hash: this.hash + '-' + index,
+            chunk: file,
+          }))
+          await this.uploadChunks()
+        },
+        handleFileChange(e) {
+          console.log(e)
+          const [file] = e.target.files
+          console.log(file)
+          if (!file) {
+            return
+          }
+          this.file = file
+        },
+      },
+    })
+  </script>
+</html>
