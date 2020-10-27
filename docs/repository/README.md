@@ -10,6 +10,8 @@ sidebar: auto
 - [mdn](https://developer.mozilla.org/zh-CN/)
 - [whatwg](https://whatwg.org/)
 - [w3](https://www.w3.org/)
+- [Type Search](https://www.typescriptlang.org/dt/search?search=)
+- [redux](https://redux.js.org/introduction/installation)
 
 - [caniuse](https://caniuse.com/) 查询 CSS/JS 特性 在各种浏览器中的兼容性
 - [axios](https://github.com/axios/axios) 目前最常见的请求库
