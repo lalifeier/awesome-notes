@@ -16,3 +16,16 @@ allLis.keys()
 document.addEventListener('click', (e)=>{
   e.preventDefault()
 })
+
+
+interface IPerson {
+  name:string,
+  age:number
+}
+let p:IPerson = {name:'123',age:20}
+type IPartial = Partial<IPerson>
+let p2:IPartial = {name:'123'} 
+
+
+type IOmit = Omit<IPerson,'name'>
+let p3: IOmit = {age:20}
