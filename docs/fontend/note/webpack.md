@@ -137,3 +137,5 @@ yarn add node-sass sass-loader -D
 ```shell
 yarn add stylus stylus-loader -D
 ```
+
+- [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/)
