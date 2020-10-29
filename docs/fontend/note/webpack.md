@@ -12,16 +12,29 @@ npx webpack --config webpack.config.js
 
 ## 配置
 
-### 使用 webpack-dev-server
+### 基本配置
 
-- [webpack-dev-server](https://webpack.js.org/configuration/dev-server/)
+```js
+// webpack.config.js
+module.exports = {
+  mode: 'development', //模式 默认两种 production development
+  entry: './src/index.js', //入口
+  output: {
+    filename: 'bundle.[hash:8].js', //打包后的文件名
+    path: path.resolve(__dirname, 'dist'),
+    // publicPath: '/', //cdn路径
+  },
+}
+```
+
+### webpack-dev-server
 
 ```shell
-# 安装
 yarn add webpack-dev-server -D
 ```
 
 ```js
+// webpack.config.js
 module.exports = {
   devServer: {
     //开发服务器配置
@@ -46,16 +59,14 @@ module.exports = {
 
 ```
 
-### 使用 html-webpack-plugin
-
-- [html-webpack-plugin](https://www.webpackjs.com/plugins/html-webpack-plugin/)
+### html
 
 ```shell
-# 安装
 yarn add html-webpack-plugin -D
 ```
 
 ```js
+// webpack.config.js
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
@@ -77,42 +88,63 @@ module.exports = {
 }
 ```
 
-### 样式
-
-- [css-loader style-loader](https://www.webpackjs.com/loaders/style-loader/)
+### css
 
 ```shell
+# css
 yarn add css-loader style-loader -D
+# less
+yarn add less less-loader -D
+# sass
+yarn add node-sass sass-loader -D
+# stylus
+yarn add stylus stylus-loader -D
+# mini-css-extract-plugin
+yarn add mini-css-extract-plugin -D
+# autoprefixer
+yarn add postcss-loader autoprefixer -D
+# 压缩 css
+yarn add optimize-css-assets-webpack-plugin uglifyjs-webpack-plugin -D
 ```
 
 ```js
-{
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        //load顺序 默认从右向左执行
-        use: ['style-loader', 'css-loader'],
-      },
-    ]
-  }
-}
+// webpack.config.js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-//指定参数
-//https://www.webpackjs.com/loaders/style-loader/#insertat
 module.exports = {
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'assets/css/main.css',
+    }),
+  ],
+  optimization: {
+    //优化项
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true, //并发打包
+        sourceMap: true,
+      }),
+      new OptimizeCssAssetsPlugin(),
+    ],
+  },
   module: {
     rules: [
       {
         test: /\.css$/,
+        //css-loader 把css插入到head标签中
+        //load顺序 默认从右向左执行
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.less$/,
         use: [
-          {
-            loader: 'style-loader',
-            options: {
-              insertAt: 'top',
-            },
-          },
+          MiniCssExtractPlugin.loader,
           'css-loader',
+          'postcss-loader',
+          'less-loader',
         ],
       },
     ],
@@ -120,22 +152,169 @@ module.exports = {
 }
 ```
 
-- less
-
-```shell
-yarn add less less-loader -D
+```js
+// .postcss.config.js
+module.exports = {
+  plugins: [require('autoprefixer')()],
+}
 ```
 
-- sass
-
-```shell
-yarn add node-sass sass-loader -D
+```
+// .browserslistrc
+last 1 version
+>1%
+maintained node versions
+not dead
 ```
 
-- stylus
+### js
 
 ```shell
-yarn add stylus stylus-loader -D
+# es6转es5
+yarn add babel-loader @babel/core @babel/preset-env -D
+
+yarn add @babel/plugin-proposal-class-properties -D
+yarn add @babel/plugin-proposal-decorators -D
+
+yarn add @babel/plugin-transform-runtime -D
+yarn add @babel/runtime
+yarn add @babel/polyfill
 ```
 
-- [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/)
+```js
+// webpack.config.js
+const path = require('path')
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        include: path.resolve(__dirname, 'src'),
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            //用babel-loader es6转es5
+            presets: ['@babel/preset-env'],
+            plugins: [
+              ['@babel/plugin-proposal-decorators', { legacy: true }],
+              ['@babel/plugin-proposal-class-properties', { loose: true }],
+              ['@babel/plugin-transform-runtime'],
+            ],
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+### eslint
+
+```shell
+yarn add eslint eslint-loader -D
+```
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'eslint-loader',
+          options: {
+            enforce: 'pre',
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+```js
+// .eslintrc.json
+```
+
+### 全局变量
+
+```shell
+yarn add jquery
+yarn add expose-loader -D
+```
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('jquery'),
+        use: [
+          {
+            loader: 'expose-loader',
+            options: {
+              exposes: {
+                globalName: '$',
+                override: true,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
+### 图片 字体
+
+```shell
+yarn add file-loader  -D
+yarn add html-withimg-loader -D
+# base64
+yarn add url-loader -D
+```
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 50 * 1024,
+              outputPath: 'assets/img/',
+              // publicPath: '', //cdn路径
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(htm|html)$/i,
+        loader: 'html-withimg-loader',
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1 * 1024,
+              outputPath: 'assets/font',
+              // name: '[name].[hash:8].[ext]',
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+```

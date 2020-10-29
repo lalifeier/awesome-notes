@@ -90,10 +90,23 @@
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-eval("console.log('hello')\n\n\n//# sourceURL=webpack:///./src/index.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _logo_jpg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./logo.jpg */ \"./src/logo.jpg\");\n// import style from './index.css'\n// require('./index.less')\n// import '@babel/polyfill'\n// @log\n// class A {\n//   a = 1\n// }\n// let a = new A()\n// console.log(a)\n// function log(target) {\n//   console.log(target)\n// }\n// function* gen(params) {\n//   yield 1\n// }\n// console.log(gen().next())\n// 'aaa'.includes('a')\n// const $ = require('expose-loader?$!jquery')\n// var $ = require('jquery')\n// import $ from 'jquery'\n// console.log($)\n// var jquery = require('expose-loader?jQuery!jquery')\n\nvar image = new Image();\nimage.src = './logo.jpg';\ndocument.body.appendChild(image);\n\n//# sourceURL=webpack:///./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/logo.jpg":
+/*!**********************!*\
+  !*** ./src/logo.jpg ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"e80939841a8e18f3a450f067eb718a24.jpg\");\n\n//# sourceURL=webpack:///./src/logo.jpg?");
 
 /***/ })
 
