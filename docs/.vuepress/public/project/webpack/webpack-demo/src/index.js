@@ -1,6 +1,6 @@
 // import style from './index.css'
 
-require('./index.less')
+// require('./index.less')
 
 // import '@babel/polyfill'
 
@@ -31,7 +31,13 @@ require('./index.less')
 
 // var jquery = require('expose-loader?jQuery!jquery')
 
-import logo from './logo.jpg'
-let image = new Image()
-image.src = logo
-document.body.appendChild(image)
+// import logo from './logo.jpg'
+// let image = new Image()
+// image.src = logo
+// document.body.appendChild(image)
+
+;() => {
+  console.log('--------')
+}
+
+console.log('--------')

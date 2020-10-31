@@ -3,15 +3,48 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
-  mode: 'development', //模式 默认两种 production development
+  mode: 'production', //模式 默认两种 production development
   entry: './src/index.js', //入口
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 500, //防抖
+    poll: 1000, //每秒,
+    ignored: /node_modules/,
+  },
   output: {
     filename: 'bundle.[hash:8].js', //打包后的文件名
     path: path.resolve(__dirname, 'dist'),
     // publicPath: '/', //cdn
   },
+  resolve: {
+    modules: ['node_modules'],
+    // 支持缩写
+    extensions: [
+      '.jsx',
+      '.js',
+      '.web.ts',
+      '.web.tsx',
+      '.web.js',
+      '.web.jsx',
+      '.ts',
+      '.tsx',
+      '.json',
+    ],
+    // 别名
+    alias: {
+      '@': path.join(__dirname, 'src'),
+      '@components': path.resolve(__dirname, '../components'),
+      '@utils': path.resolve(__dirname, '../utils'),
+    },
+    mainFields: ['browser', 'module', 'main'],
+    mainFiles: ['index'],
+  },
+  devtool: 'source-map', //source-map eval-source-map cheap-module-source-map cheap-module-eval-source-map
   devServer: {
     //开发服务器配置
     port: 3000, //端口
@@ -19,6 +52,18 @@ module.exports = {
     contentBase: './build', //指定访问资源目录
     compress: true, //gzip压缩
     open: false, //自动打开浏览器
+    //mock
+    // before: function(app, server, compiler) {
+    //   app.get('/some/path', function(req, res) {
+    //     res.json({ custom: 'response' })
+    //   })
+    // },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        pathRewrite: { '^/api': '' },
+      },
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -35,9 +80,20 @@ module.exports = {
       },
     }),
     // 自动清空dist目录
-    // new CleanWebpackPlugin(),
+    new CleanWebpackPlugin(),
+    // 拷贝文件
+    new CopyPlugin({
+      patterns: [{ from: 'doc', to: './' }],
+    }),
+    //版权声明
+    new webpack.BannerPlugin({
+      banner: '2020 by lalifeier',
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/main.css',
+    }),
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(true),
     }),
   ],
   optimization: {

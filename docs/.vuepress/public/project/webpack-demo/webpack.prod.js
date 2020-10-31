@@ -55,15 +55,15 @@ const prodConfig = {
     minimizer: [
       new UglifyJsPlugin(),
       new OptimizeCssAssetsPlugin({
-        assetNameRegExp:/\.css$/g,
-        cssProcessor:require("cssnano"),
-        cssProcessorPluginOptions:{
-          preset:['default', { discardComments: { removeAll:true } }]
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: require('cssnano'),
+        cssProcessorPluginOptions: {
+          preset: ['default', { discardComments: { removeAll: true } }],
         },
-        canPrint:true
-      })
+        canPrint: true,
+      }),
     ],
-  }
+  },
   output: {
     filename: 'js/[name].[chunkhash:8].bundle.js',
   },
