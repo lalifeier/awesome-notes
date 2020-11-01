@@ -1,10 +1,12 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+const HappyPack = require('happypack')
 
 module.exports = {
   entry: {
@@ -14,7 +16,7 @@ module.exports = {
   output: {
     filename: 'assets/js/[name].[hash:8].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    // publicPath: './',
   },
   watch: true,
   watchOptions: {
@@ -30,35 +32,30 @@ module.exports = {
     },
     extensions: ['*', '.js', '.vue', '.json'],
   },
-  plugins: [
-    new VueLoaderPlugin(),
-    new CleanWebpackPlugin(),
-    new webpack.BannerPlugin({
-      banner: 'by lalifeier',
-    }),
-    // new CopyPlugin({
-    // patterns: [{ from: 'source', to: 'dest' }],
-    // }),
-    new HtmlWebpackPlugin({
-      template: './public/index.html',
-      filename: 'index.html',
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'assets/css/[name].[hash].css',
-      chunkFilename: 'assets/css/[name].[hash].css',
-    }),
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          chunks: 'initial',
+          minChunks: 2,
+          maxInitialRequests: 5,
+          minSize: 0,
+        },
+        vendor: {
+          test: /node_modules/,
+          chunks: 'initial',
+          name: 'vendor',
+          priority: 10,
+          enforce: true,
+        },
       },
-      {
-        test: /\.js$/,
-        include: path.resolve(__dirname, 'src'),
-        exclude: /(node_modules|bower_components)/,
-        use: {
+    },
+  },
+  plugins: [
+    new HappyPack({
+      id: 'babel',
+      loaders: [
+        {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
@@ -69,6 +66,52 @@ module.exports = {
             ],
           },
         },
+      ],
+    }),
+    new AddAssetHtmlPlugin({
+      filepath: require.resolve(
+        path.resolve(__dirname, 'public/vendor/vendor.dll.js')
+      ),
+      outputPath: 'vendor',
+      publicPath: 'vendor',
+    }),
+    new webpack.DllReferencePlugin({
+      manifest: path.join(
+        __dirname,
+        'public',
+        'vendor',
+        'vendor-manifest.json'
+      ),
+    }),
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/,
+    }),
+    new VueLoaderPlugin(),
+    new CleanWebpackPlugin(),
+    new webpack.BannerPlugin({
+      banner: 'by lalifeier',
+    }),
+    // new CopyPlugin({
+    //   patterns: [{ from: 'public/vendor', to: 'vendor' }],
+    // }),
+    new MiniCssExtractPlugin({
+      filename: 'assets/css/[name].[hash].css',
+      chunkFilename: 'assets/css/[name].[hash].css',
+    }),
+  ],
+  module: {
+    noParse: '/jquery|lodash/',
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
+      {
+        test: /\.js$/,
+        include: path.resolve(__dirname, 'src'),
+        exclude: /(node_modules|bower_components)/,
+        use: 'happypack/loader?id=babel',
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
@@ -76,9 +119,10 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 10 * 1024,
+              limit: 1 * 1024,
               outputPath: 'assets/img/',
               name: '[name].[hash:8].[ext]',
+              esModule: false,
             },
           },
         ],

@@ -191,12 +191,10 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, 'src'),
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.less$/,
-        include: path.resolve(__dirname, 'src'),
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
@@ -206,7 +204,6 @@ module.exports = {
       },
       {
         test: /\.(sass|scss)$/,
-        include: path.resolve(__dirname, 'src'),
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
@@ -239,8 +236,9 @@ not dead
 ```shell
 # 将es6语法转为es5
 yarn add babel-loader @babel/core @babel/preset-env -D
-
+# 解析class类的属性
 yarn add @babel/plugin-proposal-class-properties -D
+# 解析装饰器模式语法
 yarn add @babel/plugin-proposal-decorators -D
 
 yarn add @babel/plugin-transform-runtime -D
@@ -283,7 +281,7 @@ module.exports = {
 
 ```shell
 yarn add file-loader url-loader -D
-yarn add html-withimg-loader -D
+# yarn add html-withimg-loader -D
 ```
 
 ```js
@@ -299,6 +297,7 @@ module.exports = {
               limit: 10 * 1024,
               outputPath: 'img/',
               name: '[name].[hash:8].[ext]',
+              esModule: false,
             },
           },
         ],
@@ -316,10 +315,10 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.(htm|html)$/i,
-        loader: 'html-withimg-loader',
-      },
+      // {
+      //   test: /\.(htm|html)$/i,
+      //   loader: 'html-withimg-loader',
+      // },
     ],
   },
 }
@@ -425,6 +424,39 @@ module.exports = {
 }
 ```
 
+### 全局变量
+
+- [expose-loader](https://webpack.js.org/loaders/expose-loader/)
+
+```shell
+yarn add jquery
+yarn add expose-loader -D
+```
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('jquery'),
+        use: [
+          {
+            loader: 'expose-loader',
+            options: {
+              exposes: {
+                globalName: '$',
+                override: true,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
 ## 插件
 
 ### [DefinePlugin](https://webpack.js.org/plugins/define-plugin/)
@@ -503,5 +535,263 @@ module.exports = {
       banner: '2020 by lalifeier',
     }),
   ],
+}
+```
+
+### [add-asset-html-webpack-plugin](https://github.com/SimenB/add-asset-html-webpack-plugin)
+
+```shell
+yarn add add-asset-html-webpack-plugin -D
+```
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+module.exports = {
+  plugins: [
+    new HtmlWebpackPlugin(),
+    new AddAssetHtmlPlugin({ filepath: require.resolve('./some-file') }),
+  ],
+}
+```
+
+### [ProvidePlugin](https://webpack.js.org/plugins/provide-plugin/)
+
+```js
+yarn add jquery
+```
+
+```js
+module.exports = {
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+    }),
+  ],
+}
+```
+
+## 优化
+
+### [noParse](https://webpack.js.org/configuration/module/)
+
+```js
+module.exports = {
+  module: {
+    // 不去解析文件
+    noParse: '/jquery|lodash/',
+  },
+}
+```
+
+### [IgnorePlugin](https://webpack.js.org/plugins/ignore-plugin/)
+
+```js
+module.exports = {
+  plugins: [
+    // 忽略第三方包指定目录
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/,
+    }),
+  ],
+}
+```
+
+```js
+import 'moment/locale/zh-cn'
+```
+
+### [DllPlugin](https://webpack.js.org/plugins/dll-plugin/)
+
+```js
+// webpack.dll.config.js
+const path = require('path')
+const webpack = require('webpack')
+
+module.exports = {
+  mode: 'production',
+  entry: {
+    vendor: ['vue', 'lodash', 'element-ui', 'axios'],
+  },
+  output: {
+    path: path.resolve(__dirname, 'public/vendor'),
+    filename: '[name].dll.js',
+    library: '[name]_library',
+  },
+  plugins: [
+    // 动态链接库DLL
+    new webpack.DllPlugin({
+      name: '[name]_library',
+      path: path.join(__dirname, 'public', 'vendor', '[name]-manifest.json'),
+    }),
+  ],
+}
+```
+
+```js
+// webpack.config.js
+const path = require('path')
+const webpack = require('webpack')
+
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+
+module.exports = {
+  plugins: [
+    new AddAssetHtmlPlugin({
+      filepath: require.resolve(
+        path.resolve(__dirname, 'public/vendor/vendor.dll.js')
+      ),
+      outputPath: 'vendor',
+      publicPath: 'vendor',
+    }),
+    new HtmlWebpackPlugin(),
+    new webpack.DllReferencePlugin({
+      manifest: path.join(
+        __dirname,
+        'public',
+        'vendor',
+        'vendor-manifest.json'
+      ),
+    }),
+  ],
+}
+```
+
+```json
+// package.json
+{
+  "scripts": {
+    "dll": "webpack --config webpack.dll.config.js"
+  }
+}
+```
+
+### [happypack](https://github.com/amireh/happypack)
+
+```shell
+yarn add happypack -D
+```
+
+```js
+const HappyPack = require('happypack')
+
+module.exports = {
+  plugins: [
+    //并行打包
+    new HappyPack({
+      id: 'babel',
+      loaders: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: [
+              ['@babel/plugin-proposal-decorators', { legacy: true }],
+              ['@babel/plugin-proposal-class-properties', { loose: true }],
+              ['@babel/plugin-transform-runtime'],
+            ],
+          },
+        },
+      ],
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: path.resolve(__dirname, 'src'),
+        exclude: /(node_modules|bower_components)/,
+        use: 'happypack/loader?id=babel',
+      },
+    ],
+  },
+}
+```
+
+### [Tree Shaking](https://webpack.js.org/guides/tree-shaking/)
+
+### Scope Hoisting
+
+- [ModuleConcatenationPlugin](https://webpack.js.org/plugins/module-concatenation-plugin/)
+
+### 提取公共代码
+
+- [CommonsChunkPlugin](https://webpack.js.org/plugins/commons-chunk-plugin/)
+- [common-chunk-and-vendor-chunk](https://github.com/webpack/webpack/tree/master/examples/common-chunk-and-vendor-chunk)
+
+### 懒加载
+
+- [Lazy Loading](https://webpack.js.org/guides/lazy-loading/)
+- [Dynamic Imports](https://webpack.js.org/guides/code-splitting/#dynamic-imports)
+
+```js
+//main.js
+document.getElementById('btn').addEventListener('click', function() {
+  import(/* webpackChunkName:"show" */ './show').then(show => {
+    show('Webpack')
+  })
+})
+//show.js
+module.exports = function(content) {
+  window.alert('Hello ' + content)
+}
+```
+
+### 热更新
+
+```js
+const webpack = require('webpack')
+
+module.exports = {
+  devServer: {
+    hot: true,
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+  ],
+}
+```
+
+```js
+// 业务代码
+if (module.hot) {
+  module.hot.accept('./hello.js', function() {
+    div.innerHTML = hello()
+  })
+}
+```
+
+### CDN
+
+```js
+module.exports = {
+  entry: {
+    pageA: './pageA',
+    pageB: './pageB',
+    pageC: './pageC',
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          chunks: 'initial',
+          minChunks: 2,
+          maxInitialRequests: 5, // The default limit is too small to showcase the effect
+          minSize: 0, // This is example is too small to create commons chunks
+        },
+        vendor: {
+          test: /node_modules/,
+          chunks: 'initial',
+          name: 'vendor',
+          priority: 10,
+          enforce: true,
+        },
+      },
+    },
+  },
 }
 ```

@@ -3,11 +3,16 @@ const common = require('./webpack.common.js')
 
 const path = require('path')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = merge(common, {
   mode: 'development',
+  output: {
+    publicPath: '/',
+  },
   devtool: 'cheap-module-eval-source-map',
   devServer: {
+    hot: true,
     port: 3000,
     progress: true,
     contentBase: path.resolve(__dirname, 'dist'),
@@ -21,15 +26,22 @@ module.exports = merge(common, {
     },
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      filename: 'index.html',
+      inject: true,
+      chunks: ['index'],
     }),
   ],
   module: {
     rules: [
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, 'src'),
         use: [
           'vue-style-loader',
           'style-loader',
@@ -39,7 +51,6 @@ module.exports = merge(common, {
       },
       {
         test: /\.less$/,
-        include: path.resolve(__dirname, 'src'),
         use: [
           'vue-style-loader',
           'style-loader',
@@ -50,7 +61,6 @@ module.exports = merge(common, {
       },
       {
         test: /\.(sass|scss)$/,
-        include: path.resolve(__dirname, 'src'),
         use: [
           'vue-style-loader',
           'style-loader',
