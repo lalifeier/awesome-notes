@@ -8,6 +8,9 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const HappyPack = require('happypack')
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
+
 module.exports = {
   entry: {
     index: './src/index.js',
@@ -52,6 +55,10 @@ module.exports = {
     },
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled',
+      generateStatsFile: true,
+    }),
     new HappyPack({
       id: 'babel',
       loaders: [
