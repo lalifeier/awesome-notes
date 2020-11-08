@@ -4,10 +4,12 @@ const common = require('./webpack.common.js')
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = merge(common, {
   mode: 'development',
   output: {
+    filename: 'assets/js/[name].[hash:8].bundle.js',
     publicPath: '/',
   },
   devtool: 'cheap-module-eval-source-map',
@@ -26,6 +28,10 @@ module.exports = merge(common, {
     },
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'assets/css/[name].[hash:8].css',
+      chunkFilename: 'assets/css/[name].[hash:8].css',
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({

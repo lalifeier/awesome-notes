@@ -1,5 +1,4 @@
 const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
@@ -17,21 +16,13 @@ module.exports = {
     // app: './src/app.js',
   },
   output: {
-    filename: 'assets/js/[name].[hash:8].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    // publicPath: './',
-  },
-  watch: true,
-  watchOptions: {
-    aggregateTimeout: 500,
-    poll: 1000,
-    ignored: /node_modules/,
   },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      // '@components': path.resolve(__dirname, '../components'),
-      // '@utils': path.resolve(__dirname, '../utils'),
+      '@components': path.resolve(__dirname, '../components'),
+      '@utils': path.resolve(__dirname, '../utils'),
     },
     extensions: ['*', '.js', '.vue', '.json'],
   },
@@ -102,10 +93,6 @@ module.exports = {
     // new CopyPlugin({
     //   patterns: [{ from: 'public/vendor', to: 'vendor' }],
     // }),
-    new MiniCssExtractPlugin({
-      filename: 'assets/css/[name].[hash].css',
-      chunkFilename: 'assets/css/[name].[hash].css',
-    }),
   ],
   module: {
     noParse: '/jquery|lodash/',

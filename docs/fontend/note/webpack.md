@@ -572,6 +572,45 @@ module.exports = {
 }
 ```
 
+### [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)
+
+```shell
+yarn add webpack-bundle-analyzer -D
+```
+
+```js
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
+
+module.exports = {
+  plugins: [new BundleAnalyzerPlugin()],
+}
+```
+
+```js
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
+
+module.exports = {
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled',
+      generateStatsFile: true,
+    }),
+  ],
+}
+```
+
+```js
+// package.json
+{
+  "scripts": {
+    "generateAnalyzFile": "webpack --config webpack.prod.js --profile --json > ./dist/stats.json",
+    "analyz": "webpack-bundle-analyzer --port 8888 ./dist/stats.json"
+  },
+}
+```
+
 ## 优化
 
 ### [noParse](https://webpack.js.org/configuration/module/)

@@ -11,9 +11,16 @@ const path = require('path')
 module.exports = merge(common, {
   mode: 'production',
   output: {
+    filename: 'assets/js/[name].[chunkhash:8].bundle.js',
     publicPath: './',
   },
   devtool: 'cheap-module-source-map',
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 500,
+    poll: 1000,
+    ignored: /node_modules/,
+  },
   performance: {
     hints: 'warning',
     maxEntrypointSize: 5000000,
@@ -23,32 +30,25 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
+    new MiniCssExtractPlugin({
+      filename: 'assets/css/[name].[contenthash:8].css',
+      chunkFilename: 'assets/css/[name].[contenthash:8].css',
+    }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: 'index.html',
       inject: true,
       chunks: ['index'],
-      // 压缩html
       minify: {
-        // 移除注释
         removeComments: true,
-        // 不要留下任何空格
         collapseWhitespace: true,
-        // 当值匹配默认值时删除属性
         removeRedundantAttributes: true,
-        // 使用短的doctype替代doctype
         useShortDoctype: true,
-        // 移除空属性
         removeEmptyAttributes: true,
-        // 从style和link标签中删除type="text/css"
         removeStyleLinkTypeAttributes: true,
-        // 保留单例元素的末尾斜杠。
         keepClosingSlash: true,
-        // 在脚本元素和事件属性中缩小JavaScript(使用UglifyJS)
         minifyJS: true,
-        // 缩小CSS样式元素和样式属性
         minifyCSS: true,
-        // 在各种属性中缩小url
         minifyURLs: true,
       },
     }),
