@@ -6,8 +6,11 @@
 yarn init -y
 yarn add webpack webpack-cli -D
 
-//指定配置文件打包
-npx webpack --config webpack.config.js
+# 全局安装
+yarn global add webpack webpack-cli
+# 使用webpack
+node_modules/.bin/webpack
+npx webpack
 ```
 
 ## 配置

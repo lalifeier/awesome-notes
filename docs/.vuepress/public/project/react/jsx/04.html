@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+      const message1 = <h2>hi</h2>
+      const message2 = React.createElement('h2', null, 'hi')
+      ReactDOM.render(message1, document.getElementById('app'))
+
+      // class App extends React.Component {
+      //   constructor() {
+      //     super()
+      //     this.state = {}
+      //   }
+
+      //   render() {
+      //     return <div></div>
+      //   }
+      // }
+
+      // ReactDOM.render(<App />, document.getElementById('app'))
+    </script>
+  </body>
+</html>

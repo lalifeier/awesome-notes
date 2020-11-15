@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+      function getSizeImage(imgUrl, size) {
+        return imgUrl + `?param=${size}x${size}`
+      }
+      class App extends React.Component {
+        constructor() {
+          super()
+          this.state = {
+            name: 'zhang',
+            age: 18,
+            names: ['abc', 'cba'],
+
+            // 不显示
+            test1: null,
+            test2: undefined,
+            test3: false,
+
+            title: '标题',
+            imgUrl:
+              'http://p2.music.126.net/9tIFFaFyyQeTWbxeRXLnVw==/109951165465468498.jpg',
+            link: 'http://baidu.com',
+            active: true,
+
+            counter: 0,
+
+            movies: ['大话西游', '盗梦空间', '星际穿越', '流浪地铁'],
+
+            isLogin: false,
+
+            numbers: [110, 123, 50, 32, 55, 203, 629, 15],
+          }
+
+          this.btnClick = this.btnClick.bind(this)
+        }
+
+        render() {
+          let welcome = null
+          if (this.state.isLogin) {
+            welcome = <h2>欢迎回来</h2>
+          } else {
+            welcome = <h2>请先登录</h2>
+          }
+
+          return (
+            <div>
+              {/* 注释 */}
+              <h2>{this.state.name}</h2>
+              <h2>{this.state.age}</h2>
+              <h2>{this.state.names}</h2>
+              <h2>{this.state.test1}</h2>
+              <h2>{this.state.test2}</h2>
+              <h2>{this.state.test3.toString()}</h2>
+              {/* 绑定普通属性 */}
+              <h2 title={this.state.title}></h2>
+              <img src={getSizeImage(this.state.imgUrl, 140)} alt="" />
+              <a
+                href={this.state.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                百度一下
+              </a>
+              {/* 绑定class */}
+              <div className="box title">div</div>
+              <div
+                className={'box title ' + (this.state.active ? 'active' : '')}
+              >
+                div2
+              </div>
+              <label htmlFor=""></label>
+              {/* 绑定style */}
+              <div style={{ color: 'red', fontSize: '12px' }}>div3</div>
+              {/* 绑定事件 */}
+              {/* bind绑定this */}
+              <button onClick={this.btnClick.bind(this)}>按钮</button>
+              <button onClick={this.btnClick}>按钮</button>
+
+              {/* 箭头函数 */}
+              <button onClick={this.increment}>+1</button>
+
+              {/* 直接传入一个箭头函数，在箭头函数中调用需要执行的函数 */}
+              <button
+                onClick={() => {
+                  this.decrement()
+                }}
+              >
+                -1
+              </button>
+
+              <button onClick={this.btnClick.bind(this)}>按钮</button>
+
+              <h2>电影列表</h2>
+              <ul>
+                {this.state.movies.map((item, index, arr) => {
+                  return (
+                    <li
+                      onClick={e => {
+                        this.liClick(item, index, e)
+                      }}
+                    >
+                      {item}
+                    </li>
+                  )
+                })}
+              </ul>
+
+              {welcome}
+              <button onClick={e => this.loginClick()}>
+                {this.state.isLogin ? '退出' : '登录'}
+              </button>
+              <h2 style={{ display: this.state.isLogin ? 'block' : 'none' }}>
+                hi
+              </h2>
+              <h2>{this.state.isLogin ? 'hi' : null}</h2>
+              <h2>{this.state.isLogin && 'hi'}</h2>
+
+              <h2>数字列表</h2>
+              <ul>
+                {this.state.numbers
+                  .filter(item => item >= 50)
+                  .map(item => (
+                    <li>{item}</li>
+                  ))}
+              </ul>
+
+              <h2>数字列表</h2>
+              <ul>
+                {this.state.numbers.slice(0, 4).map(item => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        loginClick() {
+          this.setState({
+            isLogin: !this.state.isLogin,
+          })
+        }
+
+        btnClick(event) {
+          console.log(event)
+          console.log(this)
+        }
+
+        increment = () => {
+          console.log(this)
+        }
+
+        decrement() {
+          console.log(this)
+        }
+
+        liClick(item, index, e) {
+          console.log(item, index, e)
+        }
+      }
+
+      // const element = <h2>hello</h2>
+      ReactDOM.render(<App />, document.getElementById('app'))
+    </script>
+  </body>
+</html>

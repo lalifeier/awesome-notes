@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+      let msg = 'hello'
+      function btnClick() {
+        msg = 'hi'
+        render()
+      }
+
+      function render() {
+        ReactDOM.render(
+          <div>
+            <h2>{msg}</h2>
+            <button onClick={btnClick}>按钮</button>
+          </div>,
+          document.getElementById('app')
+        )
+      }
+      render()
+    </script>
+  </body>
+</html>

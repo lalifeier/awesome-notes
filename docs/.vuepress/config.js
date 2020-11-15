@@ -220,6 +220,10 @@ module.exports = {
                 text: 'Vue',
                 link: '/fontend/frame/vue/',
               },
+              {
+                text: 'React',
+                link: '/fontend/frame/React/',
+              },
             ],
           },
           {

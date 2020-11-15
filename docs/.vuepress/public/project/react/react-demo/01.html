@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2 class="title"></h2>
+    <button class="btn">按钮</button>
+    <script>
+      let msg = 'hello'
+      const titleEl = document.getElementsByClassName('title')[0]
+      titleEl.innerHTML = msg
+      const btnEl = document.getElementsByClassName('btn')[0]
+      btnEl.addEventListener('click', e => {
+        msg = 'hi'
+        titleEl.innerHTML = msg
+      })
+    </script>
+  </body>
+</html>
