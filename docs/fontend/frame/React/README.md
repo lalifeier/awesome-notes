@@ -13,3 +13,11 @@ sidebar: auto
 - react
 - react-dom
 - babel
+
+## jsx
+
+- createElement 函数
+
+- ReactElement 对象树
+
+- ReactDOM.render 函数
