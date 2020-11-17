@@ -21,3 +21,21 @@ sidebar: auto
 - ReactElement 对象树
 
 - ReactDOM.render 函数
+
+## create-react-app
+
+```shell
+# 全局安装
+npm install -g create-react-app
+create-react-app my-app
+
+# npx
+npx create-react-app my-app
+# npm
+npm init react-app my-app
+# Yarn
+yarn create react-app my-app
+
+cd my-app
+yarn start
+```
