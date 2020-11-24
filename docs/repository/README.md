@@ -24,6 +24,12 @@ sidebar: auto
 - [svg-captcha](https://github.com/produck/svg-captcha) SVG 验证码
 - [nodemailer](https://github.com/nodemailer/nodemailer) 发送电子邮件
 
+## 样式库
+
+- [Bootstrap](https://getbootstrap.com/)
+- [tailwindcss](https://tailwindcss.com/)
+- [Foundation](https://get.foundation/)
+
 ## 工程化
 
 - [webpack](https://www.webpackjs.com/concepts/) webpack 是一个现代 JavaScript 应用程序的静态模块打包器

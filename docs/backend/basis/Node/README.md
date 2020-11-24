@@ -2,7 +2,7 @@
 sidebar: auto
 ---
 
-## 介绍
+# 介绍
 
 #### Node
 
@@ -159,6 +159,143 @@ zsh: command not found: yrm
 yarn global bin
 #加入到环境变量
 export PATH=$PATH:/home/lalifeier/.yarn/bin
+```
+
+## 模块
+
+### [http](https://nodejs.org/dist/latest-v14.x/docs/api/http.html)
+
+- `http.Server`
+
+```js
+const http = require('http')
+
+const server = http.createServer((request, response) => {
+  let data = ''
+
+  request.on('data', chunk => {
+    data += chunk
+  })
+  request.on('end', () => {
+    let method = request.method
+    let headers = JSON.stringify(request.headers)
+    let httpVersion = request.httpVersion
+    let requireUrl = request.url
+    response.writeHead(200, { 'Content-Type': 'text/html' })
+
+    let responseData =
+      method + ', ' + headers + ', ' + httpVersion + ', ' + requireUrl
+    response.end(responseData)
+  })
+})
+
+server.listen(3000, 'localhost')
+
+server.on('listening', () => {
+  console.log('Server is listening')
+  // server.close()
+})
+
+server.on('connection', () => {
+  console.log('Client is connected')
+})
+
+server.on('close', () => {
+  console.log('Server is closed')
+})
+
+console.log('Node Server started on port 3000')
+```
+
+```js
+const http = require('http')
+const httpServer = new http.Server()
+
+httpServer.on('request', (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/plain' })
+  response.end('hi')
+})
+
+httpServer.listen(3000, () => {
+  console.log('Node Server started on port 3000')
+})
+```
+
+- `http.ClientRequest`
+
+```js
+const http = require('http')
+
+let responseData = ''
+
+http
+  .request(
+    {
+      host: 'localhost',
+      port: '3000',
+      method: 'get',
+    },
+    response => {
+      response.on('data', chunk => {
+        responseData += chunk
+      })
+      response.on('end', () => {
+        console.log(responseData)
+      })
+    }
+  )
+  .end()
+```
+
+```js
+const http = require('http')
+
+let responseData = ''
+
+const option = {
+  host: 'localhost',
+  port: '3000',
+}
+
+const request = http.request(option)
+
+request
+  .on('response', response => {
+    response.on('data', chunk => {
+      responseData += chunk
+    })
+    response.on('end', () => {
+      console.log(responseData)
+    })
+  })
+  .end()
+```
+
+### [url](https://nodejs.org/dist/latest-v14.x/docs/api/url.html)
+
+```js
+const url = require('url')
+
+const urlString = 'http://www.test.com?orderId=12345'
+const urlObject = url.parse(urlString)
+
+console.log(urlObject)
+
+const urlObject = {
+  protocol: 'http:',
+  host: 'www.test.com',
+  port: 80,
+  search: '?orderId=12345',
+  query: 'orderId=12345',
+  path: '/',
+}
+
+let realAddress = url.format(urlObject)
+console.log(realAddress)
+
+const urlAddress = url.resolve('http://www.test.com', 'order')
+
+console.log(urlAddress)
 ```
 
 ## Mongoose
