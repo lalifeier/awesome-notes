@@ -565,6 +565,19 @@ sudo snap install redis-desktop-manager
 # https://github.com/dragonation/wechat-devtools
 ```
 
+#### Charles
+
+```shell
+# https://www.charlesproxy.com/
+# Registered Name: 	https://zhile.io
+# License Key: 		48891cf209c6d32bf4
+
+wget -q -O - https://www.charlesproxy.com/packages/apt/PublicKey | sudo apt-key add -
+sudo sh -c 'echo deb https://www.charlesproxy.com/packages/apt/ charles-proxy main > /etc/apt/sources.list.d/charles.list'
+sudo apt-get update
+sudo apt-get install charles-proxy
+```
+
 ### 优化篇
 
 #### 关掉 sudo 的密码
