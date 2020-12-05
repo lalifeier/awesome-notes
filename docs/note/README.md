@@ -384,6 +384,7 @@ docker run -d --name qq \
 ```
 
 #### Typora
+
 ```shell
 for Linux
 # https://typora.io/#linux
@@ -395,6 +396,26 @@ sudo add-apt-repository 'deb https://typora.io/linux ./'
 sudo apt-get update
 # install typora
 sudo apt-get install typora
+```
+
+#### wine-binfmt
+
+```shell
+sudo apt-get install wine-binfmt
+sudo update-binfmts --import /usr/share/binfmts/wine
+```
+
+#### wine
+
+```shell
+# https://wiki.winehq.org/Ubuntu
+sudo dpkg --add-architecture i386
+wget -nc https://dl.winehq.org/wine-builds/winehq.key
+sudo apt-key add winehq.key
+sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
+sudo apt update
+sudo apt install --install-recommends winehq-stable
+wine --version
 ```
 
 ### 开发工具篇
@@ -535,6 +556,13 @@ sudo vim Studio-3T.vmoptions
 
 ```shell
 sudo snap install redis-desktop-manager
+```
+
+#### 微信小程序开发工具
+
+```shell
+# https://github.com/cytle/wechat_web_devtools
+# https://github.com/dragonation/wechat-devtools
 ```
 
 ### 优化篇
