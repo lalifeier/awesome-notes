@@ -431,6 +431,16 @@ cd jetbrains-toolbox-1.17.6856
 ./jetbrains-toolbox
 ```
 
+#### ide-eval-resetter
+
+```shell
+# wget https://lalifeier.github.io/ide-eval-resetter-2.1.8.zip
+# https://plugins.zhile.io/files/ide-eval-resetter-2.1.8.zip
+
+# Add "Custom Plugin Repository": https://plugins.zhile.io manually (Settings/Preferences -> Plugins)
+# Search and install plugin: IDE Eval Reset
+```
+
 #### Visual Studio Code
 
 ```shell
