@@ -418,6 +418,14 @@ sudo apt install --install-recommends winehq-stable
 wine --version
 ```
 
+#### electron-ssr
+
+```shell
+# https://github.com/qingshuisiyuan/electron-ssr-backup
+wget https://github.com/qingshuisiyuan/electron-ssr-backup/releases/download/v0.2.6/electron-ssr-0.2.6.deb
+sudo gdebi electron-ssr-0.2.6.de
+```
+
 ### 开发工具篇
 
 #### jetbrains-toolbox
