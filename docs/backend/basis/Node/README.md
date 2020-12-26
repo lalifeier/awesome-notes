@@ -161,142 +161,243 @@ yarn global bin
 export PATH=$PATH:/home/lalifeier/.yarn/bin
 ```
 
+## 调试
+
+### vscode
+
+#### 必需字段如下：
+
+- type：调试器类型。这里是 node（内置的调试器），如果安装了 Go 和 PHP 的扩展后，则对应的 type 分别为 go 和 php。
+- request：请求的类型，支持 launch 和 attach。launch 就是以 debug 模式启动调试，attach 就是附加到已经启动的进程开启 debug 模式并调试。
+- name：下拉菜单显示的名字。
+
+#### 可选字段（括号里表示适用的类型）如下：
+
+- program：可执行文件或者调试器要运行的文件 (launch)。
+- args：要传递给调试程序的参数 (launch)。
+- env：环境变量 (launch)。
+- cwd：当前执行目录 (launch)。
+- address：IP 地址 (launch & attach)。
+- port：端口号 (launch & attach)。
+- skipFiles：想要忽略的文件，数组类型 (launch & attach)。
+- processId：进程 PID (attach)。
+- ...
+
+#### 变量替换：
+
+- \${workspaceFolder}：当前打开工程的路径。
+- \${file}：当前打开文件的路径。
+- \${fileBasename}：当前打开文件的名字，包含后缀名。
+- \${fileDirname}：当前打开文件所在的文件夹的路径。
+- \${fileExtname}：当前打开文件的后缀名。
+- \${cwd}：当前执行目录。
+- ...
+
+```json
+//  lanuch.json
+// 本地调试
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "restart": true,
+      "program": "${workspaceRoot}/development.js",
+    }
+  ]
+}
+
+//远程调试
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to node",
+      "restart": true,
+      "processId": "${command:PickProcess}"
+    }
+  ]
+}
+
+
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to node",
+      "restart": true,
+      "address": "localhost",
+      "port": 5858
+    }
+  ]
+}
+```
+
 ## 模块
+
+### [crypto](https://nodejs.org/dist/latest-v14.x/docs/api/crypto.html)
+
+### [dns](https://nodejs.org/dist/latest-v14.x/docs/api/dns.html)
+
+### [fs](https://nodejs.org/dist/latest-v14.x/docs/api/fs.html)
 
 ### [http](https://nodejs.org/dist/latest-v14.x/docs/api/http.html)
 
 - `http.Server`
 
 ```js
-const http = require('http')
+const http = require("http");
 
 const server = http.createServer((request, response) => {
-  let data = ''
+  let data = "";
 
-  request.on('data', chunk => {
-    data += chunk
-  })
-  request.on('end', () => {
-    let method = request.method
-    let headers = JSON.stringify(request.headers)
-    let httpVersion = request.httpVersion
-    let requireUrl = request.url
-    response.writeHead(200, { 'Content-Type': 'text/html' })
+  request.on("data", (chunk) => {
+    data += chunk;
+  });
+  request.on("end", () => {
+    let method = request.method;
+    let headers = JSON.stringify(request.headers);
+    let httpVersion = request.httpVersion;
+    let requireUrl = request.url;
+    response.writeHead(200, { "Content-Type": "text/html" });
 
     let responseData =
-      method + ', ' + headers + ', ' + httpVersion + ', ' + requireUrl
-    response.end(responseData)
-  })
-})
+      method + ", " + headers + ", " + httpVersion + ", " + requireUrl;
+    response.end(responseData);
+  });
+});
 
-server.listen(3000, 'localhost')
+server.listen(3000, "localhost");
 
-server.on('listening', () => {
-  console.log('Server is listening')
+server.on("listening", () => {
+  console.log("Server is listening");
   // server.close()
-})
+});
 
-server.on('connection', () => {
-  console.log('Client is connected')
-})
+server.on("connection", () => {
+  console.log("Client is connected");
+});
 
-server.on('close', () => {
-  console.log('Server is closed')
-})
+server.on("close", () => {
+  console.log("Server is closed");
+});
 
-console.log('Node Server started on port 3000')
+console.log("Node Server started on port 3000");
 ```
 
 ```js
-const http = require('http')
-const httpServer = new http.Server()
+const http = require("http");
+const httpServer = new http.Server();
 
-httpServer.on('request', (request, response) => {
-  response.writeHead(200, { 'Content-Type': 'text/plain' })
-  response.end('hi')
-})
+httpServer.on("request", (request, response) => {
+  response.writeHead(200, { "Content-Type": "text/plain" });
+  response.end("hi");
+});
 
 httpServer.listen(3000, () => {
-  console.log('Node Server started on port 3000')
-})
+  console.log("Node Server started on port 3000");
+});
 ```
 
 - `http.ClientRequest`
 
 ```js
-const http = require('http')
+const http = require("http");
 
-let responseData = ''
+let responseData = "";
 
 http
   .request(
     {
-      host: 'localhost',
-      port: '3000',
-      method: 'get',
+      host: "localhost",
+      port: "3000",
+      method: "get",
     },
-    response => {
-      response.on('data', chunk => {
-        responseData += chunk
-      })
-      response.on('end', () => {
-        console.log(responseData)
-      })
+    (response) => {
+      response.on("data", (chunk) => {
+        responseData += chunk;
+      });
+      response.on("end", () => {
+        console.log(responseData);
+      });
     }
   )
-  .end()
+  .end();
 ```
 
 ```js
-const http = require('http')
+const http = require("http");
 
-let responseData = ''
+let responseData = "";
 
 const option = {
-  host: 'localhost',
-  port: '3000',
-}
+  host: "localhost",
+  port: "3000",
+};
 
-const request = http.request(option)
+const request = http.request(option);
 
 request
-  .on('response', response => {
-    response.on('data', chunk => {
-      responseData += chunk
-    })
-    response.on('end', () => {
-      console.log(responseData)
-    })
+  .on("response", (response) => {
+    response.on("data", (chunk) => {
+      responseData += chunk;
+    });
+    response.on("end", () => {
+      console.log(responseData);
+    });
   })
-  .end()
+  .end();
 ```
+
+### [os](https://nodejs.org/dist/latest-v14.x/docs/api/os.html)
+
+### [path](https://nodejs.org/dist/latest-v14.x/docs/api/path.html)
+
+- `path.join([...paths])`
+- `path.resolve([...paths])`
+
+* `fs.readFile(path[, options], callback)`
+* `fs.readFileSync(path[, options])`
+
+### [readline](https://nodejs.org/dist/latest-v14.x/docs/api/readline.html)
 
 ### [url](https://nodejs.org/dist/latest-v14.x/docs/api/url.html)
 
 ```js
-const url = require('url')
+const url = require("url");
 
-const urlString = 'http://www.test.com?orderId=12345'
-const urlObject = url.parse(urlString)
+const urlString = "http://www.test.com?orderId=12345";
+const urlObject = url.parse(urlString);
 
-console.log(urlObject)
+console.log(urlObject);
 
 const urlObject = {
-  protocol: 'http:',
-  host: 'www.test.com',
+  protocol: "http:",
+  host: "www.test.com",
   port: 80,
-  search: '?orderId=12345',
-  query: 'orderId=12345',
-  path: '/',
-}
+  search: "?orderId=12345",
+  query: "orderId=12345",
+  path: "/",
+};
 
-let realAddress = url.format(urlObject)
-console.log(realAddress)
+let realAddress = url.format(urlObject);
+console.log(realAddress);
 
-const urlAddress = url.resolve('http://www.test.com', 'order')
+const urlAddress = url.resolve("http://www.test.com", "order");
 
-console.log(urlAddress)
+console.log(urlAddress);
 ```
+
+### [vm](https://nodejs.org/dist/latest-v14.x/docs/api/vm.html)
+
+- `new vm.Script(code[, options])`
+- `script.runInNewContext([contextObject[, options]])`
 
 ## Mongoose
 
