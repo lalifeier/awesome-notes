@@ -8,7 +8,17 @@ sidebar: auto
 
 ## 环境安装
 
-### 使用 nvm 安装
+### n
+
+参考: [https://github.com/tj/n](https://github.com/tj/n)
+
+```shell
+npm install -g n
+n lts
+n rm lts
+```
+
+### nvm
 
 参考: [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
 
@@ -104,7 +114,7 @@ nrm add 源名称 源网址
 nrm del 源名称
 ```
 
-### Yarn
+### yarn
 
 ```shell
 #方式一
@@ -239,6 +249,8 @@ export PATH=$PATH:/home/lalifeier/.yarn/bin
 }
 ```
 
+## [全局对象](https://nodejs.org/dist/latest-v14.x/docs/api/globals.html)
+
 ## 模块
 
 ### [crypto](https://nodejs.org/dist/latest-v14.x/docs/api/crypto.html)
@@ -252,107 +264,107 @@ export PATH=$PATH:/home/lalifeier/.yarn/bin
 - `http.Server`
 
 ```js
-const http = require("http");
+const http = require('http')
 
 const server = http.createServer((request, response) => {
-  let data = "";
+  let data = ''
 
-  request.on("data", (chunk) => {
-    data += chunk;
-  });
-  request.on("end", () => {
-    let method = request.method;
-    let headers = JSON.stringify(request.headers);
-    let httpVersion = request.httpVersion;
-    let requireUrl = request.url;
-    response.writeHead(200, { "Content-Type": "text/html" });
+  request.on('data', (chunk) => {
+    data += chunk
+  })
+  request.on('end', () => {
+    let method = request.method
+    let headers = JSON.stringify(request.headers)
+    let httpVersion = request.httpVersion
+    let requireUrl = request.url
+    response.writeHead(200, { 'Content-Type': 'text/html' })
 
     let responseData =
-      method + ", " + headers + ", " + httpVersion + ", " + requireUrl;
-    response.end(responseData);
-  });
-});
+      method + ', ' + headers + ', ' + httpVersion + ', ' + requireUrl
+    response.end(responseData)
+  })
+})
 
-server.listen(3000, "localhost");
+server.listen(3000, 'localhost')
 
-server.on("listening", () => {
-  console.log("Server is listening");
+server.on('listening', () => {
+  console.log('Server is listening')
   // server.close()
-});
+})
 
-server.on("connection", () => {
-  console.log("Client is connected");
-});
+server.on('connection', () => {
+  console.log('Client is connected')
+})
 
-server.on("close", () => {
-  console.log("Server is closed");
-});
+server.on('close', () => {
+  console.log('Server is closed')
+})
 
-console.log("Node Server started on port 3000");
+console.log('Node Server started on port 3000')
 ```
 
 ```js
-const http = require("http");
-const httpServer = new http.Server();
+const http = require('http')
+const httpServer = new http.Server()
 
-httpServer.on("request", (request, response) => {
-  response.writeHead(200, { "Content-Type": "text/plain" });
-  response.end("hi");
-});
+httpServer.on('request', (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/plain' })
+  response.end('hi')
+})
 
 httpServer.listen(3000, () => {
-  console.log("Node Server started on port 3000");
-});
+  console.log('Node Server started on port 3000')
+})
 ```
 
 - `http.ClientRequest`
 
 ```js
-const http = require("http");
+const http = require('http')
 
-let responseData = "";
+let responseData = ''
 
 http
   .request(
     {
-      host: "localhost",
-      port: "3000",
-      method: "get",
+      host: 'localhost',
+      port: '3000',
+      method: 'get',
     },
     (response) => {
-      response.on("data", (chunk) => {
-        responseData += chunk;
-      });
-      response.on("end", () => {
-        console.log(responseData);
-      });
+      response.on('data', (chunk) => {
+        responseData += chunk
+      })
+      response.on('end', () => {
+        console.log(responseData)
+      })
     }
   )
-  .end();
+  .end()
 ```
 
 ```js
-const http = require("http");
+const http = require('http')
 
-let responseData = "";
+let responseData = ''
 
 const option = {
-  host: "localhost",
-  port: "3000",
-};
+  host: 'localhost',
+  port: '3000',
+}
 
-const request = http.request(option);
+const request = http.request(option)
 
 request
-  .on("response", (response) => {
-    response.on("data", (chunk) => {
-      responseData += chunk;
-    });
-    response.on("end", () => {
-      console.log(responseData);
-    });
+  .on('response', (response) => {
+    response.on('data', (chunk) => {
+      responseData += chunk
+    })
+    response.on('end', () => {
+      console.log(responseData)
+    })
   })
-  .end();
+  .end()
 ```
 
 ### [os](https://nodejs.org/dist/latest-v14.x/docs/api/os.html)
@@ -370,28 +382,28 @@ request
 ### [url](https://nodejs.org/dist/latest-v14.x/docs/api/url.html)
 
 ```js
-const url = require("url");
+const url = require('url')
 
-const urlString = "http://www.test.com?orderId=12345";
-const urlObject = url.parse(urlString);
+const urlString = 'http://www.test.com?orderId=12345'
+const urlObject = url.parse(urlString)
 
-console.log(urlObject);
+console.log(urlObject)
 
 const urlObject = {
-  protocol: "http:",
-  host: "www.test.com",
+  protocol: 'http:',
+  host: 'www.test.com',
   port: 80,
-  search: "?orderId=12345",
-  query: "orderId=12345",
-  path: "/",
-};
+  search: '?orderId=12345',
+  query: 'orderId=12345',
+  path: '/',
+}
 
-let realAddress = url.format(urlObject);
-console.log(realAddress);
+let realAddress = url.format(urlObject)
+console.log(realAddress)
 
-const urlAddress = url.resolve("http://www.test.com", "order");
+const urlAddress = url.resolve('http://www.test.com', 'order')
 
-console.log(urlAddress);
+console.log(urlAddress)
 ```
 
 ### [vm](https://nodejs.org/dist/latest-v14.x/docs/api/vm.html)
