@@ -426,6 +426,14 @@ wget https://github.com/qingshuisiyuan/electron-ssr-backup/releases/download/v0.
 sudo gdebi electron-ssr-0.2.6.de
 ```
 
+#### ffmpeg
+
+```shell
+sudo add-apt-repository universe
+sudo apt update
+sudo apt install ffmpeg
+```
+
 ### 开发工具篇
 
 #### jetbrains-toolbox
