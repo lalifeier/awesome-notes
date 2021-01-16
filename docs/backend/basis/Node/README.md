@@ -269,7 +269,7 @@ const http = require('http')
 const server = http.createServer((request, response) => {
   let data = ''
 
-  request.on('data', (chunk) => {
+  request.on('data', chunk => {
     data += chunk
   })
   request.on('end', () => {
@@ -331,8 +331,8 @@ http
       port: '3000',
       method: 'get',
     },
-    (response) => {
-      response.on('data', (chunk) => {
+    response => {
+      response.on('data', chunk => {
         responseData += chunk
       })
       response.on('end', () => {
@@ -356,8 +356,8 @@ const option = {
 const request = http.request(option)
 
 request
-  .on('response', (response) => {
-    response.on('data', (chunk) => {
+  .on('response', response => {
+    response.on('data', chunk => {
       responseData += chunk
     })
     response.on('end', () => {
@@ -431,3 +431,158 @@ console.log(urlAddress)
 ### 热加载
 
 - [nodemon](https://www.npmjs.com/package/nodemon)
+
+## pm2
+
+```shell
+# 安装
+npm install -g pm2
+# Install latest PM2 version
+$ npm install pm2@latest -g
+# Save process list, exit old PM2 & restore all processes
+$ pm2 update
+
+# 运行
+pm2 start app.js
+pm2 start npm -- run XXX
+pm2 start npm --watch --name XXX -- run start
+
+# 显示进程状态
+pm2 list
+# 停止进程
+pm2 stop     <app_name|namespace|id|'all'|json_conf>
+# 重启进程
+pm2 restart  <app_name|namespace|id|'all'|json_conf>
+# 杀死进程
+pm2 delete   <app_name|namespace|id|'all'|json_conf>
+pm2 describe <id|app_name>
+# 监视所有进程
+pm2 monit
+
+pm2 start api.js -i <processes>
+pm2 reload all
+```
+
+### 配置文件
+
+```shell
+# https://pm2.keymetrics.io/docs/usage/application-declaration/
+pm2 init
+
+# pm2 start pm2.config.js
+module.exports = {
+  apps: [{
+    name: "app",
+    script: "app.js",
+    cwd: "./",
+    args: "",
+    watch: true,
+    watch_delay: 1000,
+    ignore_watch: [
+      "node_modules",
+      "logs",
+      "public"
+    ],
+    watch_options: {
+      "followSymlinks": false
+    },
+    exec_mode: "cluster_mode",
+    instances: 4,
+    error_file: "./logs/app-err.log",
+    out_file: "./logs/app-out.log",
+    merge_logs: true,
+    log_date_format: "YYYY-MM-DD HH:mm:ss",
+    autorestart: true,
+    env: {
+      NODE_ENV: "development",
+      REMOTE_ADDR: ""
+    },
+    env_production: {
+      NODE_ENV: "production",
+      REMOTE_ADDR: ""
+    },
+    env_test: {
+      NODE_ENV: "test",
+      REMOTE_ADDR: ""
+    }
+  }]
+}
+```
+
+```shell
+# 查看物理CPU个数
+cat /proc/cpuinfo | grep 'physical id' | sort| uniq | wc -l
+# 查看每个物理CPU中core的核数
+cat /proc/cpuinfo | grep 'cpu cores' | uniq
+# 查看逻辑CPU的个数
+cat /proc/cpuinfo | grep 'processor' | wc -l
+```
+
+### 负载均衡
+
+```shell
+pm2 start server.js -i (number|max)
+
+# 开启三个进程运行项目
+pm2 start app.js -i 3
+# 根据机器CPU核数，开启对应数目的进程运行项目
+pm2 start app.js -i max
+```
+
+### 日志管理
+
+```shell
+# 显示日志
+pm2 logs
+pm2 logs APP-NAME       # Display APP-NAME logs
+pm2 logs --json         # JSON output
+pm2 logs --format       # Formated output
+
+pm2 flush               # Flush all logs
+pm2 reloadLogs          # Reload all logs
+
+# 日志分割
+# https://github.com/keymetrics/pm2-logrotate#configure
+pm2 install pm2-logrotate
+# 查看默认配置
+pm2 conf
+```
+
+### 开机自动启动
+
+```shell
+# Generate Startup Script
+pm2 startup
+
+# Freeze your process list across server restart
+pm2 save
+
+# Remove Startup Script
+pm2 unstartup
+```
+
+### pm2-web
+
+```shell
+# yum install gcc-c++
+# npm install -g node-gyp
+npm install -g pm2-web
+pm2-web
+
+pm2-web --config pm2-web-config.json
+// pm2-web-config.json
+{
+  "www": {
+      "host": "localhost",
+      "address": "0.0.0.0",
+      "port": 6688
+  }
+}
+```
+
+### Nestjs
+
+```js
+// pm2 start npm --name <name> -- run start:prod
+pm2 start yarn --name nest -- run start
+```
