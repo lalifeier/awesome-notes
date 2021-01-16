@@ -313,8 +313,12 @@ module.exports = {
             link: '/tool/Docker/',
           },
           {
+            text: 'Jenkins',
+            link: '/tool/Jenkins/',
+          },
+          {
             text: '正则表达式',
-            link: '/tool/Regular Expression/',
+            link: '/tool/Regular_Expression/',
           },
         ],
       },

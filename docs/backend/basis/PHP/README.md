@@ -243,5 +243,3 @@ composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 #### 参考:
 
 - [https://pkg.phpcomposer.com/#how-to-install-composer](https://pkg.phpcomposer.com/#how-to-install-composer)
-
-<Vssue title="Vssue Demo" />

@@ -19,5 +19,7 @@
     "vuepress": "^1.8.0",
     "vuepress-plugin-demo-block": "^0.7.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@vssue/api-github-v3": "^1.4.7"
+  }
 }
