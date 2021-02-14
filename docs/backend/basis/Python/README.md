@@ -29,8 +29,9 @@ pip3 --version
 ### 配置 pip 镜像
 
 ```shell
-mkdir -p ~/.pip/pip.conf
+mkdir ~/.pip
 cd ~/.pip
+vim pip.conf
 #编辑内容如下
 [global]
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple
