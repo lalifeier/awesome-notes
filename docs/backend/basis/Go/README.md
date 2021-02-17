@@ -65,10 +65,9 @@ go env -w GOPROXY=https://goproxy.cn,direct
 go mod init github.com/lalifeier/demo-module
 
 go env -w GOPRIVATE=github.com/lalifeier
-# git config --global --add url."https://lalifeier:${access_token}@github.com".insteadOf "https://github.com"
 
-# 0202d7d1a3286ce9a2e25c2c6dec87b9d3a55e8b
-git config --global --add url."git@github.com:lalifeier".insteadOf "https://github.com"
+# git config --global --add url."git@github.com:lalifeier".insteadOf "https://github.com/lalifeier"
+git config --global --add url."git@github.com:".insteadOf "https://github.com/"
 ```
 
 #### 参考:
@@ -162,7 +161,8 @@ message Request {
 message Response {
 	string msg = 1;
 }
-protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. greeter.proto
+
+protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. *.proto
 ```
 
 - 安装 Go Micro
@@ -171,6 +171,8 @@ protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. greeter.proto
 # Micro 工具集 https://github.com/micro/micro
 go get github.com/micro/micro/v3
 micro --version
+
+# micro new user/api --type=api --alias=user --namespace=github.com/lalifeier --gopath=false
 
 # Run the server locally
 micro server

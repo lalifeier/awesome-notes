@@ -24,6 +24,11 @@ git config --global user.email "lalifeier@gmail.com"
 
 git config --global github.user lalifeier
 git config --global github.token "token"
+
+
+git config --global --add url."git@github.com:".insteadOf "https://github.com/"
+
+git config --global --add url."git@gitlab.com:".insteadOf "https://gitlab.com/"
 ```
 
 ### 生成 ssh 密钥
