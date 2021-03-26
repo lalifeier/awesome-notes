@@ -789,7 +789,10 @@ wine --version
 ```shell
 # https://github.com/qingshuisiyuan/electron-ssr-backup
 wget https://github.com/qingshuisiyuan/electron-ssr-backup/releases/download/v0.2.6/electron-ssr-0.2.6.deb
-sudo gdebi electron-ssr-0.2.6.de
+sudo gdebi electron-ssr-0.2.6.deb
+# sudo dpkg -r electron-ssr
+
+sudo apt-get install libcanberra-gtk-module
 ```
 
 #### ffmpeg
@@ -1051,9 +1054,21 @@ sudo apt-get autoremove
 #### 修改 DNS
 
 ```shell
-#sudo gedit  /etc/systemd/resolved.conf
-#将DNS前的#号去掉，然后加上DNS服务器地址8.8.8.8
-#DNS=8.8.8.8
+# sudo vim  /etc/systemd/resolved.conf
+# DNS=8.8.8.8 144.144.144.144
+
+
+sudo vim /etc/resolv.conf
+nameserver 8.8.8.8
+nameserver 114.114.114.114
+
+sudo systemctl disable --now systemd-resolved
+sudo vim /etc/NetworkManager/NetworkManager.conf
+
+[main]
+dns=default  # none|default
+
+sudo systemctl restart NetworkManager
 ```
 
 ### 提高逼格篇
