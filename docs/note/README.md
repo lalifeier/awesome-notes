@@ -1055,7 +1055,7 @@ sudo apt-get autoremove
 
 ```shell
 # sudo vim  /etc/systemd/resolved.conf
-# DNS=8.8.8.8 144.144.144.144
+# DNS=8.8.8.8
 
 
 sudo vim /etc/resolv.conf
