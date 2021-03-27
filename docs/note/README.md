@@ -1054,21 +1054,59 @@ sudo apt-get autoremove
 #### 修改 DNS
 
 ```shell
-# sudo vim  /etc/systemd/resolved.conf
-# DNS=8.8.8.8
-
-
-sudo vim /etc/resolv.conf
+sudo apt install resolvconf
+sudo vim /etc/resolvconf/resolv.conf.d/head
 nameserver 8.8.8.8
 nameserver 114.114.114.114
 
-sudo systemctl disable --now systemd-resolved
-sudo vim /etc/NetworkManager/NetworkManager.conf
+sudo resolvconf -u
+```
 
-[main]
-dns=default  # none|default
+```shell
+# 无效
+# sudo systemctl disable --now systemd-resolved
+# sudo vim  /etc/systemd/resolved.conf
+# DNS=8.8.8.8
 
-sudo systemctl restart NetworkManager
+# sudo vim /etc/resolv.conf
+# nameserver 8.8.8.8
+# nameserver 114.114.114.114
+
+# sudo vim /etc/NetworkManager/NetworkManager.conf
+# [main]
+# dns=default  # none|default
+
+# sudo systemctl restart NetworkManager
+```
+
+```shell
+# 无效
+# sudo vim /etc/netplan/01-network-manager-all.yaml
+# network:
+#   version: 2
+#   #renderer: NetworkManager
+#   ethernets:
+#     enp8s0:     #配置网卡名称
+#       dhcp4: no
+#       dhcp6: no
+#       addresses: [172.168.0.123/24]     #设置本机IP及掩码
+#       optional: true
+#       gateway4: 172.168.0.1      #设置网关
+#       nameservers:
+#         addresses: [8.8.8.8,114.114.114.114]    #设置DNS
+#   wifis:
+#     wlp7s0:
+#       dhcp4: no
+#       dhcp6: no
+#       optional: true
+#       addresses: [192.168.0.123/24]
+#       gateway4: 192.168.0.1
+#       nameservers:
+#         addresses: [8.8.8.8,114.114.114.114]
+#       access-points:
+#         opennetwork: {}
+
+# sudo netplan apply
 ```
 
 ### 提高逼格篇
