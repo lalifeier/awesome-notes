@@ -1089,9 +1089,9 @@ sudo resolvconf -u
 #     enp8s0:     #配置网卡名称
 #       dhcp4: no
 #       dhcp6: no
-#       addresses: [172.168.0.123/24]     #设置本机IP及掩码
+#       addresses: [172.10.0.123/24]     #设置本机IP及掩码
 #       optional: true
-#       gateway4: 172.168.0.1      #设置网关
+#       gateway4: 172.10.0.1      #设置网关
 #       nameservers:
 #         addresses: [8.8.8.8,114.114.114.114]    #设置DNS
 #   wifis:
