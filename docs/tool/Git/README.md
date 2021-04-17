@@ -160,7 +160,7 @@ script:
 cache: yarn
 
 deploy:
-provider: gh-pages
+provider: pages
 local_dir: dist
 github_token: $GITHUB_TOKEN
 skip_cleanup: true
