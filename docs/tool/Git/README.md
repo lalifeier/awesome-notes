@@ -145,10 +145,6 @@ travis set GITHUB_TOKEN=xxx
 #### 在项目目录下创建 .travis.yml 文件
 
 ```yml
-branches:
-  only:
-    - master
-
 language: node_js
 node_js:
   - lts/*
@@ -160,11 +156,13 @@ script:
 cache: yarn
 
 deploy:
-provider: pages
-local_dir: dist
-github_token: $GITHUB_TOKEN
-skip_cleanup: true
-keep-history: true
+  provider: pages
+  skip_cleanup: true
+  local_dir: dist
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: master
 
 notifications:
   email:
