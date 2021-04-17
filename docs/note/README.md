@@ -792,7 +792,19 @@ wget https://github.com/qingshuisiyuan/electron-ssr-backup/releases/download/v0.
 sudo gdebi electron-ssr-0.2.6.deb
 # sudo dpkg -r electron-ssr
 
-sudo apt-get install libcanberra-gtk-module
+# 安装依赖
+sudo apt install libcanberra-gtk-module libcanberra-gtk3-module gconf2 gconf-service libappindicator1
+
+# 可选依赖
+sudo apt-get install libssl-dev
+sudo apt-get install libsodium-dev
+# https://doc.libsodium.org/installation/
+wget https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
+tar xf LATEST.tar.gz
+cd libsodium-stable
+./configure
+make && make check
+sudo make install
 ```
 
 #### ffmpeg
