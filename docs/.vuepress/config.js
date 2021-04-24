@@ -162,23 +162,23 @@ module.exports = {
         text: '主页',
         link: '/',
       },
-      /*{
+      {
         text: '基础',
         items: [
-          {
-            text: "计算机网络",
-            link: "/basis/network/"
-          },
-          {
-            text: "操作系统",
-            link: "/basis/system/"
-          },
+          // {
+          //   text: "计算机网络",
+          //   link: "/basis/network/"
+          // },
+          // {
+          //   text: "操作系统",
+          //   link: "/basis/system/"
+          // },
           {
             text: '数据结构与算法',
             link: '/basis/algorithm/',
           },
         ],
-      },*/
+      },
       {
         text: '前端',
         items: [
