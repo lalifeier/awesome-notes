@@ -26,9 +26,15 @@ tar zxvf go1.14.2.linux-amd64.tar.gz -C /usr/local/
 ```shell
 vim /etc/profile
 #添加以下内容
-export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export GOROOT=/usr/local/go
+export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+
+export GO111MODULE="on"
+export GOPROXY=https://goproxy.cn,direct
+export GOPRIVATE=
+# 关闭校验Go依赖包的哈希值
+export GOSUMDB=of
 #生效配置
 source /etc/profile
 ```
@@ -85,6 +91,22 @@ git clone https://github.com/golang/lint.git $GOPATH/src/golang.org/x/lint
 git clone https://github.com/golang/image.git $GOPATH/src/golang.org/x/image
 ```
 
+### ProtoBuf 编译环境安装
+
+```shell
+# 安装protobuf
+cd /tmp/
+git clone --depth=1 https://github.com/protocolbuffers/protobuf
+cd protobuf
+./autogen.sh
+./configure
+make
+sudo make install
+protoc --version
+# 安装protoc-gen-go
+go get github.com/golang/protobuf/protoc-gen-go
+```
+
 ### vscode 配置
 
 #### 安装 go 插件
@@ -111,6 +133,27 @@ git clone https://github.com/golang/image.git $GOPATH/src/golang.org/x/image
 复制 go fmt 的配置，修改 Name, Program, Arguments 三项配置，其中 Arguments 需要加上`-set_exit_status`参数
 
 ![idea 配置 - golint配置](./idea-config-golint-config.png)
+
+### NeoVim
+
+```shell
+# 安装 NeoVim https://github.com/neovim/neovim/wiki/Installing-Neovim
+sudo apt install neovim
+
+# vim .zshrc
+# 默认的编辑器
+export EDITOR=nvim
+# 配置 nvim 的别名为 vi
+alias vi="nvim"
+
+# 安装 SpaceVim
+sudo curl -sLf https://spacevim.org/cn/install.sh | bash
+
+# 配置文件为 $HOME/.SpaceVim.d/init.toml
+# 兼容 vimrc 用户自定义的配置文件 HOME/.SpaceVim.d/autoload/custom_init.vim
+
+# https://spacevim.org/cn/use-vim-as-a-go-ide/
+```
 
 ## go-micro
 

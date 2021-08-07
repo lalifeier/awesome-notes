@@ -16,7 +16,7 @@ yum install git
 
 ### 配置 Git 环境
 
-```
+```shell
 vim ~/.gitconfig
 
 git config --global user.name "lalifeier"
@@ -25,28 +25,37 @@ git config --global user.email "lalifeier@gmail.com"
 git config --global github.user lalifeier
 git config --global github.token "token"
 
-
 git config --global --add url."git@github.com:".insteadOf "https://github.com/"
-
 git config --global --add url."git@gitlab.com:".insteadOf "https://gitlab.com/"
+
+# 保存用户名和密码
+git config --global credential.helper store
+# 解决Git中 Filename too long
+git config --global core.longpaths true
+# 关闭Git中文文件路径显示为转义字符
+git config --global core.quotepath off
+# GitHub 镜像代理
+git config --global --add url."https://github.com.cnpmjs.org/".insteadOf "https://gitlab.com/"
+# 安装 Git Large File Storage
+git lfs install --skip-repo
 ```
 
 ### 生成 ssh 密钥
 
-```
+```shell
 ssh-keygen -C "邮箱" -t rsa
 ```
 
 ### 登录 GitHub 生成的公钥
 
-```
+```shell
 cd ~/.ssh
 cat id_rsa.pub
 ```
 
 ### 测试连接
 
-```
+```shell
 ssh -T git@github.com
 ```
 
