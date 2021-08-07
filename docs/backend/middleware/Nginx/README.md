@@ -318,7 +318,7 @@ http {
 
     # HTTP 请求转发到 HTTPS
     # if ($scheme != 'https') {
-    #     return 301 https://$server_name$request_uri;
+    #     return 301 https://$host$request_uri;
     # }
     location / {
       if ($request_method = 'OPTIONS') {
@@ -438,4 +438,52 @@ http {
 
   # include /usr/local/nginx/conf/conf.d/*.conf;
 }
+```
+
+## Let’s Encrypt SSL/TLS
+
+```shell
+# Download the Let’s Encrypt Client
+apt-get update
+sudo apt-get install certbot
+apt-get install python-certbot-nginx
+
+# Set Up NGINX
+# /etc/nginx/conf.d/domain‑name.conf
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    server_name example.com www.example.com;
+}
+
+nginx -t && nginx -s reload
+
+# Obtain the SSL/TLS Certificate
+sudo certbot --nginx -d example.com -d www.example.com
+
+#  domain‑name.conf
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    server_name  example.com www.example.com;
+
+    listen 443 ssl; # managed by Certbot
+
+    # RSA certificate
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem; # managed by Certbot
+
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+    # Redirect non-https traffic to https
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+}
+
+# Automatically Renew Let’s Encrypt Certificates
+crontab -e
+0 12 * * * /usr/bin/certbot renew --quiet
 ```
