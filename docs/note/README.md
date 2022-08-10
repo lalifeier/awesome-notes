@@ -256,6 +256,26 @@ sudo apt install flameshot
 flameshot gui
 ```
 
+#### brew
+
+```shell
+# https://mirror.tuna.tsinghua.edu.cn/help/homebrew/
+#  vim ~/.zshrc
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
+
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+
+# 从本镜像下载安装脚本并安装 Homebrew / Linuxbrew
+git clone --depth=1 https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/install.git brew-install
+/bin/bash brew-install/install.sh
+rm -rf brew-install
+
+# 也可从 GitHub 获取官方安装脚本安装 Homebrew / Linuxbrew
+/bin/bash -c "$(curl -fsSL https://github.com/Homebrew/install/raw/master/install.sh)"
+```
+
 ### 软件篇
 
 #### 搜狗输入法
