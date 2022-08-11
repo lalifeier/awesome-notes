@@ -1,9 +1,10 @@
+dist: focal
 sudo: required
 language: node_js
 node_js: stable
 script: bash ./deploy.sh
 branches:
   only:
-  - master
+    - master
 notifications:
   email: false
