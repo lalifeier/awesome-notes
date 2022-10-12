@@ -804,6 +804,21 @@ sudo apt install --install-recommends winehq-stable
 wine --version
 ```
 
+#### 负载分析
+
+```shell
+# 查看CPU负载
+sudo apt install htop -y
+htop
+# 查看磁盘I/O
+sudo apt install sysstat -y
+# 查看磁盘总体读写情况， 1代表每1秒读取一次数据
+iostat -x 1
+# 查看网络使用情况
+sudo apt install nload -y
+nload
+```
+
 #### electron-ssr
 
 ```shell
@@ -1139,6 +1154,20 @@ sudo resolvconf -u
 #         opennetwork: {}
 
 # sudo netplan apply
+```
+
+#### 单个进程最大打开文件数
+
+```shell
+# 临时生效
+ulimit -n 65535
+# 永久生效
+cat <<EOF | sudo tee /etc/security/limits.conf
+* soft nofile 65535
+* hard nofile 65535
+* soft nproc 65535
+* hard nproc 65535
+EOF
 ```
 
 ### 提高逼格篇
