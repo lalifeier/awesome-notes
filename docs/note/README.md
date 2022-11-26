@@ -1170,6 +1170,28 @@ cat <<EOF | sudo tee /etc/security/limits.conf
 EOF
 ```
 
+#### ssh 免密
+
+```shell
+ssh-keygen
+
+# cat ~/.ssh/config
+Host dev
+  HostName 172.16.5.76
+
+Host *
+  User root
+  ServerAliveInterval 30
+  TCPKeepAlive yes
+  ServerAliveCountMax 6
+  Compression yes
+
+# 把本地文件 ~/.ssh/id_rsa.pub 中内容复制粘贴到远程服务器 ~/.ssh/authorized_keys
+#  提示你输入密码，成功之后可以直接 ssh 登录，无需密码
+ssh-copy-id dev
+ssh dev
+```
+
 ### 提高逼格篇
 
 #### screenfetch
