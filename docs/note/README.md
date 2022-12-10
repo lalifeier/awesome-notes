@@ -1020,6 +1020,90 @@ sudo apt-get update
 sudo apt-get install charles-proxy
 ```
 
+#### cpolar + openvpn
+
+```shell
+# cpolar
+# https://www.cpolar.com/blog/cpolar-and-openvpn-any-intranet-access
+wget https://static.cpolar.com/downloads/releases/3.3.12/cpolar-stable-linux-amd64.zip
+unzip cpolar-stable-linux-amd64.zip
+./cpolar authtoken token
+mv ./cpolar /usr/local/bin
+
+cpolar tcp -remote-addr=1.tcp.cpolar.cn:20038 1194
+
+# openvpn server
+# 一键安装脚本
+# https://github.com/Nyr/openvpn-install
+# wget https://git.io/vpn -O openvpn-install.sh && bash openvpn-install.sh
+wget https://raw.githubusercontent.com/Nyr/openvpn-install/master/openvpn-install.sh -O openvpn-install.sh && bash openvpn-install.sh
+
+systemctl enable openvpn-server@server
+systemctl start openvpn-server@serve
+
+# vim /etc/openvpn/server/server.conf
+注释local
+修改dns
+
+;local 172.16.5.76
+port 1194
+proto tcp
+dev tun
+ca ca.crt
+cert server.crt
+key server.key
+dh dh.pem
+auth SHA512
+tls-crypt tc.key
+topology subnet
+server 10.8.0.0 255.255.255.0
+push "redirect-gateway def1 bypass-dhcp"
+ifconfig-pool-persist ipp.txt
+;push "dhcp-option DNS 172.16.11.114"
+;push "dhcp-option DNS 172.16.10.113"
+push "dhcp-option DNS 223.5.5.5"
+push "dhcp-option DNS 223.6.6.6"
+push "block-outside-dns"
+keepalive 10 120
+cipher AES-256-CBC
+user nobody
+group nogroup
+persist-key
+persist-tun
+verb 3
+crl-verify crl.pem
+
+# 手动安装
+apt install openvpn easy-rsa
+mkdir ~/easy-rsa
+ln -s /usr/share/easy-rsa/* ~/easy-rsa/
+sudo chown lalifeier ~/easy-rsa
+chmod 700 ~/easy-rsa
+cd ~/easy-rsa
+nano vars
+
+vim ~/easy-rsa/vars
+set_var EASYRSA_ALGO "ec"
+set_var EASYRSA_DIGEST "sha512"
+
+./easyrsa init-pki
+
+cd ~/easy-rsa
+./easyrsa gen-req server nopass
+
+sudo cp /home/lalifeier/easy-rsa/pki/private/server.key /etc/openvpn/server/
+
+# openvpn client
+sudo apt-get install openvpn
+mkdir ~/openvpn-client
+cd ~/openvpn-client
+scp root@192.168.2.142:/root/client.ovpn .
+# vim client.ovpn
+修改 remote 2.tcp.cpolar.cn port
+
+sudo openvpn --config client.ovpn
+```
+
 ### 优化篇
 
 #### 关掉 sudo 的密码
@@ -1190,6 +1274,53 @@ Host *
 #  提示你输入密码，成功之后可以直接 ssh 登录，无需密码
 ssh-copy-id dev
 ssh dev
+```
+
+#### git 免密
+
+```shell
+cd ~/.ssh
+ssh-keygen -t rsa -b 4096 -C "lalifeier@gmail.com" -f id_rsa_github
+ssh-keygen -t rsa -b 4096 -C "lalifeier@gmail.com" -f id_rsa_gitlab
+
+# vim ~/.ssh/config
+Host github
+  HostName github.com
+  User lalifeier
+  IdentityFile ~/.ssh/id_rsa_github
+
+Host gitlab
+  HostName gitlab.com
+  User lalifeier
+  IdentityFile ~/.ssh/id_rsa_gitlab
+
+# 测试
+# ssh -T git@github
+ssh -T git@github.com
+# ssh -T git@gitlab
+
+# gitconfig
+git config --global --add url."git@github.com:".insteadOf "https://github.com/"
+git config --global --add url."git@gitlab.com:".insteadOf "https://gitlab.com/"
+
+# vim ~/.gitconfig
+[user]
+        name = lalifeier
+        email = lalifeier@gmail.com
+[url "git@github.com:"]
+        insteadOf = https://github.com/
+[url "git@gitlab.com:"]
+        insteadOf = https://gitlab.com/
+[url "git@gitlab.company.cn:"]
+        insteadOf = http://gitlab.company.cn/
+
+# gum
+npm i -g @gauseen/gum
+#  npm i -g @gauseen/gum  --registry=https://registry.npmmirror.com
+gum list
+# gum set lalifeier --name lalifeier --email lalifeier@gmail.com
+gum use lalifeier
+
 ```
 
 ### 提高逼格篇
