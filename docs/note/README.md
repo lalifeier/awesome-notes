@@ -1100,6 +1100,13 @@ cd ~/openvpn-client
 scp root@192.168.2.142:/root/client.ovpn .
 # vim client.ovpn
 修改 remote 2.tcp.cpolar.cn port
+增加
+# 不要从服务端拉取路由表，由我们自己来配置哪些IP走VPN，哪些IP不走
+route-nopull
+# 配置路由
+route 172.16.0.0 255.255.0.0 vpn_gateway
+# 自定义DNS路由器
+dhcp-option DNS 172.16.11.114
 
 sudo openvpn --config client.ovpn
 ```
