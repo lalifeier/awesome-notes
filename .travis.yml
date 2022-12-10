@@ -1,7 +1,7 @@
 dist: focal
 sudo: required
 language: node_js
-node_js: lts/*
+node_js: 16
 script: bash ./deploy.sh
 branches:
   only:
