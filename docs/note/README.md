@@ -1039,7 +1039,7 @@ cpolar tcp -remote-addr=1.tcp.cpolar.cn:20038 1194
 wget https://raw.githubusercontent.com/Nyr/openvpn-install/master/openvpn-install.sh -O openvpn-install.sh && bash openvpn-install.sh
 
 systemctl enable openvpn-server@server
-systemctl start openvpn-server@serve
+systemctl start openvpn-server@server
 
 # vim /etc/openvpn/server/server.conf
 注释local
