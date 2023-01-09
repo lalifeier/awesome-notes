@@ -1025,12 +1025,40 @@ sudo apt-get install charles-proxy
 ```shell
 # cpolar
 # https://www.cpolar.com/blog/cpolar-and-openvpn-any-intranet-access
-wget https://static.cpolar.com/downloads/releases/3.3.12/cpolar-stable-linux-amd64.zip
-unzip cpolar-stable-linux-amd64.zip
-./cpolar authtoken token
-mv ./cpolar /usr/local/bin
+# wget https://static.cpolar.com/downloads/releases/3.3.12/cpolar-stable-linux-amd64.zip
+# unzip cpolar-stable-linux-amd64.zip
+# ./cpolar authtoken token
+# mv ./cpolar /usr/local/bin
+
+# 国内
+curl -L https://www.cpolar.com/static/downloads/install-release-cpolar.sh | sudo bash
+# 国外
+curl -sL https://git.io/cpolar | sudo bash
+
+# token认证
+cpolar authtoken xxxxxxx
 
 cpolar tcp -remote-addr=1.tcp.cpolar.cn:20038 1194
+
+# 自动启动
+sudo systemctl enable cpolar
+
+# 配置文件
+# /usr/local/etc/cpolar/cpolar.yml
+# authtoken:
+tunnels:
+  # website:
+  #   addr: 8080
+  #   proto: http
+  #   region: cn_vip
+  ssh:
+    proto: tcp
+    addr: 1194
+    region: cn_vip # cn_vip cn_top
+
+# 卸载
+curl -L https://www.cpolar.com/static/downloads/install-release-cpolar.sh | sudo bash -s -- --remove
+
 
 # openvpn server
 # 一键安装脚本
