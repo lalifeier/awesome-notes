@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-c80ed72c","path":"/tags/kaifahuanjing/1/","title":"","lang":"zh-CN","frontmatter":{"layout":"Categories"},"excerpt":"","headers":[],"git":{},"filePathRelative":null}');export{t as data};

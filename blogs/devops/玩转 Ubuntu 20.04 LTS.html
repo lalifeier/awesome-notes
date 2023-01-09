@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="generator" content="VuePress 2.0.0-beta.51">
+    <script>
+      (function() {
+        const userMode = localStorage.getItem('vuepress-reco-color-scheme') || 'auto';
+        const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (userMode === 'dark' || (userMode === 'auto' && systemDarkMode)) {
+          document.documentElement.classList.toggle('dark', true);
+        }
+      })();
+    </script>
+    <link rel="icon" href="/favicon.ico"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>玩转 Ubuntu 20.04 LTS | awesome-notes</title><meta name="description" content="Awesome Notes">
+    <link rel="modulepreload" href="/assets/app.db6f0f80.js"><link rel="modulepreload" href="/assets/玩转 Ubuntu 20.04 LTS.html.a5490b6d.js"><link rel="modulepreload" href="/assets/玩转 Ubuntu 20.04 LTS.html.ef422aed.js"><link rel="prefetch" href="/assets/index.html.a4530ea6.js"><link rel="prefetch" href="/assets/message-board.html.6f5f6451.js"><link rel="prefetch" href="/assets/开发环境.html.13903217.js"><link rel="prefetch" href="/assets/1230.html.81f17396.js"><link rel="prefetch" href="/assets/404.html.085922a4.js"><link rel="prefetch" href="/assets/index.html.d093fa6b.js"><link rel="prefetch" href="/assets/index.html.9a64a0e1.js"><link rel="prefetch" href="/assets/index.html.fba23121.js"><link rel="prefetch" href="/assets/index.html.fa8298ff.js"><link rel="prefetch" href="/assets/index.html.b1cad943.js"><link rel="prefetch" href="/assets/index.html.c4e7cc96.js"><link rel="prefetch" href="/assets/index.html.79851c91.js"><link rel="prefetch" href="/assets/index.html.79bab7f4.js"><link rel="prefetch" href="/assets/index.html.8b1fcf01.js"><link rel="prefetch" href="/assets/index.html.58ffa8bd.js"><link rel="prefetch" href="/assets/index.html.098e1930.js"><link rel="prefetch" href="/assets/index.html.5c9a0140.js"><link rel="prefetch" href="/assets/message-board.html.866a21d2.js"><link rel="prefetch" href="/assets/开发环境.html.c99e5a96.js"><link rel="prefetch" href="/assets/1230.html.db970d2b.js"><link rel="prefetch" href="/assets/404.html.f21dd985.js"><link rel="prefetch" href="/assets/index.html.dafe2abd.js"><link rel="prefetch" href="/assets/index.html.7dc24276.js"><link rel="prefetch" href="/assets/index.html.8ac16cbe.js"><link rel="prefetch" href="/assets/index.html.bd030f66.js"><link rel="prefetch" href="/assets/index.html.8fbbc51e.js"><link rel="prefetch" href="/assets/index.html.d15ec8b6.js"><link rel="prefetch" href="/assets/index.html.43bace87.js"><link rel="prefetch" href="/assets/index.html.b88f0a95.js"><link rel="prefetch" href="/assets/index.html.01975d05.js"><link rel="prefetch" href="/assets/index.html.93ba8dbf.js"><link rel="prefetch" href="/assets/index.html.fb82a7d3.js"><link rel="prefetch" href="/assets/reco-valine.ed4545b0.js">
+    <link rel="stylesheet" href="/assets/style.bdbcefec.css">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="theme-container"><div class="common-wrapper no-sidebar"><div><header class="navbar-container"><span class="nav-item site-brand"><a href="/" class=""><img class="logo" src="/logo.png" alt="awesome-notes"><span class="site-name can-hide">awesome-notes</span></a></span><div class="nav-item navbar-links-wrapper" style=""><form class="search-box" role="search"><input type="search" autocomplete="off" spellcheck="false" value><!----></form><nav class="navbar-links"><!--[--><div class="navbar-links-item"><a href="/" class="nav-link" aria-label="Home"><!--[--><!--]--> Home <!--[--><!--]--></a></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="Categories">Categories <span class="arrow down"></span></button><button class="mobile-dropdown-title" type="button" aria-label="Categories"><span class="title"><span>Categories</span></span><span class="right arrow"></span></button><ul style="display:none;" class="nav-dropdown"><!--[--><!--]--></ul></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="Tags">Tags <span class="arrow down"></span></button><button class="mobile-dropdown-title" type="button" aria-label="Tags"><span class="title"><span>Tags</span></span><span class="right arrow"></span></button><ul style="display:none;" class="nav-dropdown"><!--[--><!--]--></ul></div></div><div class="navbar-links-item"><a href="/docs/message-board" class="nav-link" aria-label="留言板"><!--[--><!--]--> 留言板 <!--[--><!--]--></a></div><div class="navbar-links-item"><a class="nav-link" href="https://github.com/lalifeier" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><!--[--><!--]--> GitHub <span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!--[--><!--]--></a></div><!--]--></nav><a class="icon-container left btn-toggle-dark-mode" href="javascript:void(0)" target="_self"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:19px;height:19px;font-size:19px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h.393a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 2.992z"></path><path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0-2 2a2 2 0 0 0-2-2a2 2 0 0 0 2-2"></path><path d="M19 11h2m-1-1v2"></path></g></svg><!----></a><a class="icon-container left btn-toggle-menus" href="javascript:void(0)" target="_self"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle><circle cx="12" cy="5" r="1"></circle></g></svg><!----></a></div></header><div class="mobile-menus-container"><nav class="navbar-links"><!--[--><div class="navbar-links-item"><a href="/" class="nav-link" aria-label="Home"><!--[--><!--]--> Home <!--[--><!--]--></a></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="Categories">Categories <span class="arrow down"></span></button><button class="mobile-dropdown-title" type="button" aria-label="Categories"><span class="title"><span>Categories</span></span><span class="right arrow"></span></button><ul style="display:none;" class="nav-dropdown"><!--[--><!--]--></ul></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="Tags">Tags <span class="arrow down"></span></button><button class="mobile-dropdown-title" type="button" aria-label="Tags"><span class="title"><span>Tags</span></span><span class="right arrow"></span></button><ul style="display:none;" class="nav-dropdown"><!--[--><!--]--></ul></div></div><div class="navbar-links-item"><a href="/docs/message-board" class="nav-link" aria-label="留言板"><!--[--><!--]--> 留言板 <!--[--><!--]--></a></div><div class="navbar-links-item"><a class="nav-link" href="https://github.com/lalifeier" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><!--[--><!--]--> GitHub <span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!--[--><!--]--></a></div><!--]--></nav><div class="appearance"><span>Appearance </span><a class="icon-container left btn-toggle-dark-mode" href="javascript:void(0)" target="_self"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:19px;height:19px;font-size:19px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h.393a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 2.992z"></path><path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0-2 2a2 2 0 0 0-2-2a2 2 0 0 0 2-2"></path><path d="M19 11h2m-1-1v2"></path></g></svg><!----></a></div></div><div class="sidebar-mask"></div><aside class="series-container"><!--[--><!--]--></aside><!--[--><main class="page-container show-catalog"><h1 class="page-title">玩转 Ubuntu 20.04 LTS</h1><div class="page-info"><a class="icon-container left" href="javascript:void(0)" target="_self"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"></circle><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"></path></g></svg><span style="color:inherit;font-size:14px;" class="icon-text"><!--[-->lalifeier<!--]--></span></a><a class="icon-container left" href="javascript:void(0)" target="_self"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></g></svg><span style="color:inherit;font-size:14px;" class="icon-text"><!--[-->2022-12-30<!--]--></span></a><a class="icon-container left" href="javascript:void(0)" target="_self"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;" class="icon-text"><!--[-->运维<!--]--></span></a><a class="icon-container left" href="javascript:void(0)" target="_self"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8.5" r="1" fill="currentColor"></circle><path d="M4 7v3.859c0 .537.213 1.052.593 1.432l8.116 8.116a2.025 2.025 0 0 0 2.864 0l4.834-4.834a2.025 2.025 0 0 0 0-2.864L12.29 4.593A2.025 2.025 0 0 0 10.859 4H7a3 3 0 0 0-3 3z"></path></g></svg><span style="color:inherit;font-size:14px;" class="icon-text"><!--[-->Ubuntu<!--]--></span></a><a class="icon-container left" href="javascript:void(0)" target="_self"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"></circle><path d="M22 12c-2.667 4.667-6 7-10 7s-7.333-2.333-10-7c2.667-4.667 6-7 10-7s7.333 2.333 10 7"></path></g></svg><span style="color:inherit;font-size:14px;" class="icon-text"><!--[--><span id="/blogs/devops/wanzhuan Ubuntu 20.04 LTS.html" class="leancloud-visitors" data-flag-title="Your Article Title"><a class="leancloud-visitors-count" style=""></a></span><!--]--></span></a></div><div class="theme-reco-default-content"><div><h2 id="玩转-ubuntu-20-04-lts" tabindex="-1"><a class="header-anchor" href="#玩转-ubuntu-20-04-lts" aria-hidden="true">#</a> 玩转 Ubuntu 20.04 LTS</h2><h3 id="安装篇" tabindex="-1"><a class="header-anchor" href="#安装篇" aria-hidden="true">#</a> 安装篇</h3><h4 id="解决显卡驱动问题" tabindex="-1"><a class="header-anchor" href="#解决显卡驱动问题" aria-hidden="true">#</a> 解决显卡驱动问题</h4><p>一般遇到的卡死、黑屏之类的问题都是英伟达开源显卡驱动的问题</p><ul><li><p>开机，进入 grub 画面</p></li><li><p>光标选定&quot;install Ubuntu&quot;，按&quot;e&quot; 进入编辑开机指令的模式, 找到 <code>quiet splash ---</code>替换为<code>nomodeset</code>。修改完按 F10 重启。安装完成后，您将必须重启系统</p></li><li><p>进入 grub 画面，再次按&quot;e&quot;，找到<code>linux</code>开头的行，添加<code>nouveau.modeset=0</code>在该行的结尾处。按 F10 重启</p></li></ul><ul><li>安装 Nvidia 显卡驱动</li></ul><h4 id="参考-https-ubuntuforums-org-showthread-php-t-2349782" tabindex="-1"><a class="header-anchor" href="#参考-https-ubuntuforums-org-showthread-php-t-2349782" aria-hidden="true">#</a> 参考: <a href="https://ubuntuforums.org/showthread.php?t=2349782" target="_blank" rel="noopener noreferrer">https://ubuntuforums.org/showthread.php?t=2349782<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></h4><h3 id="美化篇" tabindex="-1"><a class="header-anchor" href="#美化篇" aria-hidden="true">#</a> 美化篇</h3><ul><li>安装工具 gnome-tweak-tool</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> gnome-tweak-tool
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul><li>安装 gnome 插件</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> gnome-shell-extensions
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> chrome-gnome-shell
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>在https://extensions.gnome.org/安装插件Dash to Dock 和 NetSpeed</p><ul><li>安装 GTK 主题</li></ul><p>在https://www.gnome-look.org/p/1275087/下载主题文件</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">tar</span> <span class="token parameter variable">-xvf</span> Mojave-dark-20200414114243.tar.xz
+<span class="token function">sudo</span> <span class="token function">mv</span> Mojave-dark /usr/share/themes/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>打开 gnome-tweak-tool（优化）在主题栏选择下载的主题</p><ul><li>安装图标 在https://www.gnome-look.org/p/1305429/下载图标文件</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">tar</span> <span class="token parameter variable">-xvf</span> 01-McMojave-circle-20200415125915.tar.xz
+<span class="token function">sudo</span> <span class="token function">mv</span> McMojave-circle /usr/share/icons
+<span class="token function">sudo</span> <span class="token function">mv</span> McMojave-circle-dark /usr/share/icons
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>打开 gnome-tweak-tool（优化）在图标栏选择下载的图标</p><ul><li>安装光标 在https://www.gnome-look.org/p/1355701/下载光标文件</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">tar</span> <span class="token parameter variable">-xvf</span> McMojave-cursors.tar.xz
+<span class="token function">sudo</span> <span class="token function">mv</span> McMojave-cursors /usr/share/icons
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>打开 gnome-tweak-tool（优化）在光标栏选择下载的光标</p><ul><li>安装 oh-my-zsh 美化终端</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">zsh</span>
+<span class="token comment">#设切换shell为zsh</span>
+<span class="token function">sudo</span> chsh <span class="token parameter variable">-s</span> /bin/zsh
+<span class="token comment">#安装oh-my-zsh</span>
+<span class="token function">sh</span> <span class="token parameter variable">-c</span> <span class="token string">&quot;<span class="token variable"><span class="token variable">$(</span><span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="token variable">)</span></span>&quot;</span>
+
+<span class="token comment">#安装字体</span>
+<span class="token function">git</span> clone https://github.com/powerline/fonts.git <span class="token parameter variable">--depth</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token builtin class-name">cd</span> fonts
+./install.sh
+
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>
+<span class="token function">rm</span> <span class="token parameter variable">-rf</span> fonts
+
+<span class="token comment">#安装Powerlevel9k主题</span>
+<span class="token function">git</span> clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+ohmyzsh/master/tools/install.sh<span class="token punctuation">)</span>
+<span class="token comment">#克隆到本地后，在 ~/.zshrc 中将主题替换成 powerlevel9k</span>
+<span class="token assign-left variable">ZSH_THEME</span><span class="token operator">=</span><span class="token string">&quot;powerlevel9k/powerlevel9k&quot;</span>
+
+<span class="token comment">#安装插件</span>
+<span class="token comment">#​zsh-autosuggestions(命令自动补全)</span>
+<span class="token function">git</span> clone https://github.com/zsh-users/zsh-autosuggestions <span class="token variable">${ZSH_CUSTOM<span class="token operator">:-</span>~<span class="token operator">/</span>.oh-my-zsh<span class="token operator">/</span>custom}</span>/plugins/zsh-autosuggestions
+<span class="token comment">#​​zsh-syntax-highlighting(命令语法高亮)</span>
+<span class="token function">git</span> clone https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="token variable">${ZSH_CUSTOM<span class="token operator">:-</span>~<span class="token operator">/</span>.oh-my-zsh<span class="token operator">/</span>custom}</span>/plugins/zsh-syntax-highlighting
+<span class="token comment">#autojump(自动跳转)</span>
+<span class="token function">git</span> clone https://github.com/wting/autojump.git <span class="token variable">${ZSH_CUSTOM<span class="token operator">:-</span>~<span class="token operator">/</span>.oh-my-zsh<span class="token operator">/</span>custom}</span>/plugins/autojump
+<span class="token builtin class-name">cd</span> <span class="token variable">${ZSH_CUSTOM<span class="token operator">:-</span>~<span class="token operator">/</span>.oh-my-zsh<span class="token operator">/</span>custom}</span>/plugins/autojump
+./install.py
+<span class="token comment">#[[ -s /home/lalifeier/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; source /home/lalifeier/.autojump/etc/profile.d/autojump.sh</span>
+<span class="token comment">#在 ~/.zshrc 中 plugins=() 中添加上 zsh-autosuggestions，zsh-syntax-highlighting，autojump, 用空格隔开即可</span>
+<span class="token assign-left variable">plugins</span><span class="token operator">=</span><span class="token punctuation">(</span>git zsh-autosuggestions zsh-syntax-highlighting autojump<span class="token punctuation">)</span>
+
+<span class="token builtin class-name">source</span> ~/.zshrc
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container warning"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></g></svg><p class="custom-container-title">WARNING</p><p>/usr/bin/env: “python”: 没有那个文件或目录</p></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#检查系统已安装的 Python 版本</span>
+<span class="token function">ls</span> /usr/bin/python*
+<span class="token comment">#检测是否已存在 Python 的配置方案</span>
+<span class="token function">sudo</span> update-alternatives <span class="token parameter variable">--list</span> python
+<span class="token comment">#配置python</span>
+<span class="token function">sudo</span> update-alternatives <span class="token parameter variable">--install</span> /usr/bin/python python /usr/bin/python3 <span class="token number">1</span>
+<span class="token comment">#更改默认 Python 版本</span>
+<span class="token function">sudo</span> update-alternatives <span class="token parameter variable">--config</span> python
+<span class="token comment">#检查当前 Python 默认版本</span>
+python <span class="token parameter variable">-V</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="参考-https-github-com-ohmyzsh-ohmyzsh" tabindex="-1"><a class="header-anchor" href="#参考-https-github-com-ohmyzsh-ohmyzsh" aria-hidden="true">#</a> 参考: <a href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener noreferrer">https://github.com/ohmyzsh/ohmyzsh<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></h4><h4 id="修改-zshrc-中的-zsh-theme" tabindex="-1"><a class="header-anchor" href="#修改-zshrc-中的-zsh-theme" aria-hidden="true">#</a> 修改 ~/.zshrc 中的 ZSH_THEME</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#字体设定 (注意，字体设定必须放在主题之前）</span>
+<span class="token comment">#字体模式可选的有：nerdfont-complete awesome-fontconfig awesome-patched</span>
+<span class="token assign-left variable">POWERLEVEL9K_MODE</span><span class="token operator">=</span><span class="token string">&#39;nerdfont-complete&#39;</span>
+<span class="token comment">#主题设定</span>
+<span class="token assign-left variable">ZSH_THEME</span><span class="token operator">=</span><span class="token string">&quot;powerlevel9k/powerlevel9k&quot;</span>
+<span class="token assign-left variable">POWERLEVEL9K_CONTEXT_TEMPLATE</span><span class="token operator">=</span><span class="token string">&quot;%n&quot;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="参考" tabindex="-1"><a class="header-anchor" href="#参考" aria-hidden="true">#</a> 参考:</h4><ul><li><a href="https://github.com/Powerlevel9k/powerlevel9k/wiki/Stylizing-Your-Prompt" target="_blank" rel="noopener noreferrer">https://github.com/Powerlevel9k/powerlevel9k/wiki/Stylizing-Your-Prompt<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></li><li><a href="https://github.com/Powerlevel9k/powerlevel9k/wiki/Show-Off-Your-Config" target="_blank" rel="noopener noreferrer">https://github.com/Powerlevel9k/powerlevel9k/wiki/Show-Off-Your-Config<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></li></ul><div class="custom-container warning"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></g></svg><p class="custom-container-title">WARNING</p><p>打开终端就变成了 PowerLine 的形式了。由于没有安装相应的字体，导致符号显示不完全</p></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#安装awesome-terminal-fonts</span>
+<span class="token function">git</span> clone https://github.com/gabrielelana/awesome-terminal-fonts
+<span class="token builtin class-name">cd</span> awesome-terminal-fonts
+<span class="token comment">#将 build/ 目录里的所有文件拷贝到 ~/.fonts/ 目录（没有就创建一个）</span>
+<span class="token function">cp</span> <span class="token parameter variable">-R</span> build/* ~/.fonts/
+<span class="token comment">#让 freetype2 知道这些字体</span>
+fc-cache <span class="token parameter variable">-fv</span> ~/.fonts
+<span class="token comment">#自定义 config/10-symbols.conf 配置文件里的字体，改成自己喜欢的。当然不改就是默认的</span>
+<span class="token comment">#拷贝 config/10-symbols.conf 配置文件到 ~/.config/fontconfig/conf.d 目录（没有就创建一个）</span>
+<span class="token function">cp</span> config/10-symbols.conf ~/.config/fontconfig/conf.d
+<span class="token builtin class-name">source</span> ~/.fonts/*.sh
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container warning"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></g></svg><p class="custom-container-title">WARNING</p><p>oh-my-zsh 中文乱码</p></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">vim</span> ~/.zshrc
+在文件内容末端添加：
+
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">LC_ALL</span></span><span class="token operator">=</span>en_US.UTF-8
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">LANG</span></span><span class="token operator">=</span>en_US.UTF-8
+
+<span class="token builtin class-name">source</span> ~/.zshrc
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul><li>monaco-font 字体美化</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">git</span> clone https://github.com/cstrap/monaco-font.git
+<span class="token builtin class-name">cd</span> monaco-font
+./install-font-ubuntu.sh https://github.com/todylu/monaco.ttf/blob/master/monaco.ttf?raw<span class="token operator">=</span>true
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="参考-https-github-com-cstrap-monaco-font" tabindex="-1"><a class="header-anchor" href="#参考-https-github-com-cstrap-monaco-font" aria-hidden="true">#</a> 参考: <a href="https://github.com/cstrap/monaco-font" target="_blank" rel="noopener noreferrer">https://github.com/cstrap/monaco-font<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></h4><h3 id="工具篇" tabindex="-1"><a class="header-anchor" href="#工具篇" aria-hidden="true">#</a> 工具篇</h3><h4 id="vim" tabindex="-1"><a class="header-anchor" href="#vim" aria-hidden="true">#</a> vim</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">vim</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="apt-fast" tabindex="-1"><a class="header-anchor" href="#apt-fast" aria-hidden="true">#</a> apt-fast</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> add-apt-repository <span class="token parameter variable">-y</span> ppa:apt-fast/stable <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> apt-fast
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="gdebi" tabindex="-1"><a class="header-anchor" href="#gdebi" aria-hidden="true">#</a> gdebi</h4><p>有时候安装 deb 包不满足依赖还需要手动执行<code>sudo apt install -f</code>, 我们可以使用 gdebi 解决这个问题</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> gdebi
+<span class="token function">sudo</span> gdebi xxx.deb
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="系统负载指示器" tabindex="-1"><a class="header-anchor" href="#系统负载指示器" aria-hidden="true">#</a> 系统负载指示器</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> indicator-multiload
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="搜索神器-albert" tabindex="-1"><a class="header-anchor" href="#搜索神器-albert" aria-hidden="true">#</a> 搜索神器 albert</h4><h4 id="参考-https-albertlauncher-github-io-docs-installing" tabindex="-1"><a class="header-anchor" href="#参考-https-albertlauncher-github-io-docs-installing" aria-hidden="true">#</a> 参考: <a href="https://albertlauncher.github.io/docs/installing/" target="_blank" rel="noopener noreferrer">https://albertlauncher.github.io/docs/installing/<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">curl</span> https://build.opensuse.org/projects/home:manuelschneid3r/public_key <span class="token operator">|</span> <span class="token function">sudo</span> apt-key <span class="token function">add</span> -
+<span class="token function">sudo</span> <span class="token function">sh</span> <span class="token parameter variable">-c</span> <span class="token string">&quot;echo &#39;deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /&#39; &gt; /etc/apt/sources.list.d/home:manuelschneid3r.list&quot;</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> update
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> albert
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="preload-根据使用习惯优化软件启动速度" tabindex="-1"><a class="header-anchor" href="#preload-根据使用习惯优化软件启动速度" aria-hidden="true">#</a> preload 根据使用习惯优化软件启动速度</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> preload
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="tlp-优化笔记本电池" tabindex="-1"><a class="header-anchor" href="#tlp-优化笔记本电池" aria-hidden="true">#</a> tlp 优化笔记本电池</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> tlp tlp-rdw
+<span class="token function">sudo</span> tlp start
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="powertop" tabindex="-1"><a class="header-anchor" href="#powertop" aria-hidden="true">#</a> powertop</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> powertop
+<span class="token function">sudo</span> powertop
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="截图" tabindex="-1"><a class="header-anchor" href="#截图" aria-hidden="true">#</a> 截图</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">apt-cache</span> show flameshot
+//版本号0.6.0以上
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> flameshot
+//设置 - 键盘快捷键 - 自定义快捷键
+flameshot gui
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="brew" tabindex="-1"><a class="header-anchor" href="#brew" aria-hidden="true">#</a> brew</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># https://mirror.tuna.tsinghua.edu.cn/help/homebrew/</span>
+<span class="token comment">#  vim ~/.zshrc</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_BREW_GIT_REMOTE</span><span class="token operator">=</span><span class="token string">&quot;https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git&quot;</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_CORE_GIT_REMOTE</span><span class="token operator">=</span><span class="token string">&quot;https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git&quot;</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_BOTTLE_DOMAIN</span><span class="token operator">=</span><span class="token string">&quot;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles&quot;</span>
+
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token string">&quot;/home/linuxbrew/.linuxbrew/bin:<span class="token environment constant">$PATH</span>&quot;</span>
+
+<span class="token comment"># 从本镜像下载安装脚本并安装 Homebrew / Linuxbrew</span>
+<span class="token function">git</span> clone <span class="token parameter variable">--depth</span><span class="token operator">=</span><span class="token number">1</span> https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/install.git brew-install
+/bin/bash brew-install/install.sh
+<span class="token function">rm</span> <span class="token parameter variable">-rf</span> brew-install
+
+<span class="token comment"># 也可从 GitHub 获取官方安装脚本安装 Homebrew / Linuxbrew</span>
+/bin/bash <span class="token parameter variable">-c</span> <span class="token string">&quot;<span class="token variable"><span class="token variable">$(</span><span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://github.com/Homebrew/install/raw/master/install.sh<span class="token variable">)</span></span>&quot;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="软件篇" tabindex="-1"><a class="header-anchor" href="#软件篇" aria-hidden="true">#</a> 软件篇</h3><h4 id="搜狗输入法" tabindex="-1"><a class="header-anchor" href="#搜狗输入法" aria-hidden="true">#</a> 搜狗输入法</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 在https://pinyin.sogou.com/linux/下载安装包</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="chrome" tabindex="-1"><a class="header-anchor" href="#chrome" aria-hidden="true">#</a> Chrome</h4><ul><li>方式一</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">wget</span> https://repo.fdzh.org/chrome/google-chrome.list <span class="token parameter variable">-P</span> /etc/apt/sources.list.d/ <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">wget</span> <span class="token parameter variable">-q</span> <span class="token parameter variable">-O</span> - https://dl.google.com/linux/linux_signing_key.pub  <span class="token operator">|</span> <span class="token function">sudo</span> apt-key <span class="token function">add</span> - <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> google-chrome-stable
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul><li>方式二</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 在https://www.google.cn/chrome/下载安装包</span>
+<span class="token function">sudo</span> dpkg <span class="token parameter variable">-i</span> google-chrome-stable_current_amd64.deb
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="安装-uget-替代迅雷-并在-chrome-中设置为默认下载器" tabindex="-1"><a class="header-anchor" href="#安装-uget-替代迅雷-并在-chrome-中设置为默认下载器" aria-hidden="true">#</a> 安装 uGet 替代迅雷，并在 Chrome 中设置为默认下载器</h4><ul><li>uGet</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> uget
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul><li>aria2</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># Aria2 配置说明</span>
+<span class="token comment"># http://aria2c.com/usage.html</span>
+<span class="token comment"># https://github.com/P3TERX/aria2.conf</span>
+<span class="token comment"># https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> aria2
+
+<span class="token function">sudo</span> <span class="token function">mkdir</span> /etc/.aria2
+<span class="token function">sudo</span> <span class="token function">touch</span> /etc/.aria2/aria2.session
+<span class="token function">sudo</span> <span class="token function">chmod</span> <span class="token number">777</span> /etc/.aria2/aria2.session
+<span class="token function">sudo</span> <span class="token function">vim</span> /etc/.aria2/aria2.conf
+
+<span class="token function">sudo</span> aria2c --conf-path<span class="token operator">=</span>/etc/.aria2/aria2.conf <span class="token parameter variable">-D</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-conf ext-conf line-numbers-mode"><pre class="language-conf"><code>; aria2.conf
+## 文件保存设置 ##
+
+# 下载目录。可使用绝对路径或相对路径, 默认: 当前启动位置
+dir=/home/lalifeier/下载
+
+# 磁盘缓存, 0 为禁用缓存，默认:16M
+# 磁盘缓存的作用是把下载的数据块临时存储在内存中，然后集中写入硬盘，以减少磁盘 I/O ，提升读写性能，延长硬盘寿命。
+# 建议在有足够的内存空闲情况下适当增加，但不要超过剩余可用内存空间大小。
+# 此项值仅决定上限，实际对内存的占用取决于网速(带宽)和设备性能等其它因素。
+disk-cache=64M
+
+# 文件预分配方式, 可选：none, prealloc, trunc, falloc, 默认:prealloc
+# 预分配对于机械硬盘可有效降低磁盘碎片、提升磁盘读写性能、延长磁盘寿命。
+# 机械硬盘使用 ext4（具有扩展支持），btrfs，xfs 或 NTFS（仅 MinGW 编译版本）等文件系统建议设置为 falloc
+# 若无法下载，提示 fallocate failed.cause：Operation not supported 则说明不支持，请设置为 none
+# prealloc 分配速度慢, trunc 无实际作用，不推荐使用。
+# 固态硬盘不需要预分配，只建议设置为 none ，否则可能会导致双倍文件大小的数据写入，从而影响寿命。
+file-allocation=none
+
+# 文件预分配大小限制。小于此选项值大小的文件不预分配空间，单位 K 或 M，默认：5M
+no-file-allocation-limit=64M
+
+# 断点续传
+continue=true
+
+# 始终尝试断点续传，无法断点续传则终止下载，默认：true
+always-resume=false
+
+# 不支持断点续传的 URI 数值，当 always-resume=false 时生效。
+# 达到这个数值从将头开始下载，值为 0 时所有 URI 不支持断点续传时才从头开始下载。
+max-resume-failure-tries=0
+
+# 获取服务器文件时间，默认:false
+remote-time=true
+
+
+## 进度保存设置 ##
+
+# 从会话文件中读取下载任务
+input-file=/etc/.aria2/aria2.session
+
+# 会话文件保存路径
+# Aria2 退出时或指定的时间间隔会保存`错误/未完成`的下载任务到会话文件
+save-session=/etc/.aria2/aria2.session
+
+# 任务状态改变后保存会话的间隔时间（秒）, 0 为仅在进程正常退出时保存, 默认:0
+# 为了及时保存任务状态、防止任务丢失，此项值只建议设置为 1
+save-session-interval=1
+
+# 自动保存任务进度到控制文件(*.aria2)的间隔时间（秒），0 为仅在进程正常退出时保存，默认：60
+# 此项值也会间接影响从内存中把缓存的数据写入磁盘的频率
+# 想降低磁盘 IOPS (每秒读写次数)则提高间隔时间
+# 想在意外非正常退出时尽量保存更多的下载进度则降低间隔时间
+# 非正常退出：进程崩溃、系统崩溃、SIGKILL 信号、设备断电等
+auto-save-interval=20
+
+# 强制保存，即使任务已完成也保存信息到会话文件, 默认:false
+# 开启后会在任务完成后保留 .aria2 文件，文件被移除且任务存在的情况下重启后会重新下载。
+# 关闭后已完成的任务列表会在重启后清空。
+force-save=false
+
+
+## 下载连接设置 ##
+
+# 文件未找到重试次数，默认:0 (禁用)
+# 重试时同时会记录重试次数，所以也需要设置 max-tries 这个选项
+max-file-not-found=10
+
+# 最大尝试次数，0 表示无限，默认:5
+max-tries=0
+
+# 重试等待时间（秒）, 默认:0 (禁用)
+retry-wait=10
+
+# 连接超时时间（秒）。默认：60
+connect-timeout=10
+
+# 超时时间（秒）。默认：60
+timeout=10
+
+# 最大同时下载任务数, 运行时可修改, 默认:5
+max-concurrent-downloads=5
+
+# 单服务器最大连接线程数, 任务添加时可指定, 默认:1
+# 最大值为 16 (增强版无限制), 且受限于单任务最大连接线程数(split)所设定的值。
+max-connection-per-server=16
+
+# 单任务最大连接线程数, 任务添加时可指定, 默认:5
+split=128
+
+# 文件最小分段大小, 添加时可指定, 取值范围 1M-1024M (增强版最小值为 1K), 默认:20M
+# 比如此项值为 10M, 当文件为 20MB 会分成两段并使用两个来源下载, 文件为 15MB 则只使用一个来源下载。
+# 理论上值越小使用下载分段就越多，所能获得的实际线程数就越大，下载速度就越快，但受限于所下载文件服务器的策略。
+min-split-size=4M
+
+# HTTP/FTP 下载分片大小，所有分割都必须是此项值的倍数，最小值为 1M (增强版为 1K)，默认：1M
+piece-length=1M
+
+# 允许分片大小变化。默认：false
+# false：当分片大小与控制文件中的不同时将会中止下载
+# true：丢失部分下载进度继续下载
+allow-piece-length-change=true
+
+# 最低下载速度限制。当下载速度低于或等于此选项的值时关闭连接（增强版本为重连），此选项与 BT 下载无关。单位 K 或 M ，默认：0 (无限制)
+lowest-speed-limit=0
+
+# 全局最大下载速度限制, 运行时可修改, 默认：0 (无限制)
+max-overall-download-limit=0
+
+# 单任务下载速度限制, 默认：0 (无限制)
+max-download-limit=0
+
+# 禁用 IPv6, 默认:false
+disable-ipv6=true
+
+# GZip 支持，默认:false
+http-accept-gzip=true
+
+# URI 复用，默认: true
+reuse-uri=false
+
+# 禁用 netrc 支持，默认:false
+no-netrc=true
+
+# 允许覆盖，当相关控制文件(.aria2)不存在时从头开始重新下载。默认:false
+allow-overwrite=false
+
+# 文件自动重命名，此选项仅在 HTTP(S)/FTP 下载中有效。新文件名在名称之后扩展名之前加上一个点和一个数字（1..9999）。默认:true
+auto-file-renaming=true
+
+# 使用 UTF-8 处理 Content-Disposition ，默认:false
+content-disposition-default-utf8=true
+
+# 最低 TLS 版本，可选：TLSv1.1、TLSv1.2、TLSv1.3 默认:TLSv1.2
+#min-tls-version=TLSv1.2
+
+
+## BT/PT 下载设置 ##
+
+# BT 监听端口(TCP), 默认:6881-6999
+# 直通外网的设备，比如 VPS ，务必配置防火墙和安全组策略允许此端口入站
+# 内网环境的设备，比如 NAS ，除了防火墙设置，还需在路由器设置外网端口转发到此端口
+listen-port=51413
+
+# DHT 网络与 UDP tracker 监听端口(UDP), 默认:6881-6999
+# 因协议不同，可以与 BT 监听端口使用相同的端口，方便配置防火墙和端口转发策略。
+dht-listen-port=51413
+
+# 启用 IPv4 DHT 功能, PT 下载(私有种子)会自动禁用, 默认:true
+enable-dht=true
+
+# 启用 IPv6 DHT 功能, PT 下载(私有种子)会自动禁用，默认:false
+# 在没有 IPv6 支持的环境开启可能会导致 DHT 功能异常
+enable-dht6=false
+
+# 指定 BT 和 DHT 网络中的 IP 地址
+# 使用场景：在家庭宽带没有公网 IP 的情况下可以把 BT 和 DHT 监听端口转发至具有公网 IP 的服务器，在此填写服务器的 IP ，可以提升 BT 下载速率。
+#bt-external-ip=
+
+# IPv4 DHT 文件路径，默认：$HOME/.aria2/dht.dat
+dht-file-path=/etc/.aria2/dht.dat
+
+# IPv6 DHT 文件路径，默认：$HOME/.aria2/dht6.dat
+dht-file-path6=/etc/.aria2/dht6.dat
+
+# IPv4 DHT 网络引导节点
+dht-entry-point=dht.transmissionbt.com:6881
+
+# IPv6 DHT 网络引导节点
+dht-entry-point6=dht.transmissionbt.com:6881
+
+# 本地节点发现, PT 下载(私有种子)会自动禁用 默认:false
+bt-enable-lpd=true
+
+# 指定用于本地节点发现的接口，可能的值：接口，IP地址
+# 如果未指定此选项，则选择默认接口。
+#bt-lpd-interface=
+
+# 启用节点交换, PT 下载(私有种子)会自动禁用, 默认:true
+enable-peer-exchange=true
+
+# BT 下载最大连接数（单任务），运行时可修改。0 为不限制，默认:55
+# 理想情况下连接数越多下载越快，但在实际情况是只有少部分连接到的做种者上传速度快，其余的上传慢或者不上传。
+# 如果不限制，当下载非常热门的种子或任务数非常多时可能会因连接数过多导致进程崩溃或网络阻塞。
+# 进程崩溃：如果设备 CPU 性能一般，连接数过多导致 CPU 占用过高，因资源不足 Aria2 进程会强制被终结。
+# 网络阻塞：在内网环境下，即使下载没有占满带宽也会导致其它设备无法正常上网。因远古低性能路由器的转发性能瓶颈导致。
+bt-max-peers=128
+
+# BT 下载期望速度值（单任务），运行时可修改。单位 K 或 M 。默认:50K
+# BT 下载速度低于此选项值时会临时提高连接数来获得更快的下载速度，不过前提是有更多的做种者可供连接。
+# 实测临时提高连接数没有上限，但不会像不做限制一样无限增加，会根据算法进行合理的动态调节。
+bt-request-peer-speed-limit=10M
+
+# 全局最大上传速度限制, 运行时可修改, 默认:0 (无限制)
+# 设置过低可能影响 BT 下载速度
+max-overall-upload-limit=2M
+
+# 单任务上传速度限制, 默认:0 (无限制)
+max-upload-limit=0
+
+# 最小分享率。当种子的分享率达到此选项设置的值时停止做种, 0 为一直做种, 默认:1.0
+# 强烈建议您将此选项设置为大于等于 1.0
+seed-ratio=1.0
+
+# 最小做种时间（分钟）。设置为 0 时将在 BT 任务下载完成后停止做种。
+seed-time=0
+
+# 做种前检查文件哈希, 默认:true
+bt-hash-check-seed=true
+
+# 继续之前的BT任务时, 无需再次校验, 默认:false
+bt-seed-unverified=false
+
+# BT tracker 服务器连接超时时间（秒）。默认：60
+# 建立连接后，此选项无效，将使用 bt-tracker-timeout 选项的值
+bt-tracker-connect-timeout=10
+
+# BT tracker 服务器超时时间（秒）。默认：60
+bt-tracker-timeout=10
+
+# BT 服务器连接间隔时间（秒）。默认：0 (自动)
+#bt-tracker-interval=0
+
+# BT 下载优先下载文件开头或结尾
+bt-prioritize-piece=head=32M,tail=32M
+
+# 保存通过 WebUI(RPC) 上传的种子文件(.torrent)，默认:true
+# 所有涉及种子文件保存的选项都建议开启，不保存种子文件有任务丢失的风险。
+# 通过 RPC 自定义临时下载目录可能不会保存种子文件。
+rpc-save-upload-metadata=true
+
+# 下载种子文件(.torrent)自动开始下载, 默认:true，可选：false|mem
+# true：保存种子文件
+# false：仅下载种子文件
+# mem：将种子保存在内存中
+follow-torrent=true
+
+# 种子文件下载完后暂停任务，默认：false
+# 在开启 follow-torrent 选项后下载种子文件或磁力会自动开始下载任务进行下载，而同时开启当此选项后会建立相关任务并暂停。
+pause-metadata=false
+
+# 保存磁力链接元数据为种子文件(.torrent), 默认:false
+bt-save-metadata=true
+
+# 加载已保存的元数据文件(.torrent)，默认:false
+bt-load-saved-metadata=true
+
+# 删除 BT 下载任务中未选择文件，默认:false
+bt-remove-unselected-file=true
+
+# BT强制加密, 默认: false
+# 启用后将拒绝旧的 BT 握手协议并仅使用混淆握手及加密。可以解决部分运营商对 BT 下载的封锁，且有一定的防版权投诉与迅雷吸血效果。
+# 此选项相当于后面两个选项(bt-require-crypto=true, bt-min-crypto-level=arc4)的快捷开启方式，但不会修改这两个选项的值。
+bt-force-encryption=true
+
+# BT加密需求，默认：false
+# 启用后拒绝与旧的 BitTorrent 握手协议(\19BitTorrent protocol)建立连接，始终使用混淆处理握手。
+#bt-require-crypto=true
+
+# BT最低加密等级，可选：plain（明文），arc4（加密），默认：plain
+#bt-min-crypto-level=arc4
+
+# 分离仅做种任务，默认：false
+# 从正在下载的任务中排除已经下载完成且正在做种的任务，并开始等待列表中的下一个任务。
+bt-detach-seed-only=true
+
+
+## 客户端伪装 ##
+
+# 自定义 User Agent
+user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.57
+
+# BT 客户端伪装
+# PT 下载需要保持 user-agent 和 peer-agent 两个参数一致
+# 部分 PT 站对 Aria2 有特殊封禁机制，客户端伪装不一定有效，且有封禁账号的风险。
+#user-agent=Transmission 2.94
+peer-agent=Transmission 2.94
+peer-id-prefix=-TR2940-
+
+## RPC 设置 ##
+
+# 启用 JSON-RPC/XML-RPC 服务器, 默认:false
+enable-rpc=true
+
+# 接受所有远程请求, 默认:false
+rpc-allow-origin-all=true
+
+# 允许外部访问, 默认:false
+rpc-listen-all=true
+
+# RPC 监听端口, 默认:6800
+rpc-listen-port=6800
+
+# RPC 密钥
+#rpc-secret=
+
+# RPC 最大请求大小
+rpc-max-request-size=10M
+
+# RPC 服务 SSL/TLS 加密, 默认：false
+# 启用加密后必须使用 https 或者 wss 协议连接
+# 不推荐开启，建议使用 web server 反向代理，比如 Nginx、Caddy ，灵活性更强。
+#rpc-secure=false
+
+# 在 RPC 服务中启用 SSL/TLS 加密时的证书文件(.pem/.crt)
+#rpc-certificate=/etc/.aria2/xxx.pem
+
+# 在 RPC 服务中启用 SSL/TLS 加密时的私钥文件(.key)
+#rpc-private-key=/etc/.aria2/xxx.key
+
+# 事件轮询方式, 可选：epoll, kqueue, port, poll, select, 不同系统默认值不同
+#event-poll=select
+
+
+## 高级选项 ##
+
+# 启用异步 DNS 功能。默认：true
+#async-dns=true
+
+# 指定异步 DNS 服务器列表，未指定则从 /etc/resolv.conf 中读取。
+#async-dns-server=119.29.29.29,223.5.5.5,8.8.8.8,1.1.1.1
+
+# 指定单个网络接口，可能的值：接口，IP地址，主机名
+# 如果接口具有多个 IP 地址，则建议指定 IP 地址。
+# 已知指定网络接口会影响依赖本地 RPC 的连接的功能场景，即通过 localhost 和 127.0.0.1 无法与 Aria2 服务端进行讯通。
+#interface=
+
+# 指定多个网络接口，多个值之间使用逗号(,)分隔。
+# 使用 interface 选项时会忽略此项。
+#multiple-interface=
+
+
+## 日志设置 ##
+
+# 日志文件保存路径，忽略或设置为空为不保存，默认：不保存
+#log=
+
+# 日志级别，可选 debug, info, notice, warn, error 。默认：debug
+#log-level=warn
+
+# 控制台日志级别，可选 debug, info, notice, warn, error ，默认：notice
+console-log-level=notice
+
+# 安静模式，禁止在控制台输出日志，默认：false
+quiet=false
+
+# 下载进度摘要输出间隔时间（秒），0 为禁止输出。默认：60
+summary-interval=0
+
+## BitTorrent trackers ##
+bt-tracker=udp://tracker.opentrackr.org:1337/announce,http://tracker.internetwarriors.net:1337/announce,udp://exodus.desync.com:6969/announce,udp://tracker.cyberia.is:6969/announce,udp://explodie.org:6969/announce,udp://opentracker.i2p.rocks:6969/announce,udp://47.ip-51-68-199.eu:6969/announce,http://open.acgnxtracker.com:80/announce,udp://open.stealth.si:80/announce,udp://tracker.ds.is:6969/announce,udp://www.torrent.eu.org:451/announce,udp://tracker.torrent.eu.org:451/announce,udp://retracker.lanta-net.ru:2710/announce,http://tracker4.itzmx.com:2710/announce,udp://tracker.moeking.me:6969/announce,udp://tracker.dler.org:6969/announce,udp://ipv4.tracker.harry.lu:80/announce,http://rt.tace.ru:80/announce,udp://valakas.rollo.dnsabr.com:2710/announce,udp://opentor.org:2710/announce
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>在 &quot;编辑&quot;--&gt;&quot;设置&quot;--&gt;&quot;插件&quot; 中更改插件匹配顺序为 aria2</p><ul><li>安装 uget-integrator</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> add-apt-repository ppa:uget-team/ppa
+<span class="token function">sudo</span> <span class="token function">apt-get</span> update
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> uget-integrator
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul><li>Chrome 安装 uGet Integration 插件 https://chrome.google.com/webstore/detail/uget-integration/efjgjleilhflffpbnkaofpmdnajdpepi?hl=zh-CN</li></ul><p>添加 uGet 扩展后，谷歌浏览器右上角即可显示 uGet 图标。重启谷歌浏览器，只要点击下载链接，就会自动弹出 uGet 下载界面、自动添加下载任务。</p><h4 id="网易云音乐" tabindex="-1"><a class="header-anchor" href="#网易云音乐" aria-hidden="true">#</a> 网易云音乐</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 在https://music.163.com/#/download下载安装包</span>
+<span class="token function">sudo</span> dpkg <span class="token parameter variable">-i</span> netease-cloud-music_1.2.1_amd64_ubuntu_20190428.deb
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="wps" tabindex="-1"><a class="header-anchor" href="#wps" aria-hidden="true">#</a> wps</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 在https://www.google.cn/chrome/下载安装包</span>
+<span class="token function">sudo</span> dpkg <span class="token parameter variable">-i</span> wps-office_11.1.0.9505_amd64.deb
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container warning"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></g></svg><p class="custom-container-title">WARNING</p><p>打开 WPS 字体缺失</p></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#下载相应字体</span>
+<span class="token function">wget</span> https://lalifeier.github.io/wps_symbol_fonts.zip
+<span class="token function">sudo</span> <span class="token function">unzip</span> wps_symbol_fonts.zip <span class="token parameter variable">-d</span> /usr/share/fonts
+<span class="token comment">#生成字体的索引信息</span>
+<span class="token function">sudo</span> mkfontscale
+<span class="token function">sudo</span> mkfontdir
+<span class="token comment">#运行fc-cache命令更新字体缓存</span>
+<span class="token function">sudo</span> fc-cache
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="vlc-播放器" tabindex="-1"><a class="header-anchor" href="#vlc-播放器" aria-hidden="true">#</a> VLC 播放器</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> vlc
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="微信" tabindex="-1"><a class="header-anchor" href="#微信" aria-hidden="true">#</a> 微信</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#https://github.com/bestwu/docker-wechat</span>
+<span class="token comment">#允许所有用户访问X11服务</span>
+<span class="token comment">#xhost +</span>
+<span class="token function">docker</span> run <span class="token parameter variable">-d</span> <span class="token parameter variable">--name</span> wechat <span class="token parameter variable">--device</span> /dev/snd <span class="token punctuation">\</span>
+    <span class="token parameter variable">-v</span> /tmp/.X11-unix:/tmp/.X11-unix <span class="token punctuation">\</span>
+    <span class="token parameter variable">-v</span> <span class="token environment constant">$HOME</span>/WeChatFiles:/WeChatFiles <span class="token punctuation">\</span>
+    <span class="token parameter variable">-e</span> <span class="token assign-left variable"><span class="token environment constant">DISPLAY</span></span><span class="token operator">=</span>unix<span class="token environment constant">$DISPLAY</span> <span class="token punctuation">\</span>
+    <span class="token parameter variable">-e</span> <span class="token assign-left variable"><span class="token environment constant">XMODIFIERS</span></span><span class="token operator">=</span>@im<span class="token operator">=</span>ibus <span class="token punctuation">\</span>
+    <span class="token parameter variable">-e</span> <span class="token assign-left variable">QT_IM_MODULE</span><span class="token operator">=</span>ibus <span class="token punctuation">\</span>
+    <span class="token parameter variable">-e</span> <span class="token assign-left variable">GTK_IM_MODULE</span><span class="token operator">=</span>ibus <span class="token punctuation">\</span>
+    <span class="token parameter variable">-e</span> <span class="token assign-left variable">AUDIO_GID</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span>getent group audio <span class="token operator">|</span> <span class="token function">cut</span> -d: <span class="token parameter variable">-f3</span><span class="token variable">`</span></span> <span class="token punctuation">\</span>
+    <span class="token parameter variable">-e</span> <span class="token assign-left variable">GID</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">id</span> <span class="token parameter variable">-g</span><span class="token variable">`</span></span> <span class="token punctuation">\</span>
+    <span class="token parameter variable">-e</span> <span class="token assign-left variable"><span class="token environment constant">UID</span></span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">id</span> <span class="token parameter variable">-u</span><span class="token variable">`</span></span> <span class="token punctuation">\</span>
+    bestwu/wechat:latest
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="qq" tabindex="-1"><a class="header-anchor" href="#qq" aria-hidden="true">#</a> qq</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#https://github.com/bestwu/docker-qq</span>
+<span class="token function">docker</span> run <span class="token parameter variable">-d</span> <span class="token parameter variable">--name</span> qq <span class="token punctuation">\</span>
+  <span class="token parameter variable">--device</span> /dev/snd <span class="token punctuation">\</span>
+  <span class="token parameter variable">-v</span> <span class="token environment constant">$HOME</span>/TencentFiles:/TencentFiles <span class="token punctuation">\</span>
+<span class="token parameter variable">-v</span> /tmp/.X11-unix:/tmp/.X11-unix <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable"><span class="token environment constant">XMODIFIERS</span></span><span class="token operator">=</span>@im<span class="token operator">=</span>ibus <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">QT_IM_MODULE</span><span class="token operator">=</span>ibus <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">GTK_IM_MODULE</span><span class="token operator">=</span>ibus <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable"><span class="token environment constant">DISPLAY</span></span><span class="token operator">=</span>unix<span class="token environment constant">$DISPLAY</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">AUDIO_GID</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span>getent group audio <span class="token operator">|</span> <span class="token function">cut</span> -d: <span class="token parameter variable">-f3</span><span class="token variable">`</span></span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">VIDEO_GID</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span>getent group video <span class="token operator">|</span> <span class="token function">cut</span> -d: <span class="token parameter variable">-f3</span><span class="token variable">`</span></span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">GID</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">id</span> <span class="token parameter variable">-g</span><span class="token variable">`</span></span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable"><span class="token environment constant">UID</span></span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">id</span> <span class="token parameter variable">-u</span><span class="token variable">`</span></span> <span class="token punctuation">\</span>
+  bestwu/qq:latest
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="typora" tabindex="-1"><a class="header-anchor" href="#typora" aria-hidden="true">#</a> Typora</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token keyword">for</span> Linux
+<span class="token comment"># https://typora.io/#linux</span>
+<span class="token comment"># or run:</span>
+<span class="token comment"># sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span>
+<span class="token function">wget</span> <span class="token parameter variable">-qO</span> - https://typora.io/linux/public-key.asc <span class="token operator">|</span> <span class="token function">sudo</span> apt-key <span class="token function">add</span> -
+<span class="token comment"># add Typora&#39;s repository</span>
+<span class="token function">sudo</span> add-apt-repository <span class="token string">&#39;deb https://typora.io/linux ./&#39;</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> update
+<span class="token comment"># install typora</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> typora
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="wine-binfmt" tabindex="-1"><a class="header-anchor" href="#wine-binfmt" aria-hidden="true">#</a> wine-binfmt</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> wine-binfmt
+<span class="token function">sudo</span> update-binfmts <span class="token parameter variable">--import</span> /usr/share/binfmts/wine
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="wine" tabindex="-1"><a class="header-anchor" href="#wine" aria-hidden="true">#</a> wine</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># https://wiki.winehq.org/Ubuntu</span>
+<span class="token function">sudo</span> dpkg --add-architecture i386
+<span class="token function">wget</span> <span class="token parameter variable">-nc</span> https://dl.winehq.org/wine-builds/winehq.key
+<span class="token function">sudo</span> apt-key <span class="token function">add</span> winehq.key
+<span class="token function">sudo</span> add-apt-repository <span class="token string">&#39;deb https://dl.winehq.org/wine-builds/ubuntu/ focal main&#39;</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> update
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> --install-recommends winehq-stable
+wine <span class="token parameter variable">--version</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="负载分析" tabindex="-1"><a class="header-anchor" href="#负载分析" aria-hidden="true">#</a> 负载分析</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 查看CPU负载</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token function">htop</span> <span class="token parameter variable">-y</span>
+<span class="token function">htop</span>
+<span class="token comment"># 查看磁盘I/O</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> sysstat <span class="token parameter variable">-y</span>
+<span class="token comment"># 查看磁盘总体读写情况， 1代表每1秒读取一次数据</span>
+iostat <span class="token parameter variable">-x</span> <span class="token number">1</span>
+<span class="token comment"># 查看网络使用情况</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> nload <span class="token parameter variable">-y</span>
+nload
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="electron-ssr" tabindex="-1"><a class="header-anchor" href="#electron-ssr" aria-hidden="true">#</a> electron-ssr</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># https://github.com/qingshuisiyuan/electron-ssr-backup</span>
+<span class="token function">wget</span> https://github.com/qingshuisiyuan/electron-ssr-backup/releases/download/v0.2.6/electron-ssr-0.2.6.deb
+<span class="token function">sudo</span> gdebi electron-ssr-0.2.6.deb
+<span class="token comment"># sudo dpkg -r electron-ssr</span>
+
+<span class="token comment"># 安装依赖</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> libcanberra-gtk-module libcanberra-gtk3-module gconf2 gconf-service libappindicator1
+
+<span class="token comment"># 可选依赖</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> libssl-dev
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> libsodium-dev
+<span class="token comment"># https://doc.libsodium.org/installation/</span>
+<span class="token function">wget</span> https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
+<span class="token function">tar</span> xf LATEST.tar.gz
+<span class="token builtin class-name">cd</span> libsodium-stable
+./configure
+<span class="token function">make</span> <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> check
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="ffmpeg" tabindex="-1"><a class="header-anchor" href="#ffmpeg" aria-hidden="true">#</a> ffmpeg</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> add-apt-repository universe
+<span class="token function">sudo</span> <span class="token function">apt</span> update
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> ffmpeg
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="开发工具篇" tabindex="-1"><a class="header-anchor" href="#开发工具篇" aria-hidden="true">#</a> 开发工具篇</h3><h4 id="jetbrains-toolbox" tabindex="-1"><a class="header-anchor" href="#jetbrains-toolbox" aria-hidden="true">#</a> jetbrains-toolbox</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 在https://www.jetbrains.com/toolbox-app/下载安装包</span>
+<span class="token function">sudo</span> <span class="token function">cp</span> jetbrains-toolbox-1.17.6856.tar.gz /opt/
+<span class="token builtin class-name">cd</span> /opt
+<span class="token function">sudo</span> <span class="token function">tar</span> <span class="token parameter variable">-zxvf</span> jetbrains-toolbox-1.17.6856.tar.gz
+<span class="token builtin class-name">cd</span> jetbrains-toolbox-1.17.6856
+./jetbrains-toolbox
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="ide-eval-resetter" tabindex="-1"><a class="header-anchor" href="#ide-eval-resetter" aria-hidden="true">#</a> ide-eval-resetter</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># wget https://lalifeier.github.io/ide-eval-resetter-2.1.8.zip</span>
+<span class="token comment"># https://plugins.zhile.io/files/ide-eval-resetter-2.1.8.zip</span>
+
+<span class="token comment"># Add &quot;Custom Plugin Repository&quot;: https://plugins.zhile.io manually (Settings/Preferences -&gt; Plugins)</span>
+<span class="token comment"># Search and install plugin: IDE Eval Reset</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="visual-studio-code" tabindex="-1"><a class="header-anchor" href="#visual-studio-code" aria-hidden="true">#</a> Visual Studio Code</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 在https://code.visualstudio.com/下载安装包</span>
+<span class="token function">sudo</span> dpkg <span class="token parameter variable">-i</span> code_1.44.2-1587059832_amd64.deb
+
+<span class="token comment">#gist id：26cd2bab84eb4fccb549cf10bc7eb15d</span>
+<span class="token comment">#token：YWZjNWRhMzdjMzk4NmUyYTQzYzRlMjZlMjVjY2QzNWE5OTk3MmQ5OQ==</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="navicat-premium" tabindex="-1"><a class="header-anchor" href="#navicat-premium" aria-hidden="true">#</a> navicat-premium</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 在https://www.navicat.com.cn/download/navicat-premium下载安装包</span>
+<span class="token function">mkdir</span> navicat15-premium-cs
+<span class="token function">sudo</span> <span class="token function">mount</span> <span class="token parameter variable">-o</span> loop navicat15-premium-cs.AppImage navicat15-premium-cs
+<span class="token function">cp</span> <span class="token parameter variable">-r</span> navicat15-premium-cs navicat15-premium-cs-patched
+<span class="token function">sudo</span> <span class="token function">umount</span> navicat15-premium-cs
+<span class="token function">rm</span> <span class="token parameter variable">-rf</span> navicat15-premium-cs
+<span class="token comment">#编译patcher和keygen</span>
+<span class="token comment"># install capstone</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> libcapstone-dev
+
+<span class="token comment"># install keystone</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> cmake
+<span class="token function">git</span> clone https://github.com/keystone-engine/keystone.git
+<span class="token builtin class-name">cd</span> keystone
+<span class="token function">mkdir</span> build
+<span class="token builtin class-name">cd</span> build
+<span class="token punctuation">..</span>/make-share.sh
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span>
+<span class="token function">sudo</span> ldconfig
+
+<span class="token comment"># install rapidjson</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> rapidjson-dev
+
+<span class="token comment">#编译</span>
+<span class="token function">wget</span> https://lalifeier.github.io/navicat-keygen.zip
+<span class="token comment">#git clone https://gitee.com/andisolo/navicat-keygen.git</span>
+<span class="token builtin class-name">cd</span> navicat-keygen
+<span class="token function">make</span> all
+
+<span class="token comment">#使用 navicat-patcher 替换官方公钥</span>
+./bin/navicat-patcher ~/navicat15-premium-cs-patched
+<span class="token comment">#将文件重新打包成AppImage</span>
+<span class="token function">wget</span> https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+<span class="token function">chmod</span> +x appimagetool-x86_64.AppImage
+./appimagetool-x86_64.AppImage navicat15-premium-cs-patched navicat15-premium-cs-patched.AppImage
+<span class="token comment">#运行刚生成的AppImage</span>
+<span class="token function">chmod</span> +x navicat15-premium-cs-patched.AppImage
+./navicat15-premium-cs-patched.AppImage
+
+<span class="token comment">#使用 navicat-keygen 来生成 序列号 和 激活码</span>
+./bin/navicat-keygen <span class="token parameter variable">--text</span> ./RegPrivateKey.pem
+<span class="token comment">#最后的清理</span>
+<span class="token function">rm</span> navicat15-premium-cs.AppImage
+<span class="token function">rm</span> <span class="token parameter variable">-rf</span> navicat15-premium-cs-patched
+<span class="token function">mv</span> navicat15-premium-cs-patched.AppImage navicat15-premium-cs.AppImage
+<span class="token comment">#创建桌面图标</span>
+<span class="token function">wget</span> https://lalifeier.github.io/navicat.png
+
+<span class="token function">cat</span> <span class="token operator">&gt;</span> ~/.local/share/applications/navicat.desktop <span class="token operator">&lt;&lt;</span><span class="token string">EOL
+[Desktop Entry]
+Encoding=UTF-8
+Name=navicat
+Exec=/opt/navicat/navicat15-premium-cs.AppImage
+Icon=/opt/navicat/navicat.png
+Terminal=false
+Type=Application
+Categories=Internet;
+EOL</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container warning"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></g></svg><p class="custom-container-title">WARNING</p><p>fatal error: openssl/opensslv.h: No such file or directory</p></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#To install OpenSSL development package on Debian, Ubuntu or their derivatives</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> libssl-dev
+<span class="token comment">#To install OpenSSL development package on Fedora, CentOS or RHEL</span>
+<span class="token function">sudo</span> yum <span class="token function">install</span> openssl-devel
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="postman" tabindex="-1"><a class="header-anchor" href="#postman" aria-hidden="true">#</a> postman</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#https://www.postman.com/downloads/</span>
+<span class="token function">sudo</span> <span class="token function">tar</span> <span class="token parameter variable">-zxvf</span> Postman-linux-x64-7.29.1.tar.gz <span class="token parameter variable">-C</span> /opt
+<span class="token comment">#创建桌面图标</span>
+
+<span class="token function">cat</span> <span class="token operator">&gt;</span> ~/.local/share/applications/postman.desktop <span class="token operator">&lt;&lt;</span><span class="token string">EOL
+[Desktop Entry]
+Encoding=UTF-8
+Name=Postman
+Exec=/opt/Postman/Postman
+Icon=/opt/Postman/app/resources/app/assets/icon.png
+Terminal=false
+Type=Application
+Categories=Development;
+EOL</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="studio3t" tabindex="-1"><a class="header-anchor" href="#studio3t" aria-hidden="true">#</a> studio3t</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#https://studio3t.com/download/</span>
+<span class="token function">wget</span> https://download.studio3t.com/studio-3t/linux/2020.6.0/studio-3t-linux-x64.tar.gz
+<span class="token function">tar</span> <span class="token parameter variable">-zxvf</span> studio-3t-linux-x64.tar.gz
+<span class="token function">sudo</span> ./studio-3t-linux-x64.sh
+<span class="token comment">#破解</span>
+<span class="token comment">#wget https://lalifeier.github.io/studio_3t_trial.zip</span>
+<span class="token comment">#maven打包</span>
+<span class="token comment">#mvn package</span>
+<span class="token builtin class-name">cd</span> /opt/studio3t
+<span class="token function">sudo</span> <span class="token function">wget</span> https://lalifeier.github.io/studio_3t_crack-1.8.jar
+<span class="token comment">#修改Studio-3T.vmoptions文件, 添加-javaagent及jar包路径</span>
+<span class="token function">sudo</span> <span class="token function">vim</span> Studio-3T.vmoptions
+-javaagent:/opt/studio3t/studio_3t_crack-1.8.jar
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="redis-desktop-manager" tabindex="-1"><a class="header-anchor" href="#redis-desktop-manager" aria-hidden="true">#</a> Redis Desktop Manager</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> snap <span class="token function">install</span> redis-desktop-manager
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="微信小程序开发工具" tabindex="-1"><a class="header-anchor" href="#微信小程序开发工具" aria-hidden="true">#</a> 微信小程序开发工具</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># https://github.com/cytle/wechat_web_devtools</span>
+<span class="token comment"># https://github.com/dragonation/wechat-devtools</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="charles" tabindex="-1"><a class="header-anchor" href="#charles" aria-hidden="true">#</a> Charles</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># https://www.charlesproxy.com/</span>
+<span class="token comment"># Registered Name: 	https://zhile.io</span>
+<span class="token comment"># License Key: 		48891cf209c6d32bf4</span>
+
+<span class="token function">wget</span> <span class="token parameter variable">-q</span> <span class="token parameter variable">-O</span> - https://www.charlesproxy.com/packages/apt/PublicKey <span class="token operator">|</span> <span class="token function">sudo</span> apt-key <span class="token function">add</span> -
+<span class="token function">sudo</span> <span class="token function">sh</span> <span class="token parameter variable">-c</span> <span class="token string">&#39;echo deb https://www.charlesproxy.com/packages/apt/ charles-proxy main &gt; /etc/apt/sources.list.d/charles.list&#39;</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> update
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> charles-proxy
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="cpolar-openvpn" tabindex="-1"><a class="header-anchor" href="#cpolar-openvpn" aria-hidden="true">#</a> cpolar + openvpn</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># cpolar</span>
+<span class="token comment"># https://www.cpolar.com/blog/cpolar-and-openvpn-any-intranet-access</span>
+<span class="token function">wget</span> https://static.cpolar.com/downloads/releases/3.3.12/cpolar-stable-linux-amd64.zip
+<span class="token function">unzip</span> cpolar-stable-linux-amd64.zip
+./cpolar authtoken token
+<span class="token function">mv</span> ./cpolar /usr/local/bin
+
+cpolar tcp -remote-addr<span class="token operator">=</span><span class="token number">1</span>.tcp.cpolar.cn:20038 <span class="token number">1194</span>
+
+<span class="token comment"># openvpn server</span>
+<span class="token comment"># 一键安装脚本</span>
+<span class="token comment"># https://github.com/Nyr/openvpn-install</span>
+<span class="token comment"># wget https://git.io/vpn -O openvpn-install.sh &amp;&amp; bash openvpn-install.sh</span>
+<span class="token function">wget</span> https://raw.githubusercontent.com/Nyr/openvpn-install/master/openvpn-install.sh <span class="token parameter variable">-O</span> openvpn-install.sh <span class="token operator">&amp;&amp;</span> <span class="token function">bash</span> openvpn-install.sh
+
+systemctl <span class="token builtin class-name">enable</span> openvpn-server@server
+systemctl start openvpn-server@serve
+
+<span class="token comment"># vim /etc/openvpn/server/server.conf</span>
+注释local
+修改dns
+
+<span class="token punctuation">;</span><span class="token builtin class-name">local</span> <span class="token number">172.16</span>.5.76
+port <span class="token number">1194</span>
+proto tcp
+dev tun
+ca ca.crt
+cert server.crt
+key server.key
+dh dh.pem
+auth SHA512
+tls-crypt tc.key
+topology subnet
+server <span class="token number">10.8</span>.0.0 <span class="token number">255.255</span>.255.0
+push <span class="token string">&quot;redirect-gateway def1 bypass-dhcp&quot;</span>
+ifconfig-pool-persist ipp.txt
+<span class="token punctuation">;</span>push <span class="token string">&quot;dhcp-option DNS 172.16.11.114&quot;</span>
+<span class="token punctuation">;</span>push <span class="token string">&quot;dhcp-option DNS 172.16.10.113&quot;</span>
+push <span class="token string">&quot;dhcp-option DNS 223.5.5.5&quot;</span>
+push <span class="token string">&quot;dhcp-option DNS 223.6.6.6&quot;</span>
+push <span class="token string">&quot;block-outside-dns&quot;</span>
+keepalive <span class="token number">10</span> <span class="token number">120</span>
+cipher AES-256-CBC
+user nobody
+group nogroup
+persist-key
+persist-tun
+verb <span class="token number">3</span>
+crl-verify crl.pem
+
+<span class="token comment"># 手动安装</span>
+<span class="token function">apt</span> <span class="token function">install</span> openvpn easy-rsa
+<span class="token function">mkdir</span> ~/easy-rsa
+<span class="token function">ln</span> <span class="token parameter variable">-s</span> /usr/share/easy-rsa/* ~/easy-rsa/
+<span class="token function">sudo</span> <span class="token function">chown</span> lalifeier ~/easy-rsa
+<span class="token function">chmod</span> <span class="token number">700</span> ~/easy-rsa
+<span class="token builtin class-name">cd</span> ~/easy-rsa
+<span class="token function">nano</span> vars
+
+<span class="token function">vim</span> ~/easy-rsa/vars
+set_var EASYRSA_ALGO <span class="token string">&quot;ec&quot;</span>
+set_var EASYRSA_DIGEST <span class="token string">&quot;sha512&quot;</span>
+
+./easyrsa init-pki
+
+<span class="token builtin class-name">cd</span> ~/easy-rsa
+./easyrsa gen-req server nopass
+
+<span class="token function">sudo</span> <span class="token function">cp</span> /home/lalifeier/easy-rsa/pki/private/server.key /etc/openvpn/server/
+
+<span class="token comment"># openvpn client</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> openvpn
+<span class="token function">mkdir</span> ~/openvpn-client
+<span class="token builtin class-name">cd</span> ~/openvpn-client
+<span class="token function">scp</span> root@192.168.2.142:/root/client.ovpn <span class="token builtin class-name">.</span>
+<span class="token comment"># vim client.ovpn</span>
+修改 remote <span class="token number">2</span>.tcp.cpolar.cn port
+增加
+<span class="token comment"># 不要从服务端拉取路由表，由我们自己来配置哪些IP走VPN，哪些IP不走</span>
+route-nopull
+<span class="token comment"># 配置路由</span>
+route <span class="token number">172.16</span>.0.0 <span class="token number">255.255</span>.0.0 vpn_gateway
+<span class="token comment"># 自定义DNS路由器</span>
+dhcp-option DNS <span class="token number">172.16</span>.11.114
+
+<span class="token function">sudo</span> openvpn <span class="token parameter variable">--config</span> client.ovpn
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="优化篇" tabindex="-1"><a class="header-anchor" href="#优化篇" aria-hidden="true">#</a> 优化篇</h3><h4 id="关掉-sudo-的密码" tabindex="-1"><a class="header-anchor" href="#关掉-sudo-的密码" aria-hidden="true">#</a> 关掉 sudo 的密码</h4><ul><li>先修改默认编辑器为 vim（默认为 nano）</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> update-alternatives <span class="token parameter variable">--config</span> editor
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>输入 vim 对应的序号回车即可</p><ul><li>打开 visudo</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> visudo
+<span class="token comment">#修改%sudo   ALL=(ALL:ALL) ALL</span>
+%sudo   <span class="token assign-left variable">ALL</span><span class="token operator">=</span><span class="token punctuation">(</span>ALL:ALL<span class="token punctuation">)</span> NOPASSWD:ALL
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="统一-win10-和-ubuntu20-04-双系统的时间" tabindex="-1"><a class="header-anchor" href="#统一-win10-和-ubuntu20-04-双系统的时间" aria-hidden="true">#</a> 统一 Win10 和 Ubuntu20.04 双系统的时间</h4><ul><li>方式一</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>timedatectl set-local-rtc <span class="token number">1</span> --adjust-system-clock
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul><li>方式二</li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> ntpdate
+<span class="token function">sudo</span> ntpdate time.windows.com
+<span class="token function">sudo</span> hwclock <span class="token parameter variable">--localtime</span> <span class="token parameter variable">--systohc</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="笔记本关闭独立显卡" tabindex="-1"><a class="header-anchor" href="#笔记本关闭独立显卡" aria-hidden="true">#</a> 笔记本关闭独立显卡</h4><h4 id="参考-https-wiki-archlinux-org-index-php-bumblebee-e7-ae-80-e4-bd-93-e4-b8-ad-e6-96-87" tabindex="-1"><a class="header-anchor" href="#参考-https-wiki-archlinux-org-index-php-bumblebee-e7-ae-80-e4-bd-93-e4-b8-ad-e6-96-87" aria-hidden="true">#</a> 参考: <a href="https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener noreferrer">https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#更新显卡信息，否则可能识别出错</span>
+<span class="token function">sudo</span> update-pciids
+<span class="token comment">#查看显卡信息</span>
+lspci <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-i</span> vga
+<span class="token comment">#安装Bumblebee</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> bumblebee bumblebee-nvidia
+<span class="token comment">#重启，测试效果 Nvidia 卡信息的末尾是 rev ff，表示独显已经关闭。</span>
+lspci<span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-i</span> vga
+<span class="token comment">#bumblebee的作用是禁用nvidia独立显卡，需要使用独显时，使用”optirun 程序名“手动开启nvidia来运行需要加速的程序，如optirun code</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container warning"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></g></svg><p class="custom-container-title">WARNING</p><p>[ 479.716546][error]Cannot access secondary GPU - error: <a href="EE">XORG</a> Failed to load module &quot;nvidia&quot; (module does not exist, 0)</p><p>[ 479.716585][error]Aborting because fallback start is disabled.</p></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="加快开机启动时间" tabindex="-1"><a class="header-anchor" href="#加快开机启动时间" aria-hidden="true">#</a> 加快开机启动时间</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>systemd-analyze blame
+<span class="token comment">#开机动画，用 mask 干掉 （要恢复使用 unmask）</span>
+<span class="token function">sudo</span> systemctl mask plymouth-quit-wait.service
+<span class="token function">sudo</span> systemctl disable NetworkManager-wait-online.service
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="清理-ubuntu" tabindex="-1"><a class="header-anchor" href="#清理-ubuntu" aria-hidden="true">#</a> 清理 Ubuntu</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> clean
+<span class="token function">sudo</span> <span class="token function">apt-get</span> autoremove
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="修改-dns" tabindex="-1"><a class="header-anchor" href="#修改-dns" aria-hidden="true">#</a> 修改 DNS</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> resolvconf
+<span class="token function">sudo</span> <span class="token function">vim</span> /etc/resolvconf/resolv.conf.d/head
+nameserver <span class="token number">8.8</span>.8.8
+nameserver <span class="token number">114.114</span>.114.114
+
+<span class="token function">sudo</span> resolvconf <span class="token parameter variable">-u</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 无效</span>
+<span class="token comment"># sudo systemctl disable --now systemd-resolved</span>
+<span class="token comment"># sudo vim  /etc/systemd/resolved.conf</span>
+<span class="token comment"># DNS=8.8.8.8</span>
+
+<span class="token comment"># sudo vim /etc/resolv.conf</span>
+<span class="token comment"># nameserver 8.8.8.8</span>
+<span class="token comment"># nameserver 114.114.114.114</span>
+
+<span class="token comment"># sudo vim /etc/NetworkManager/NetworkManager.conf</span>
+<span class="token comment"># [main]</span>
+<span class="token comment"># dns=default  # none|default</span>
+
+<span class="token comment"># sudo systemctl restart NetworkManager</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 无效</span>
+<span class="token comment"># sudo vim /etc/netplan/01-network-manager-all.yaml</span>
+<span class="token comment"># network:</span>
+<span class="token comment">#   version: 2</span>
+<span class="token comment">#   #renderer: NetworkManager</span>
+<span class="token comment">#   ethernets:</span>
+<span class="token comment">#     enp8s0:     #配置网卡名称</span>
+<span class="token comment">#       dhcp4: no</span>
+<span class="token comment">#       dhcp6: no</span>
+<span class="token comment">#       addresses: [172.10.0.123/24]     #设置本机IP及掩码</span>
+<span class="token comment">#       optional: true</span>
+<span class="token comment">#       gateway4: 172.10.0.1      #设置网关</span>
+<span class="token comment">#       nameservers:</span>
+<span class="token comment">#         addresses: [8.8.8.8,114.114.114.114]    #设置DNS</span>
+<span class="token comment">#   wifis:</span>
+<span class="token comment">#     wlp7s0:</span>
+<span class="token comment">#       dhcp4: no</span>
+<span class="token comment">#       dhcp6: no</span>
+<span class="token comment">#       optional: true</span>
+<span class="token comment">#       addresses: [192.168.0.123/24]</span>
+<span class="token comment">#       gateway4: 192.168.0.1</span>
+<span class="token comment">#       nameservers:</span>
+<span class="token comment">#         addresses: [8.8.8.8,114.114.114.114]</span>
+<span class="token comment">#       access-points:</span>
+<span class="token comment">#         opennetwork: {}</span>
+
+<span class="token comment"># sudo netplan apply</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="单个进程最大打开文件数" tabindex="-1"><a class="header-anchor" href="#单个进程最大打开文件数" aria-hidden="true">#</a> 单个进程最大打开文件数</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 临时生效</span>
+<span class="token builtin class-name">ulimit</span> <span class="token parameter variable">-n</span> <span class="token number">65535</span>
+<span class="token comment"># 永久生效</span>
+<span class="token function">cat</span> <span class="token operator">&lt;&lt;</span><span class="token string">EOF<span class="token bash punctuation"> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/security/limits.conf</span>
+* soft nofile 65535
+* hard nofile 65535
+* soft nproc 65535
+* hard nproc 65535
+EOF</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="ssh-免密" tabindex="-1"><a class="header-anchor" href="#ssh-免密" aria-hidden="true">#</a> ssh 免密</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>ssh-keygen
+
+<span class="token comment"># cat ~/.ssh/config</span>
+Host dev
+  HostName <span class="token number">172.16</span>.5.76
+
+Host *
+  User root
+  ServerAliveInterval <span class="token number">30</span>
+  TCPKeepAlive <span class="token function">yes</span>
+  ServerAliveCountMax <span class="token number">6</span>
+  Compression <span class="token function">yes</span>
+
+<span class="token comment"># 把本地文件 ~/.ssh/id_rsa.pub 中内容复制粘贴到远程服务器 ~/.ssh/authorized_keys</span>
+<span class="token comment">#  提示你输入密码，成功之后可以直接 ssh 登录，无需密码</span>
+ssh-copy-id dev
+<span class="token function">ssh</span> dev
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="git-免密" tabindex="-1"><a class="header-anchor" href="#git-免密" aria-hidden="true">#</a> git 免密</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token builtin class-name">cd</span> ~/.ssh
+ssh-keygen <span class="token parameter variable">-t</span> rsa <span class="token parameter variable">-b</span> <span class="token number">4096</span> <span class="token parameter variable">-C</span> <span class="token string">&quot;lalifeier@gmail.com&quot;</span> <span class="token parameter variable">-f</span> id_rsa_github
+ssh-keygen <span class="token parameter variable">-t</span> rsa <span class="token parameter variable">-b</span> <span class="token number">4096</span> <span class="token parameter variable">-C</span> <span class="token string">&quot;lalifeier@gmail.com&quot;</span> <span class="token parameter variable">-f</span> id_rsa_gitlab
+
+<span class="token comment"># vim ~/.ssh/config</span>
+Host github
+  HostName github.com
+  User lalifeier
+  IdentityFile ~/.ssh/id_rsa_github
+
+Host gitlab
+  HostName gitlab.com
+  User lalifeier
+  IdentityFile ~/.ssh/id_rsa_gitlab
+
+<span class="token comment"># 测试</span>
+<span class="token comment"># ssh -T git@github</span>
+<span class="token function">ssh</span> <span class="token parameter variable">-T</span> git@github.com
+<span class="token comment"># ssh -T git@gitlab</span>
+
+<span class="token comment"># gitconfig</span>
+<span class="token function">git</span> config <span class="token parameter variable">--global</span> <span class="token parameter variable">--add</span> url.<span class="token string">&quot;git@github.com:&quot;</span>.insteadOf <span class="token string">&quot;https://github.com/&quot;</span>
+<span class="token function">git</span> config <span class="token parameter variable">--global</span> <span class="token parameter variable">--add</span> url.<span class="token string">&quot;git@gitlab.com:&quot;</span>.insteadOf <span class="token string">&quot;https://gitlab.com/&quot;</span>
+
+<span class="token comment"># vim ~/.gitconfig</span>
+<span class="token punctuation">[</span>user<span class="token punctuation">]</span>
+        name <span class="token operator">=</span> lalifeier
+        email <span class="token operator">=</span> lalifeier@gmail.com
+<span class="token punctuation">[</span>url <span class="token string">&quot;git@github.com:&quot;</span><span class="token punctuation">]</span>
+        insteadOf <span class="token operator">=</span> https://github.com/
+<span class="token punctuation">[</span>url <span class="token string">&quot;git@gitlab.com:&quot;</span><span class="token punctuation">]</span>
+        insteadOf <span class="token operator">=</span> https://gitlab.com/
+<span class="token punctuation">[</span>url <span class="token string">&quot;git@gitlab.company.cn:&quot;</span><span class="token punctuation">]</span>
+        insteadOf <span class="token operator">=</span> http://gitlab.company.cn/
+
+<span class="token comment"># gum</span>
+<span class="token function">npm</span> i <span class="token parameter variable">-g</span> @gauseen/gum
+<span class="token comment">#  npm i -g @gauseen/gum  --registry=https://registry.npmmirror.com</span>
+gum list
+<span class="token comment"># gum set lalifeier --name lalifeier --email lalifeier@gmail.com</span>
+gum use lalifeier
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="提高逼格篇" tabindex="-1"><a class="header-anchor" href="#提高逼格篇" aria-hidden="true">#</a> 提高逼格篇</h3><h4 id="screenfetch" tabindex="-1"><a class="header-anchor" href="#screenfetch" aria-hidden="true">#</a> screenfetch</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> screenfetch
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="终端高逼格屏保" tabindex="-1"><a class="header-anchor" href="#终端高逼格屏保" aria-hidden="true">#</a> 终端高逼格屏保</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> cmatrix
+cmatrix <span class="token parameter variable">-b</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div></div></div><footer class="page-meta"><div class="meta-item edit-link"><a class="icon-container left meta-item-label" href="https://github.com/lalifeier/awesome-notes/edit/next/awesome-notes/blogs/devops/玩转 Ubuntu 20.04 LTS.md" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3"></path><path d="M9 15h3l8.5-8.5a1.5 1.5 0 0 0-3-3L9 12v3"></path><path d="M16 5l3 3"></path></g></svg><span style="color:inherit;font-size:14px;" class="icon-text"><!--[-->Edit this page<!--]--></span></a></div><div class="meta-item last-updated"><a class="icon-container left meta-item-label" href="javascript:void(0)" target="_self"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.795 21H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"></path><circle cx="18" cy="18" r="4"></circle><path d="M15 3v4"></path><path d="M7 3v4"></path><path d="M3 11h16"></path><path d="M18 16.496V18l1 1"></path></g></svg><span style="color:inherit;font-size:14px;" class="icon-text"><!--[-->Last Updated 2023-01-09 13:35:27<!--]--></span></a></div></footer><!----><div class="reco-valine-wrapper" style="display:block;"><div id="valine"></div></div></main><!--]--><div class="page-catalog-container"><h5 class="tip">ON THIS PAGE</h5><ul><!--[--><!--[--><li class="page-catalog-menu-depth_2"><a aria-current="page" href="/blogs/devops/wanzhuan Ubuntu 20.04 LTS.html#玩转-ubuntu-20-04-lts" class="router-link-active router-link-exact-active nav-link page-catalog-item" aria-label="玩转 Ubuntu 20.04 LTS"><!--[--><!--]--> 玩转 Ubuntu 20.04 LTS <!--[--><!--]--></a></li><!--[--><li class="page-catalog-menu-depth_3"><a aria-current="page" href="/blogs/devops/wanzhuan Ubuntu 20.04 LTS.html#安装篇" class="router-link-active router-link-exact-active nav-link page-catalog-item" aria-label="安装篇"><!--[--><!--]--> 安装篇 <!--[--><!--]--></a></li><!--]--><!--[--><li class="page-catalog-menu-depth_3"><a aria-current="page" href="/blogs/devops/wanzhuan Ubuntu 20.04 LTS.html#美化篇" class="router-link-active router-link-exact-active nav-link page-catalog-item" aria-label="美化篇"><!--[--><!--]--> 美化篇 <!--[--><!--]--></a></li><!--]--><!--[--><li class="page-catalog-menu-depth_3"><a aria-current="page" href="/blogs/devops/wanzhuan Ubuntu 20.04 LTS.html#工具篇" class="router-link-active router-link-exact-active nav-link page-catalog-item" aria-label="工具篇"><!--[--><!--]--> 工具篇 <!--[--><!--]--></a></li><!--]--><!--[--><li class="page-catalog-menu-depth_3"><a aria-current="page" href="/blogs/devops/wanzhuan Ubuntu 20.04 LTS.html#软件篇" class="router-link-active router-link-exact-active nav-link page-catalog-item" aria-label="软件篇"><!--[--><!--]--> 软件篇 <!--[--><!--]--></a></li><!--]--><!--[--><li class="page-catalog-menu-depth_3"><a aria-current="page" href="/blogs/devops/wanzhuan Ubuntu 20.04 LTS.html#开发工具篇" class="router-link-active router-link-exact-active nav-link page-catalog-item" aria-label="开发工具篇"><!--[--><!--]--> 开发工具篇 <!--[--><!--]--></a></li><!--]--><!--[--><li class="page-catalog-menu-depth_3"><a aria-current="page" href="/blogs/devops/wanzhuan Ubuntu 20.04 LTS.html#优化篇" class="router-link-active router-link-exact-active nav-link page-catalog-item" aria-label="优化篇"><!--[--><!--]--> 优化篇 <!--[--><!--]--></a></li><!--]--><!--[--><li class="page-catalog-menu-depth_3"><a aria-current="page" href="/blogs/devops/wanzhuan Ubuntu 20.04 LTS.html#提高逼格篇" class="router-link-active router-link-exact-active nav-link page-catalog-item" aria-label="提高逼格篇"><!--[--><!--]--> 提高逼格篇 <!--[--><!--]--></a></li><!--]--><!--]--><!--]--></ul></div></div></div></div><!----><!----><!--]--></div>
+    <script type="module" src="/assets/app.db6f0f80.js" defer></script>
+  </body>
+</html>
