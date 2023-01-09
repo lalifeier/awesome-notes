@@ -13,5 +13,7 @@
 # Folders to ignore
 .idea
 .vscode
-node_modules/
-docs/.vuepress/dist/
+node_modules
+
+.vuepress/.cache
+.vuepress/.temp
